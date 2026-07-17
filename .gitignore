@@ -1,0 +1,15 @@
+# 隐私内容 — 不提交
+index.md
+memory/
+plan/
+knowledge/
+review/
+references/
+project-refs/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+*.pyc
+__pycache__/
+.env
