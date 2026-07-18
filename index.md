@@ -2,7 +2,28 @@
 
 > 青简 · 知识整理 · 学而时习之
 
+<!-- DASHBOARD_START -->
+
+## 📊 知识库状态
+
+> 更新于 2026-07-18
+
+```
+  知识文档     10 篇    复习卡片     38 张
+  注释文件     10 篇    今日到期     33 张
+  术语表      12 个     连续天数    1 🔥
+  已标记 [ⓘ]  10 篇    留存率      13.2%
+```
+
+| 领域 | 知识 | 注释 | 卡片 |
+|------|------|------|------|
+| crawler | 6篇 | 6篇 | 25张 |
+| data-analysis | 1篇 | 1篇 | 3张 |
+| programming | 3篇 | 3篇 | 10张 |
+
 ---
+
+<!-- DASHBOARD_END -->
 
 ## 领域总览
 
@@ -17,21 +38,21 @@
 
 | 领域 | 规划 | 知识 | 说明 |
 |------|------|------|------|
-| 爬虫 | [plan/03-crawler.md](plan/03-crawler.md) | [knowledge/crawler/](knowledge/crawler/) | 数据源获取与清洗 |
+| 爬虫 | [plan/03-crawler.md](plan/03-crawler.md) | [knowledge/crawler/](knowledge/crawler/) | 数据源获取与清洗 · B2B反爬 · Playwright · 国标采集 · PDF定位 · 多源情报 |
 | 独立站 | [plan/04-independent-site.md](plan/04-independent-site.md) | [knowledge/independent-site/](knowledge/independent-site/) | 从零建站相关技术栈 |
 
 ### 3️⃣ 数据 & 统计
 
 | 领域 | 规划 | 知识 | 说明 |
 |------|------|------|------|
-| 数据分析 | [plan/05-data-analysis.md](plan/05-data-analysis.md) | [knowledge/data-analysis/](knowledge/data-analysis/) | 工程化数据分析方法论 |
+| 数据分析 | [plan/05-data-analysis.md](plan/05-data-analysis.md) | [knowledge/data-analysis/](knowledge/data-analysis/) | 工程化数据分析方法论 · B2B选品 · 价格监控 |
 | 概率论与数理统计 | [plan/06-probability-statistics.md](plan/06-probability-statistics.md) | [knowledge/probability-statistics/](knowledge/probability-statistics/) | 统计学基础（复习） |
 
 ### 4️⃣ 计算机科学基础
 
 | 领域 | 规划 | 知识 | 说明 |
 |------|------|------|------|
-| 编程 | [plan/07-programming.md](plan/07-programming.md) | [knowledge/programming/](knowledge/programming/) | 语言基础、范式、最佳实践 |
+| 编程 | [plan/07-programming.md](plan/07-programming.md) | [knowledge/programming/](knowledge/programming/) | 语言基础、范式、最佳实践 · Pydantic v2 · Phase0启动 |
 | 数据结构与算法 | [plan/08-dsa.md](plan/08-dsa.md) | [knowledge/dsa/](knowledge/dsa/) | 核心数据结构、算法设计与分析（复习） |
 | 分布式系统 | [plan/09-distributed-systems.md](plan/09-distributed-systems.md) | [knowledge/distributed-systems/](knowledge/distributed-systems/) | 分布式理论、一致性、容错 |
 

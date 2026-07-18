@@ -3,12 +3,16 @@
 [ 复习引擎 ] SM-2 间隔重复 + 自动卡片提取
 
 用法:
-    python scripts/review.py                -> 复习到期的卡片
-    python scripts/review.py import         -> 从 knowledge/ 提取卡片
-    python scripts/review.py --quick        -> 快速复习 5 张
-    python scripts/review.py --domain rag   -> 指定领域
-    python scripts/review.py --reset        -> 重置所有卡片间隔
-    python scripts/review.py stats          -> 查看统计
+    python scripts/review.py                        -> 复习到期的卡片
+    python scripts/review.py import                 -> 从 knowledge/ 提取卡片
+    python scripts/review.py import --force         -> 覆盖已有卡片
+    python scripts/review.py import --no-update-doc -> 不写回文档映射
+    python scripts/review.py --count N              -> 指定复习张数
+    python scripts/review.py --batch                -> 批量评分（管道输入）
+    python scripts/review.py --domain rag           -> 指定领域
+    python scripts/review.py --reset                -> 重置所有卡片间隔
+    python scripts/review.py stats                  -> 查看统计
+    python scripts/review.py stats --daily           -> 每日概况
 """
 
 import os
@@ -29,11 +33,25 @@ from pathlib import Path
 # ── 路径 ──
 BASE = Path(__file__).resolve().parent.parent  # study-vault/
 KNOWLEDGE = BASE / "knowledge"
+ANNOTATIONS = BASE / "annotations"
+GLOSSARY = BASE / "glossary"
 REVIEW = BASE / "review"
 CARDS = REVIEW / "cards"
 STATS_FILE = REVIEW / "stats.json"
 LOG_FILE = REVIEW / "_review-log.md"
 MEMORY = BASE / "memory"
+
+# SM-2 评分说明
+RATING_HELP = """
+  评分标准（SM-2）:
+    0 = 完全忘记，想不起任何内容
+    1 = 看到答案才想起来
+    2 = 有模糊印象，但关键点错了
+    3 = 勉强记起，有困难
+    4 = 顺利回忆起，略有犹豫
+    5 = 完美回忆，毫不费力
+"""
+
 
 # ── SM-2 算法 ──
 
@@ -53,6 +71,27 @@ def sm2_next(interval, ease, rating):
         ease = max(1.3, ease)
     next_review = (date.today() + timedelta(days=interval)).isoformat()
     return interval, round(ease, 2), next_review
+
+
+# ── 文档 I/O（front matter 读写） ──
+
+
+def parse_front_matter(text):
+    """解析文件的 front matter，返回 (meta_dict, body_text)"""
+    m = re.match(r"^---\n(.*?)\n---\n(.*)", text, re.DOTALL)
+    if not m:
+        return None, text
+    try:
+        meta = json.loads(m.group(1))
+    except json.JSONDecodeError:
+        return None, text
+    return meta, m.group(2).strip()
+
+
+def write_front_matter(filepath, meta, body):
+    """写回 front matter + body"""
+    content = f"---\n{json.dumps(meta, ensure_ascii=False, indent=2)}\n---\n\n{body}\n"
+    filepath.write_text(content, encoding="utf-8")
 
 
 # ── 卡片 I/O ──
@@ -86,6 +125,57 @@ def load_all_cards():
         if meta:
             cards.append((fpath, meta, body))
     return cards
+
+
+# ── 双向映射 ──
+
+
+def _update_doc_card_mapping():
+    """遍历知识文档，更新 front matter cards 列表 + 回顾段落卡片标记"""
+    # 建立 source → [card_ids] 映射
+    source_cards = defaultdict(list)
+    for fpath, meta, body in load_all_cards():
+        src = meta.get("source", "")
+        if src:
+            source_cards[src].append(meta["id"])
+
+    for doc_path in sorted(KNOWLEDGE.rglob("*.md")):
+        rel = str(doc_path.relative_to(BASE))
+        if rel not in source_cards:
+            continue
+        card_ids = sorted(source_cards[rel])
+
+        text = doc_path.read_text(encoding="utf-8")
+
+        # 更新 front matter 中的 cards 字段
+        meta, body = parse_front_matter(text)
+        if meta is None:
+            continue  # 没有 front matter，跳过
+
+        meta["cards"] = card_ids
+        meta["updated"] = date.today().isoformat()
+
+        # 更新回顾段落的卡片标记
+        # 在 ## 回顾 标题后插入 <!-- cards: xxx, yyy -->
+        sections = re.split(r"^(##\s+回顾)", body, flags=re.MULTILINE)
+        if len(sections) >= 3:
+            # 找到回顾段落，在标题下一行插入/更新卡片注释
+            review_header = sections[1]
+            rest = sections[2]
+
+            card_comment = f"<!-- cards: {', '.join(card_ids)} -->"
+            # 替换/插入卡片注释行
+            if rest.startswith("<!-- cards:"):
+                rest = re.sub(r"^<!-- cards:.*?-->", card_comment, rest)
+            else:
+                rest = "\n" + card_comment + "\n" + rest.lstrip("\n")
+
+            # 确保标题和内容之间有换行
+            if not rest.startswith("\n"):
+                rest = "\n" + rest
+            body = sections[0] + review_header + rest
+
+        write_front_matter(doc_path, meta, body)
 
 
 # ── 自动抽取（knowledge/ → review/） ──
@@ -124,7 +214,7 @@ def generate_card_id(domain, question):
     return f"{domain}-{short}-{seq:03d}"
 
 
-def cmd_import(force=False):
+def cmd_import(force=False, update_doc=True):
     """扫描 knowledge/ 抽取 QA → 创建/更新卡片"""
     count_created = 0
     count_skipped = 0
@@ -185,14 +275,21 @@ def cmd_import(force=False):
     if count_domain:
         for d, n in sorted(count_domain.items()):
             print(f"   · {d}: +{n}")
+
+    # 双向映射：写回文档
+    if update_doc:
+        _update_doc_card_mapping()
+        total_cards = len(load_all_cards())
+        print(f"   📎 已回写 {total_cards} 张卡片 ID 到源文档")
+
     _update_stats()
 
 
 # ── 复习模式 ──
 
 
-def cmd_review(quick=False, domain=None, reset=False):
-    """交互式复习"""
+def cmd_review(count=None, batch=False, domain=None, reset=False):
+    """交互式/批量复习"""
     cards = load_all_cards()
     today = date.today().isoformat()
 
@@ -213,12 +310,14 @@ def cmd_review(quick=False, domain=None, reset=False):
             print("📭 今天没有到期的卡片，去学新知识吧 🎉")
         return
 
-    if quick:
-        cards_to_review = cards_to_review[:5]
+    if count and count > 0:
+        cards_to_review = cards_to_review[:count]
 
     print(f"\n📇 本次复习：{len(cards_to_review)} 张卡片")
     if domain:
         print(f"   领域：{domain}")
+    if batch:
+        print(f"   模式：批量评分")
     print()
 
     reviewed = []
@@ -226,24 +325,45 @@ def cmd_review(quick=False, domain=None, reset=False):
     remembered = 0
     domain_counts = defaultdict(int)
 
+    # 如果 batch 模式，预读所有评分
+    batch_ratings = []
+    if batch:
+        import sys
+        raw = sys.stdin.read().strip()
+        if not raw:
+            print("❌ --batch 模式需要从管道输入评分，如: echo '5 3 4' | review.py review --batch")
+            return
+        batch_ratings = [int(x) for x in raw.replace(",", " ").split() if x.strip().isdigit()]
+        if len(batch_ratings) < len(cards_to_review):
+            print(f"⚠️  评分不足（{len(batch_ratings)} < {len(cards_to_review)}），未评分卡片默认 3")
+            batch_ratings.extend([3] * (len(cards_to_review) - len(batch_ratings)))
+        elif len(batch_ratings) > len(cards_to_review):
+            print(f"⚠️  评分过多，取前 {len(cards_to_review)} 个")
+            batch_ratings = batch_ratings[:len(cards_to_review)]
+
     for idx, (fpath, meta, body) in enumerate(cards_to_review, 1):
         domain_name = meta.get("domain", "?")
 
         print(f"─── [{idx}/{len(cards_to_review)}] {domain_name} ───")
         print(f"\n  {body}\n")
-        print("  评分：0-5")
 
-        while True:
-            try:
-                rating = input("  ▶ ").strip()
-                if rating == "":
-                    rating = "3"
-                rating = int(rating)
-                if 0 <= rating <= 5:
-                    break
-                print("  请输入 0-5 之间的数字")
-            except (ValueError, EOFError):
-                print("  请输入 0-5 之间的数字")
+        if batch:
+            rating = batch_ratings[idx - 1]
+            print(f"  ▶ {rating}")
+        else:
+            if idx == 1:
+                print(RATING_HELP.strip())
+            while True:
+                try:
+                    rating = input("  ▶ ").strip()
+                    if rating == "":
+                        rating = "3"
+                    rating = int(rating)
+                    if 0 <= rating <= 5:
+                        break
+                    print("  请输入 0-5 之间的数字")
+                except (ValueError, EOFError):
+                    print("  请输入 0-5 之间的数字")
 
         # SM-2 更新
         meta["last_reviewed"] = today
@@ -300,14 +420,11 @@ def _update_stats():
 
     reviewed = [m for _, m, _ in cards if m.get("last_reviewed")]
     if reviewed:
-        # 最后 50 次审核的正确率
         recent = sorted(reviewed, key=lambda m: m.get("last_reviewed", ""), reverse=True)[:100]
-        # 无法直接判断正确率（需要看评分），改用已复习比例
         retention = len(reviewed) / total * 100 if total > 0 else 0
     else:
         retention = 0.0
 
-    # streak: 连续多少天有复习记录
     streak = 0
     check = date.today()
     for _ in range(365):
@@ -321,6 +438,14 @@ def _update_stats():
         else:
             break
 
+    # 按领域统计
+    by_domain = defaultdict(lambda: {"total": 0, "due": 0})
+    for fpath, meta, body in cards:
+        d = meta.get("domain", "?")
+        by_domain[d]["total"] += 1
+        if meta.get("next_review", "1970-01-01") <= today:
+            by_domain[d]["due"] += 1
+
     stats = {
         "totalCards": total,
         "dueToday": due,
@@ -328,16 +453,60 @@ def _update_stats():
         "lastReview": date.today().isoformat(),
         "retentionRate": round(retention, 1),
         "lastUpdated": date.today().isoformat(),
+        "perDomain": dict(by_domain),
     }
     STATS_FILE.write_text(json.dumps(stats, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def cmd_stats():
+def _count_docs(directory):
+    """统计非模板 .md 文件"""
+    return len([p for p in directory.rglob("*.md")
+                if not p.name.startswith("_") and p.name != ".gitkeep"])
+
+
+def cmd_stats(json_output=False, daily=False):
     """展示统计"""
     if not STATS_FILE.exists():
         print("📊 尚无数据")
         return
     stats = json.loads(STATS_FILE.read_text(encoding="utf-8"))
+
+    if json_output:
+        print(json.dumps(stats, ensure_ascii=False, indent=2))
+        return
+
+    if daily:
+        total = stats.get("totalCards", 0)
+        due = stats.get("dueToday", 0)
+        streak = stats.get("streak", 0)
+        retention = stats.get("retentionRate", 0.0)
+        docs = _count_docs(KNOWLEDGE)
+        anns = _count_docs(ANNOTATIONS)
+        gloss = _count_docs(GLOSSARY)
+
+        est_minutes = max(1, round(due / 2))  # 约 30 秒/张
+        today = date.today().isoformat()
+
+        print(f"\n📅 每日概况 — {today}")
+        print()
+        print(f"  🔥 连续复习 {streak} 天" if streak > 0 else "  🔥 开始你的第一次复习吧")
+        print(f"  📇 到期 {due} 张（约 {est_minutes} 分钟）")
+        print(f"  📚 卡池 {total} 张 | 知识 {docs} 篇 | 注 {anns} 篇 | 术语 {gloss} 个")
+        print(f"  📈 留存率 {retention}%")
+
+        per_domain = stats.get("perDomain", {})
+        if per_domain:
+            active = [(d, i) for d, i in per_domain.items() if i["due"] > 0]
+            if active:
+                detail = " ".join(f"{d}={i['due']}" for d, i in sorted(active))
+                print(f"  🎯 待复习：{detail}")
+
+        # 下次复习建议
+        if due > 0:
+            print(f"\n  💡 review.py review --count {min(due, 10)} --batch")
+            print(f"     echo '5 4 3 5 5 5 4 3 5 5' | review.py review --count {min(due, 10)} --batch")
+        return
+
     print(f"\n📊 复习统计")
     print(f"  卡片总数：{stats.get('totalCards', 0)}")
     print(f"  今日到期：{stats.get('dueToday', 0)}")
@@ -345,16 +514,12 @@ def cmd_stats():
     print(f"  留存率：{stats.get('retentionRate', 0)}%")
     print(f"  上次复习：{stats.get('lastReview', '—')}")
 
-    # 按领域统计
-    cards = load_all_cards()
-    by_domain = defaultdict(list)
-    for fpath, meta, body in cards:
-        by_domain[meta.get("domain", "?")].append(meta)
-    if by_domain:
+    per_domain = stats.get("perDomain", {})
+    if per_domain:
         print(f"\n  按领域：")
-        for d in sorted(by_domain):
-            due_d = sum(1 for m in by_domain[d] if m.get("next_review", "1970-01-01") <= date.today().isoformat())
-            print(f"    {d}: {len(by_domain[d])} 张（今日到期 {due_d}）")
+        for d in sorted(per_domain):
+            info = per_domain[d]
+            print(f"    {d}: {info['total']} 张（今日到期 {info['due']}）")
 
 
 def _log_session(total, domain_detail, forgotten, remembered, rate):
@@ -387,20 +552,36 @@ def main():
     parser.add_argument("command", nargs="?", default="review",
                         choices=["review", "import", "stats"],
                         help="命令：review(默认) | import | stats")
-    parser.add_argument("--quick", action="store_true", help="快速复习（5 张）")
+    parser.add_argument("--count", type=int, default=0,
+                        help="复习张数，默认全部到期卡")
+    parser.add_argument("--batch", action="store_true",
+                        help="批量评分模式（管道输入评分，如 echo '5 3 4'）")
     parser.add_argument("--domain", type=str, help="指定领域，如 rag")
     parser.add_argument("--reset", action="store_true", help="重置所有间隔")
     parser.add_argument("--force", action="store_true", help="强制覆盖已有卡片")
+    parser.add_argument("--no-update-doc", action="store_true",
+                        help="不写回卡片映射到源文档（import 时）")
+    parser.add_argument("--daily", action="store_true",
+                        help="每日概况（stats 时）")
+    parser.add_argument("--json", action="store_true",
+                        help="JSON 格式输出（stats 时）")
+    parser.add_argument("--quick", action="store_true",  # 保留兼容
+                        help=argparse.SUPPRESS)
     args = parser.parse_args()
 
     os.chdir(BASE)  # 工作目录切到 study-vault
 
+    # --quick 兼容
+    count = args.count
+    if args.quick and count == 0:
+        count = 5
+
     if args.command == "import":
-        cmd_import(force=args.force)
+        cmd_import(force=args.force, update_doc=not args.no_update_doc)
     elif args.command == "stats":
-        cmd_stats()
+        cmd_stats(json_output=args.json, daily=args.daily)
     else:
-        cmd_review(quick=args.quick, domain=args.domain, reset=args.reset)
+        cmd_review(count=count, batch=args.batch, domain=args.domain, reset=args.reset)
 
 
 if __name__ == "__main__":
