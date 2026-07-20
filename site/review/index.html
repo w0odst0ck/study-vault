@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>复习 · study-vault</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📇</text></svg>">
+  <!-- PWA -->
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#1B4D6C">
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1>📇 复习</h1>
+    <div class="subtitle">SM-2 间隔重复 · 数据只在本地</div>
+  </div>
+
+  <!-- Progress -->
+  <div id="progress" class="progress-container">
+    <div class="progress-bar">
+      <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+    </div>
+    <div class="progress-text">
+      <span id="progress-count">0 / 0</span>
+      <span id="progress-label">准备中...</span>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    <p>加载卡片中...</p>
+  </div>
+
+  <!-- Error -->
+  <div id="error" class="empty-state" style="display:none; color: var(--red);"></div>
+
+  <!-- Empty state -->
+  <div id="empty-state" class="empty-state" style="display:none">
+    <div class="emoji">🎉</div>
+    <h3>今天没有到期卡片</h3>
+    <p style="margin-top:0.5rem; font-size:0.9rem;">去学点新知识吧</p>
+  </div>
+
+  <!-- Card -->
+  <div id="card-container" style="display:none">
+    <div id="card-area">
+      <div class="card">
+        <div class="card-domain">
+          <span id="domain-badge" class="domain-badge"></span>
+          <span id="domain"></span>
+        </div>
+        <div class="card-question" id="question"></div>
+        <div class="card-answer" id="answer"></div>
+      </div>
+
+      <!-- Reveal -->
+      <div id="reveal-section" class="reveal-section">
+        <button id="reveal-btn" class="btn btn-accent">
+          显示答案
+          <span style="font-size:0.75rem; opacity:0.7;">(空格/回车)</span>
+        </button>
+      </div>
+
+      <!-- Rating -->
+      <div id="rating-section" class="rating-section">
+        <div class="rating-label">你答对了吗？</div>
+        <div class="rating-buttons">
+          <button class="rating-btn" data-rating="0">0</button>
+          <button class="rating-btn" data-rating="1">1</button>
+          <button class="rating-btn" data-rating="2">2</button>
+          <button class="rating-btn" data-rating="3">3</button>
+          <button class="rating-btn" data-rating="4">4</button>
+          <button class="rating-btn" data-rating="5">5</button>
+        </div>
+        <div style="margin-top:0.5rem; font-size:0.75rem; color:var(--text-light);">
+          0-2: ❌ 遗忘 &nbsp;|&nbsp; 3: 🤔 勉强 &nbsp;|&nbsp; 4-5: ✅ 记住
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div id="summary" class="summary">
+    <div class="card" style="text-align:center; min-height:auto;">
+      <h2 style="margin-bottom:0.5rem;">🎉 复习完成</h2>
+      <p style="color:var(--text-light); font-size:0.9rem;">SM-2 调度已更新，结果可导出同步到本地</p>
+    </div>
+    <div id="summary-stats" class="summary-stats"></div>
+    <div id="summary-actions" class="summary-actions">
+      <button id="download-btn" class="btn btn-primary">📥 下载结果</button>
+      <button id="restart-btn" class="btn btn-outline">🔄 再来一次</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

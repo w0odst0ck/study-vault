@@ -1,0 +1,35 @@
+# 自动导出卡片数据 + 部署 GitHub Pages
+# 触发条件：
+#   - push 到 main（review/cards/ 或 knowledge/ 变化时）
+#   - 定时：每天 UTC 6:00（北京时间 14:00）
+name: Export & Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'review/cards/**'
+      - 'knowledge/**'
+      - 'scripts/review.py'
+      - 'site/**'
+  schedule:
+    - cron: '0 6 * * *'   # 每天 UTC 6:00
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Export cards.json
+        run: python3 scripts/review.py export
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          publish_branch: gh-pages
+          force_orphan: true
+          user_name: 'study-vault bot'
+          user_email: 'bot@study-vault'

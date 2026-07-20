@@ -4,3 +4,6 @@ Thumbs.db
 *.pyc
 __pycache__/
 .env
+
+# 构建产物（review.py export 生成）
+site/data/cards.json

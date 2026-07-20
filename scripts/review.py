@@ -13,6 +13,7 @@
     python scripts/review.py --reset                -> 重置所有卡片间隔
     python scripts/review.py stats                  -> 查看统计
     python scripts/review.py stats --daily           -> 每日概况
+    python scripts/review.py export                 -> 导出卡片数据到 site/data/cards.json
 """
 
 import os
@@ -285,6 +286,48 @@ def cmd_import(force=False, update_doc=True):
     _update_stats()
 
 
+# ── 导出 ──
+
+
+SITE_DATA = BASE / "site" / "data"
+
+
+def cmd_export():
+    """导出卡片数据到 site/data/cards.json（供前端消费）"""
+    cards = load_all_cards()
+    today = date.today().isoformat()
+
+    export = {
+        "version": 1,
+        "exported": today,
+        "totalCards": len(cards),
+        "dueToday": sum(1 for _, m, _ in cards if m.get("next_review", "1970-01-01") <= today),
+        "cards": [],
+    }
+
+    for fpath, meta, body in cards:
+        export["cards"].append({
+            "id": meta["id"],
+            "domain": meta.get("domain", "?"),
+            "source": meta.get("source", ""),
+            "q": meta["q"],
+            "a": meta["a"],
+            "interval": meta.get("interval", 0),
+            "ease": meta.get("ease", 2.5),
+            "next_review": meta.get("next_review", today),
+            "last_reviewed": meta.get("last_reviewed"),
+            "reviews": meta.get("reviews", 0),
+            "created": meta.get("created", today),
+        })
+
+    SITE_DATA.mkdir(parents=True, exist_ok=True)
+    (SITE_DATA / "cards.json").write_text(
+        json.dumps(export, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    print(f"✅ 已导出 {len(cards)} 张卡片到 site/data/cards.json")
+    print(f"   到期：{export['dueToday']} 张")
+
+
 # ── 复习模式 ──
 
 
@@ -550,8 +593,8 @@ def _log_session(total, domain_detail, forgotten, remembered, rate):
 def main():
     parser = argparse.ArgumentParser(description="📇 复习引擎")
     parser.add_argument("command", nargs="?", default="review",
-                        choices=["review", "import", "stats"],
-                        help="命令：review(默认) | import | stats")
+                        choices=["review", "import", "stats", "export"],
+                        help="命令：review(默认) | import | stats | export")
     parser.add_argument("--count", type=int, default=0,
                         help="复习张数，默认全部到期卡")
     parser.add_argument("--batch", action="store_true",
@@ -580,6 +623,8 @@ def main():
         cmd_import(force=args.force, update_doc=not args.no_update_doc)
     elif args.command == "stats":
         cmd_stats(json_output=args.json, daily=args.daily)
+    elif args.command == "export":
+        cmd_export()
     else:
         cmd_review(count=count, batch=args.batch, domain=args.domain, reset=args.reset)
 
