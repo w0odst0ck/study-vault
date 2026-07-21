@@ -1,21 +1,37 @@
 # 🎋 study-vault
 
-活的知识库。为项目提供知识支持 + 复盘沉淀，逐步积累为个人技术栈。
+活的知识库骨架。为项目提供知识支持 + 复盘沉淀。
 
-> 隐私内容（plan/、memory/、knowledge/ 等）仅存本地，不提交。
+> **隐私说明：** 本仓库为公开骨架仓库，仅包含脚本、参考资源、术语表等公共内容。
+> 隐私知识文档、复习记录、学习规划和复盘日志保存在本地，不提交到公开仓库。
 
-## 结构
+## 公开内容
 
 ```
 study-vault/
-├── plan/               ← 各领域学习规划 + 进度跟踪（本地）
-├── knowledge/          ← 知识文档（本地）
-├── memory/             ← 每日复盘存档（本地）
-├── review/             ← SM-2 复习卡片池（本地）
-├── references/         ← 跨领域参考资源（本地）
-├── project-refs/       ← 项目参考页（本地）
-└── scripts/            ← 辅助脚本
-    └── review.py       ← 复习引擎
+├── index.md        ← 领域总纲（指引本地目录结构）
+├── scripts/        ← 辅助脚本
+│   ├── review.py   ← 间隔重复复习引擎（SM-2）
+│   ├── annotate.py ← 注释系统
+│   └── dashboard.py← 知识库仪表盘
+├── site/           ← 复习小站前端
+│   ├── review/     ← 纯前端 SM-2 复习应用
+│   └── index.html  ← 仪表盘
+├── references/     ← 跨领域参考资源（书籍/课程/论文/工具/数据集）
+├── glossary/       ← 技术术语表
+└── .github/        ← CI/CD 工作流
+```
+
+## 本地私有内容
+
+```
+(不上传)
+├── knowledge/      ← 知识文档（13 领域）
+├── memory/         ← 每日复盘日志
+├── plan/           ← 学习规划 + 进度跟踪
+├── review/         ← 复习卡片池 + 统计
+├── annotations/    ← 注释及引文
+└── project-refs/   ← 项目参考页
 ```
 
 ## 脚本
@@ -31,13 +47,6 @@ python scripts/review.py --quick        # 速刷 5 张
 python scripts/review.py --domain rag   # 指定领域
 python scripts/review.py stats          # 查看统计
 ```
-
-使用流程：
-
-1. 在 `knowledge/` 下写知识文档，文末加 `## 回顾` 段落含 Q&A
-2. `python scripts/review.py import` → 自动抽取为复习卡片
-3. 每天 `python scripts/review.py` → 到期卡片交互式复习 → SM-2 调度下次
-4. 复习记录自动写入 `memory/`
 
 ### 系统要求
 
