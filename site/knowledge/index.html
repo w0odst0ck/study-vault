@@ -14,7 +14,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); }
     .layout { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
-    @media (min-width: 769px) { .layout { overflow: hidden; } .main-wrap { overflow: hidden; } }
+    @media (min-width: 769px) {
+      .layout { overflow: hidden; }
+      .main { overflow: hidden; }
+      .main-wrap { overflow: hidden; }
+    }
 
     /* Sidebar */
     .sidebar {
@@ -40,7 +44,8 @@
     .doc-item.active { background: #dbeafe; color: var(--primary); font-weight: 600; }
 
     /* Main */
-    .main { display: grid; grid-template-rows: auto 1fr; overflow: hidden; }
+    .main { display: grid; grid-template-rows: auto 1fr; }
+
 
     /* Top bar */
     .topbar {
