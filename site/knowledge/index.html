@@ -355,13 +355,8 @@ async function loadDoc(id) {
     // Cache for future
     try { localStorage.setItem(cacheKey, html); } catch(e) {}
     wireAnnotations(id);
-    // 切文档时刷新注释面板
-    const panel = document.getElementById('anno-panel');
-    if (panel.classList.contains('open')) {
-      closePanel();
-      // 触发回流后重新打开
-      requestAnimationFrame(() => openPanel());
-    }
+    // 始终写入当前文档注释（面板开/关都不影响，打开时直接展示）
+    renderPanel(id);
   } catch(e) {
     content.innerHTML = `<div class="empty-state"><p>加载失败：${e.message}</p></div>`;
   }
