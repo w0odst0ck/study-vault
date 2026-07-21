@@ -1,0 +1,22 @@
+{
+  "totalCards": 38,
+  "dueToday": 33,
+  "streak": 1,
+  "lastReview": "2026-07-18",
+  "retentionRate": 13.2,
+  "lastUpdated": "2026-07-18",
+  "perDomain": {
+    "crawler": {
+      "total": 25,
+      "due": 20
+    },
+    "data-analysis": {
+      "total": 3,
+      "due": 3
+    },
+    "programming": {
+      "total": 10,
+      "due": 10
+    }
+  }
+}
