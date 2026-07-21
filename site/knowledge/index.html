@@ -84,6 +84,15 @@
       max-width: 800px; width: 100%; margin: 0 auto;
     }
 
+    /* Doc header */
+    .doc-header { margin-bottom: 1.5rem; }
+    .doc-header h1 { font-size: 1.4rem; color: var(--primary); margin-bottom: 0.5rem; }
+    .doc-meta { font-size: 0.78rem; color: var(--text-light); display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+    .tag {
+      display: inline-block; padding: 0.1rem 0.45rem; border-radius: 3px;
+      font-size: 0.7rem; background: #eef2ff; color: var(--primary);
+    }
+
     /* Markdown rendered */
     .markdown h1 { font-size: 1.5rem; color: var(--primary); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
     .markdown h2 { font-size: 1.2rem; color: var(--primary); margin: 1.5rem 0 0.75rem; }
@@ -261,6 +270,7 @@ async function init() {
   searchIndex = await searchResp.json();
   try { annotations = (await annoResp.json()).annotations || {}; } catch(e) { annotations = {}; }
   renderTree();
+  initCache();
   // Load doc from hash or first doc
   const hash = location.hash.slice(1);
   if (hash && index.docs.find(d => d.id === hash)) {
@@ -297,6 +307,7 @@ function toggleDomain(el) {
 }
 
 let _currentDocId = null;
+const CACHE_PREFIX = 'sv_knowledge_';
 
 // ── Load doc ──
 async function loadDoc(id) {
@@ -312,20 +323,36 @@ async function loadDoc(id) {
   const content = document.getElementById('content');
   content.innerHTML = '<div id="loading"><div class="spinner"></div><p>加载中…</p></div>';
 
+  // Build doc header (tags, date, card count)
+  const tags = (doc.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+  const headerHtml = `<div class="doc-header">
+    <h1>${doc.title}</h1>
+    <div class="doc-meta">
+      ${doc.created ? `<span>⏱ ${doc.created}</span>` : ''}
+      ${tags ? `<span>🏷 ${tags}</span>` : ''}
+    </div>
+  </div>`;
+
+  // Try cache first
+  const cacheKey = CACHE_PREFIX + id;
+  const cached = localStorage.getItem(cacheKey);
+  if (cached) {
+    content.innerHTML = headerHtml + `<div class="markdown">${cached}</div>`;
+    wireAnnotations(id);
+    closeSidebar();
+    return;
+  }
+
   // Fetch raw markdown from GitHub
   const url = `https://raw.githubusercontent.com/w0odst0ck/study-vault/main/knowledge/${doc.path}`;
   try {
     const resp = await fetch(url);
     const md = await resp.text();
-    content.innerHTML = `<div class="markdown">${renderMarkdown(md, doc.id)}</div>`;
-    // Wire up ⓘ markers
-    const docAnnos = annotations[doc.id] || [];
-    content.querySelectorAll('.anno-marker').forEach(el => {
-      const idx = parseInt(el.dataset.idx);
-      const anno = docAnnos[idx];
-      if (!anno) return;
-      el.onclick = (e) => { e.preventDefault(); openPanel(idx); };
-    });
+    const html = renderMarkdown(md, doc.id);
+    content.innerHTML = headerHtml + `<div class="markdown">${html}</div>`;
+    // Cache for future
+    try { localStorage.setItem(cacheKey, html); } catch(e) {}
+    wireAnnotations(id);
     // Refresh panel if open
     if (document.getElementById('anno-panel').classList.contains('open')) {
       renderPanel(id);
@@ -335,6 +362,34 @@ async function loadDoc(id) {
   }
   // Close sidebar on mobile
   closeSidebar();
+}
+
+function wireAnnotations(docId) {
+  const docAnnos = annotations[docId] || [];
+  const content = document.getElementById('content');
+  content.querySelectorAll('.anno-marker').forEach(el => {
+    const idx = parseInt(el.dataset.idx);
+    const anno = docAnnos[idx];
+    if (!anno) return;
+    el.onclick = (e) => { e.preventDefault(); openPanel(idx); };
+  });
+}
+
+// Clear knowledge cache when version changes
+function initCache() {
+  const verKey = 'sv_knowledge_ver';
+  const ver = localStorage.getItem(verKey);
+  // Simple version based on exported date in knowledge-index.json
+  if (index && index.exported) {
+    if (ver !== index.exported) {
+      // Clear all cached docs
+      for (let i = localStorage.length - 1; i >= 0; i--) {
+        const key = localStorage.key(i);
+        if (key.startsWith(CACHE_PREFIX)) localStorage.removeItem(key);
+      }
+      localStorage.setItem(verKey, index.exported);
+    }
+  }
 }
 
 // ── Annotation panel ──

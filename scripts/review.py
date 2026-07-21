@@ -466,13 +466,13 @@ def _export_references(site_data):
 def cmd_deploy():
     """导出 + 提交 + 推送，一键部署（需要 git 环境）"""
     cmd_export()
-    cards_json = SITE_DATA / "cards.json"
-    if not cards_json.exists():
-        print("❌ site/data/cards.json 未生成")
+    data_dir = SITE_DATA
+    if not list(data_dir.glob("*.json")):
+        print("❌ site/data/ 无数据文件")
         return 1
     ret = os.system(
-        f'cd {shlex.quote(str(BASE))} && git add -f site/data/cards.json && '
-        f'git commit --allow-empty -m "update: 卡片数据 $(date +%%Y-%%m-%%d)" && git push'
+        f'cd {shlex.quote(str(BASE))} && git add site/data/ && '
+        f'git commit --allow-empty -m "update: 站点数据 $(date +%%Y-%%m-%%d)" && git push'
     )
     if ret == 0:
         print("✅ 已部署到 GitHub Pages（等待 1-2 分钟生效）")
