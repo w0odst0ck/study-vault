@@ -224,6 +224,11 @@
     .sidebar-toggle { display: none; background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 0.25rem; }
     @media (max-width: 768px) {
       .sidebar { display: none; }
+      .anno-panel { display: none; }
+      .anno-panel.open {
+        display: flex; position: fixed; top: 0; right: 0; bottom: 0;
+        width: 85vw; max-width: 340px; z-index: 35; border-radius: 0;
+      }
       .sidebar-toggle { display: none; }
       .nav-links { display: none; }
       .search-box input { width: 100px; }
