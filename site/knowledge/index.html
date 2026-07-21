@@ -131,13 +131,13 @@
     .anno-marker:hover { background: var(--primary); color: #fff; transform: scale(1.15); }
 
     /* Annotation side panel */
-    .main-wrap { display: grid; grid-template-columns: 1fr auto; overflow: hidden; }
+    .main-wrap { overflow: hidden; }
     .anno-panel {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 25;
       width: 0; overflow: hidden;
       background: var(--card-bg); border-left: 1px solid var(--border);
       transition: width 0.2s ease;
       display: flex; flex-direction: column;
-      overflow-y: auto;
     }
     .anno-panel.open { width: 340px; }
     .anno-panel-header {
@@ -173,18 +173,11 @@
     .anno-item-content a { color: var(--primary-light); }
     .anno-empty { font-size: 0.83rem; color: var(--text-light); text-align: center; padding: 2rem; }
 
-    /* Mobile: overlay panel */
-    @media (max-width: 900px) {
-      .anno-panel {
-        position: fixed; top: 0; right: 0; bottom: 0; z-index: 30;
-        width: 0 !important; box-shadow: -4px 0 20px rgba(0,0,0,0.1);
-      }
-      .anno-panel.open { width: 100% !important; }
-      .anno-panel-backdrop {
-        position: fixed; inset: 0; z-index: 29; display: none;
-      }
-      .anno-panel-backdrop.visible { display: block; }
+    /* Panel backdrop (mobile) */
+    .anno-panel-backdrop {
+      position: fixed; inset: 0; z-index: 24; display: none;
     }
+    .anno-panel-backdrop.visible { display: block; }
 
     /* Loading */
     #loading { text-align: center; padding: 3rem; color: var(--text-light); }
@@ -224,11 +217,7 @@
     .sidebar-toggle { display: none; background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 0.25rem; }
     @media (max-width: 768px) {
       .sidebar { display: none; }
-      .anno-panel { display: none; }
-      .anno-panel.open {
-        display: flex; position: fixed; top: 0; right: 0; bottom: 0;
-        width: 85vw; max-width: 340px; z-index: 35; border-radius: 0;
-      }
+      .anno-panel.open { width: 85vw; max-width: 340px; }
       .sidebar-toggle { display: none; }
       .nav-links { display: none; }
       .search-box input { width: 100px; }
@@ -489,7 +478,7 @@ function openPanel(docId, scrollToIdx) {
   const panel = document.getElementById('anno-panel');
   const backdrop = document.getElementById('anno-backdrop');
   panel.classList.add('open');
-  if (window.innerWidth <= 900) backdrop.classList.add('visible');
+  if (window.innerWidth <= 768) backdrop.classList.add('visible');
   document.querySelector('.btn-anno').classList.add('active');
   renderPanel(docId || _currentDocId, scrollToIdx);
 }
