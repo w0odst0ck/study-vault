@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>知识库 · study-vault</title>
+  <style>
+    :root {
+      --primary: #1B4D6C; --primary-light: #2a7ba0; --accent: #F47920;
+      --bg: #f5f7fa; --card-bg: #fff; --text: #1a1a2e; --text-light: #6b7280;
+      --border: #e5e7eb; --green: #10b981; --red: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); }
+    .layout { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px; background: var(--card-bg); border-right: 1px solid var(--border);
+      padding: 1rem; overflow-y: auto; flex-shrink: 0;
+    }
+    .sidebar-header { font-size: 0.8rem; color: var(--text-light); margin-bottom: 0.75rem; font-weight: 600; }
+    .domain-group { margin-bottom: 0.75rem; }
+    .domain-title {
+      font-size: 0.75rem; font-weight: 700; color: var(--primary); text-transform: uppercase;
+      letter-spacing: 0.5px; padding: 0.3rem 0.5rem; cursor: pointer; border-radius: 4px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .domain-title:hover { background: var(--bg); }
+    .domain-count { font-size: 0.7rem; color: var(--text-light); font-weight: 400; }
+    .doc-list { list-style: none; }
+    .doc-item {
+      padding: 0.35rem 0.5rem 0.35rem 1rem; font-size: 0.83rem; cursor: pointer;
+      border-radius: 4px; color: var(--text); white-space: nowrap; overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .doc-item:hover { background: #eef2ff; color: var(--primary); }
+    .doc-item.active { background: #dbeafe; color: var(--primary); font-weight: 600; }
+
+    /* Main */
+    .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+    /* Top bar */
+    .topbar {
+      display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem;
+      background: var(--card-bg); border-bottom: 1px solid var(--border);
+    }
+    .topbar .nav-links { display: flex; gap: 0.5rem; font-size: 0.8rem; }
+    .topbar .nav-links a { color: var(--text-light); text-decoration: none; padding: 0.3rem 0.5rem; border-radius: 4px; }
+    .topbar .nav-links a:hover { color: var(--primary); background: var(--bg); }
+    .topbar .nav-links a.active { color: var(--primary); font-weight: 600; background: #dbeafe; }
+    .topbar .spacer { flex: 1; }
+    .search-box {
+      display: flex; align-items: center; border: 1px solid var(--border); border-radius: 6px;
+      padding: 0.3rem 0.75rem; background: var(--bg);
+    }
+    .search-box input { border: none; background: transparent; outline: none; font-size: 0.83rem; width: 200px; }
+    .search-box .icon { color: var(--text-light); font-size: 0.85rem; }
+    .search-box:focus-within { border-color: var(--primary-light); background: #fff; }
+    .search-results {
+      position: absolute; top: 100%; left: 0; right: 0; background: var(--card-bg);
+      border: 1px solid var(--border); border-radius: 0 0 8px 8px; max-height: 300px;
+      overflow-y: auto; display: none; z-index: 10;
+    }
+    .search-results.visible { display: block; }
+    .search-result-item {
+      padding: 0.5rem 0.75rem; cursor: pointer; border-bottom: 1px solid var(--border); font-size: 0.83rem;
+    }
+    .search-result-item:hover { background: var(--bg); }
+    .search-result-item .sr-domain { font-size: 0.7rem; color: var(--primary-light); }
+    .search-result-item .sr-preview { font-size: 0.75rem; color: var(--text-light); margin-top: 0.15rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .search-wrap { position: relative; }
+
+    /* Content */
+    .content {
+      flex: 1; padding: 1.5rem 2rem; overflow-y: auto;
+      max-width: 800px; width: 100%; margin: 0 auto;
+    }
+
+    /* Markdown rendered */
+    .markdown h1 { font-size: 1.5rem; color: var(--primary); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .markdown h2 { font-size: 1.2rem; color: var(--primary); margin: 1.5rem 0 0.75rem; }
+    .markdown h3 { font-size: 1.05rem; color: var(--text); margin: 1.25rem 0 0.5rem; }
+    .markdown p { line-height: 1.7; margin-bottom: 1rem; }
+    .markdown ul, .markdown ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+    .markdown li { line-height: 1.6; margin-bottom: 0.3rem; }
+    .markdown code {
+      background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85em;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+    .markdown pre {
+      background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 8px;
+      overflow-x: auto; margin-bottom: 1rem; font-size: 0.85rem; line-height: 1.5;
+    }
+    .markdown pre code { background: none; padding: 0; font-size: 1em; }
+    .markdown blockquote {
+      border-left: 3px solid var(--accent); padding: 0.5rem 1rem; margin-bottom: 1rem;
+      background: #fffbeb; border-radius: 0 6px 6px 0; color: #92400e;
+    }
+    .markdown table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.85rem; }
+    .markdown th, .markdown td { padding: 0.5rem; border: 1px solid var(--border); text-align: left; }
+    .markdown th { background: var(--bg); font-weight: 600; }
+    .markdown hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+    .markdown a { color: var(--primary-light); }
+
+    /* Loading */
+    #loading { text-align: center; padding: 3rem; color: var(--text-light); }
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 0.75rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Responsive */
+    .sidebar-toggle { display: none; background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 0.25rem; }
+    @media (max-width: 768px) {
+      .sidebar { display: none; position: fixed; left: 0; top: 0; bottom: 0; z-index: 20; width: 260px; }
+      .sidebar.open { display: block; }
+      .sidebar-toggle { display: block; }
+      .topbar { padding: 0.5rem 0.75rem; }
+      .search-box input { width: 130px; }
+      .content { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">📂 知识目录</div>
+    <div id="tree"></div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Top bar -->
+    <div class="topbar">
+      <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+      <div class="nav-links">
+        <a href="../">📊 仪表盘</a>
+        <a href="../review/">📇 复习</a>
+        <a href="" class="active">📚 知识库</a>
+        <a href="../glossary/">📖 术语</a>
+        <a href="../references/">🔗 参考</a>
+      </div>
+      <div class="spacer"></div>
+      <div class="search-wrap">
+        <div class="search-box">
+          <span class="icon">🔍</span>
+          <input type="text" id="search-input" placeholder="搜索文档…" oninput="doSearch(this.value)">
+        </div>
+        <div class="search-results" id="search-results"></div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content" id="content">
+      <div id="loading"><div class="spinner"></div><p>加载知识库…</p></div>
+    </div>
+  </div>
+</div>
+
+<aside style="display:none" id="overlay" onclick="closeSidebar()"></aside>
+
+<script>
+// ── State ──
+let index = null;
+let searchIndex = null;
+
+// ── Init ──
+async function init() {
+  const [idxResp, searchResp] = await Promise.all([
+    fetch('../data/knowledge-index.json'),
+    fetch('../data/search-index.json'),
+  ]);
+  index = await idxResp.json();
+  searchIndex = await searchResp.json();
+  renderTree();
+  // Load doc from hash or first doc
+  const hash = location.hash.slice(1);
+  if (hash && index.docs.find(d => d.id === hash)) {
+    loadDoc(hash);
+  } else if (index.docs.length > 0) {
+    loadDoc(index.docs[0].id);
+  } else {
+    document.getElementById('content').innerHTML = '<div class="empty-state"><p>暂无知识文档</p></div>';
+    document.getElementById('loading').style.display = 'none';
+  }
+}
+
+// ── Tree ──
+function renderTree() {
+  const tree = document.getElementById('tree');
+  const domains = index.domains;
+  const docs = index.docs;
+  let html = '';
+  for (const [domain, ids] of Object.entries(domains)) {
+    html += `<div class="domain-group"><div class="domain-title" onclick="toggleDomain(this)">${domain} <span class="domain-count">${ids.length}</span></div><ul class="doc-list">`;
+    for (const id of ids) {
+      const doc = docs.find(d => d.id === id);
+      if (!doc) continue;
+      html += `<li class="doc-item" data-id="${id}" onclick="loadDoc('${id}')">${doc.title}</li>`;
+    }
+    html += '</ul></div>';
+  }
+  tree.innerHTML = html;
+}
+
+function toggleDomain(el) {
+  const list = el.nextElementSibling;
+  list.style.display = list.style.display === 'none' ? '' : 'none';
+}
+
+// ── Load doc ──
+async function loadDoc(id) {
+  const doc = index.docs.find(d => d.id === id);
+  if (!doc) return;
+  location.hash = id;
+  // Active state
+  document.querySelectorAll('.doc-item').forEach(el => el.classList.remove('active'));
+  const item = document.querySelector(`.doc-item[data-id="${id}"]`);
+  if (item) item.classList.add('active');
+
+  const content = document.getElementById('content');
+  content.innerHTML = '<div id="loading"><div class="spinner"></div><p>加载中…</p></div>';
+
+  // Fetch raw markdown from GitHub
+  const url = `https://raw.githubusercontent.com/w0odst0ck/study-vault/main/knowledge/${doc.path}`;
+  try {
+    const resp = await fetch(url);
+    const md = await resp.text();
+    content.innerHTML = `<div class="markdown">${renderMarkdown(md)}</div>`;
+  } catch(e) {
+    content.innerHTML = `<div class="empty-state"><p>加载失败：${e.message}</p></div>`;
+  }
+  // Close sidebar on mobile
+  closeSidebar();
+}
+
+// ── Markdown renderer ──
+function renderMarkdown(md) {
+  // Remove front matter
+  md = md.replace(/^---[\s\S]*?---\n*/, '');
+  // Escape HTML
+  md = md.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  // Headers
+  md = md.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  md = md.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  md = md.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+  // Bold/italic
+  md = md.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  md = md.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  md = md.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  // Inline code
+  md = md.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Links
+  md = md.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+  // Images
+  md = md.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%">');
+  // Blockquotes
+  md = md.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+  md = md.replace(/<\/blockquote>\s*<blockquote>/g, '<br>');
+  // Horizontal rules
+  md = md.replace(/^---$/gm, '<hr>');
+  // Code blocks (fenced)
+  md = md.replace(/```[\w]*\n([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+  // Lists
+  md = md.replace(/^- (.+)$/gm, '<li>$1</li>');
+  md = md.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+  md = md.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
+  // Tables (simple)
+  md = md.replace(/\|(.+)\|/g, function(m) {
+    if (m.includes('---')) return '';
+    const cells = m.split('|').filter(c => c.trim());
+    return '<tr><td>' + cells.join('</td><td>') + '</td></tr>';
+  });
+  // Paragraphs
+  md = md.replace(/\n\n/g, '</p><p>');
+  md = '<p>' + md + '</p>';
+  // Clean empty paragraphs
+  md = md.replace(/<p>\s*<\/p>/g, '');
+  // Wrap tables
+  md = md.replace(/(<tr>[\s\S]*?<\/tr>)+/g, '<table>$&</table>');
+  return md;
+}
+
+// ── Search ──
+function doSearch(q) {
+  const results = document.getElementById('search-results');
+  if (!q.trim()) { results.classList.remove('visible'); return; }
+  q = q.toLowerCase();
+  const hits = searchIndex.entries
+    .filter(e => e.title.toLowerCase().includes(q) || e.text.toLowerCase().includes(q))
+    .slice(0, 10);
+  if (hits.length === 0) { results.classList.remove('visible'); return; }
+  results.innerHTML = hits.map(h => `
+    <div class="search-result-item" onclick="loadDoc('${h.id}')">
+      <div><span class="sr-domain">${h.domain}</span> ${h.title}</div>
+      <div class="sr-preview">${h.text.slice(0, 80)}…</div>
+    </div>
+  `).join('');
+  results.classList.add('visible');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrap')) document.getElementById('search-results').classList.remove('visible');
+});
+
+// ── Sidebar toggle (mobile) ──
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').style.display = document.getElementById('sidebar').classList.contains('open') ? 'block' : 'none';
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').style.display = 'none';
+}
+
+// ── Keyboard ──
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('search-input').focus();
+  }
+});
+
+init();
+</script>
+</body>
+</html>

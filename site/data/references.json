@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "refs": {
+    "books": {
+      "title": "📚 书目",
+      "sections": [
+        "爬虫 & 反爬",
+        "Python / 编程",
+        "PDF / 数据处理"
+      ]
+    },
+    "courses": {
+      "title": "🎓 课程/教程",
+      "sections": [
+        "浏览器自动化",
+        "PDF 处理",
+        "数据建模",
+        "国家标准"
+      ]
+    },
+    "datasets": {
+      "title": "💾 数据集",
+      "sections": []
+    },
+    "papers": {
+      "title": "📄 论文",
+      "sections": []
+    },
+    "repos": {
+      "title": "📦 GitHub 仓库",
+      "sections": [
+        "编程",
+        "分布式系统 / 系统设计",
+        "AI / 机器学习",
+        "自动驾驶 / 边缘计算",
+        "项目实践",
+        "计算机科学基础",
+        "Playwright / 浏览器自动化",
+        "PDF / OCR",
+        "数据建模",
+        "数据采集 & 标准"
+      ]
+    },
+    "tools": {
+      "title": "🔧 工具链",
+      "sections": [
+        "浏览器自动化",
+        "OCR",
+        "数据建模 & 验证",
+        "Web 框架",
+        "数据库",
+        "开发工具"
+      ]
+    }
+  }
+}

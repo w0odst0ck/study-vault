@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>参考资源 · study-vault</title>
+  <link rel="stylesheet" href="../review/style.css">
+  <style>
+    .nav-links { display: flex; gap: 0.5rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap; }
+    .nav-links a { color: var(--text-light); text-decoration: none; padding: 0.3rem 0.75rem; border-radius: 6px; font-size: 0.85rem; }
+    .nav-links a:hover { color: var(--primary); background: var(--bg); }
+    .nav-links a.active { color: var(--primary); font-weight: 600; background: #dbeafe; }
+    .ref-card {
+      background: var(--card-bg); border-radius: 10px; padding: 1.25rem; margin-bottom: 0.75rem;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+    }
+    .ref-title { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
+    .ref-section { font-size: 0.8rem; color: var(--text-light); margin-bottom: 0.3rem; }
+    .ref-section:before { content: '▸ '; }
+    #loading { text-align: center; padding: 2rem; }
+    .emoji-icon { font-size: 1.2rem; margin-right: 0.3rem; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🔗 参考资源</h1>
+    <div class="subtitle">书籍 · 课程 · 工具 · 数据集</div>
+  </div>
+
+  <div class="nav-links">
+    <a href="../">📊 仪表盘</a>
+    <a href="../review/">📇 复习</a>
+    <a href="../knowledge/">📚 知识库</a>
+    <a href="../glossary/">📖 术语</a>
+    <a href="" class="active">🔗 参考</a>
+  </div>
+
+  <div id="loading"><div class="spinner"></div><p>加载参考资源…</p></div>
+  <div id="refs-container"></div>
+</div>
+
+<script>
+const ICONS = { books: '📚', courses: '📖', papers: '📄', repos: '📦', tools: '🛠', datasets: '💾' };
+const LABELS = { books: '书籍', courses: '课程', papers: '论文', repos: '仓库', tools: '工具', datasets: '数据集' };
+
+async function init() {
+  const resp = await fetch('../data/references.json');
+  const data = await resp.json();
+  document.getElementById('loading').style.display = 'none';
+  const container = document.getElementById('refs-container');
+  for (const [key, ref] of Object.entries(data.refs)) {
+    const card = document.createElement('div');
+    card.className = 'ref-card';
+    const icon = ICONS[key] || '📎';
+    const label = LABELS[key] || key;
+    card.innerHTML = `
+      <div class="ref-title">${icon} ${ref.title || label}</div>
+      ${ref.sections.map(s => `<div class="ref-section">${s}</div>`).join('')}
+    `;
+    container.appendChild(card);
+  }
+}
+init();
+</script>
+</body>
+</html>

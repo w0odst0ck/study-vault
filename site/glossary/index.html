@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>术语表 · study-vault</title>
+  <link rel="stylesheet" href="../review/style.css">
+  <style>
+    .glossary-grid { display: grid; gap: 0.75rem; margin: 1rem 0; }
+    .glossary-item {
+      background: var(--card-bg); border-radius: 10px; padding: 1rem 1.25rem;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.04); cursor: pointer; transition: all 0.15s ease;
+    }
+    .glossary-item:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); transform: translateY(-1px); }
+    .glossary-term { font-weight: 700; color: var(--primary); font-size: 1rem; }
+    .glossary-desc { font-size: 0.85rem; color: var(--text-light); margin-top: 0.3rem; line-height: 1.5; }
+    .glossary-detail {
+      display: none; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border);
+      font-size: 0.9rem; line-height: 1.7;
+    }
+    .glossary-detail.visible { display: block; }
+    .nav-links { display: flex; gap: 0.5rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap; }
+    .nav-links a { color: var(--text-light); text-decoration: none; padding: 0.3rem 0.75rem; border-radius: 6px; font-size: 0.85rem; }
+    .nav-links a:hover { color: var(--primary); background: var(--bg); }
+    .nav-links a.active { color: var(--primary); font-weight: 600; background: #dbeafe; }
+    .search-bar { max-width: 400px; margin: 0 auto 1rem; }
+    .search-bar input {
+      width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border); border-radius: 8px;
+      font-size: 0.9rem; outline: none; background: var(--card-bg);
+    }
+    .search-bar input:focus { border-color: var(--primary-light); }
+    #loading { text-align: center; padding: 2rem; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>📖 术语表</h1>
+    <div class="subtitle">知识点快速查阅</div>
+  </div>
+
+  <div class="nav-links">
+    <a href="../">📊 仪表盘</a>
+    <a href="../review/">📇 复习</a>
+    <a href="../knowledge/">📚 知识库</a>
+    <a href="" class="active">📖 术语</a>
+    <a href="../references/">🔗 参考</a>
+  </div>
+
+  <div class="search-bar">
+    <input type="text" id="search" placeholder="搜索术语…" oninput="filterGlossary(this.value)">
+  </div>
+
+  <div id="loading"><div class="spinner"></div><p>加载术语表…</p></div>
+  <div class="glossary-grid" id="glossary-grid"></div>
+</div>
+
+<script>
+async function init() {
+  const resp = await fetch('../data/glossary.json');
+  const data = await resp.json();
+  document.getElementById('loading').style.display = 'none';
+  const grid = document.getElementById('glossary-grid');
+  data.items.forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'glossary-item';
+    el.dataset.term = item.term;
+    el.dataset.title = item.title;
+    el.dataset.desc = item.desc;
+    el.innerHTML = `
+      <div class="glossary-term">${item.title}</div>
+      <div class="glossary-desc">${item.desc}</div>
+      <div class="glossary-detail" id="detail-${item.term}">
+        <p>${item.desc}</p>
+      </div>
+    `;
+    el.onclick = () => {
+      const detail = el.querySelector('.glossary-detail');
+      detail.classList.toggle('visible');
+    };
+    grid.appendChild(el);
+  });
+}
+
+function filterGlossary(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.glossary-item').forEach(el => {
+    const match = el.dataset.title.toLowerCase().includes(q) || el.dataset.desc.toLowerCase().includes(q);
+    el.style.display = match ? '' : 'none';
+  });
+}
+
+init();
+</script>
+</body>
+</html>

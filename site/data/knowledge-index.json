@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "exported": "2026-07-21",
+  "domains": {
+    "crawler": [
+      "crawler/01-b2b-platforms-anti-crawl",
+      "crawler/02-playwright-browser-manager",
+      "crawler/03-national-standard-collection",
+      "crawler/04-pdf-parameter-locator",
+      "crawler/05-multi-source-intel-collection",
+      "crawler/06-1688-factory-monitor",
+      "crawler/07-client-side-parser-architecture"
+    ],
+    "data-analysis": [
+      "data-analysis/01-b2b-selection-and-price-monitor"
+    ],
+    "programming": [
+      "programming/01-pydantic-v2-model-design",
+      "programming/02-phase-zero-project-startup",
+      "programming/03-project-integration-strategy"
+    ]
+  },
+  "docs": [
+    {
+      "id": "crawler/01-b2b-platforms-anti-crawl",
+      "title": "B2B 工业品平台反爬实战",
+      "domain": "crawler",
+      "path": "crawler/01-b2b-platforms-anti-crawl.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "crawler/02-playwright-browser-manager",
+      "title": "Playwright 浏览器管理器实战",
+      "domain": "crawler",
+      "path": "crawler/02-playwright-browser-manager.md",
+      "tags": [
+        "爬虫",
+        "Playwright",
+        "浏览器自动化"
+      ],
+      "created": "2026-07-17"
+    },
+    {
+      "id": "crawler/03-national-standard-collection",
+      "title": "国家标准信息采集实战",
+      "domain": "crawler",
+      "path": "crawler/03-national-standard-collection.md",
+      "tags": [
+        "爬虫",
+        "国家标准",
+        "数据采集"
+      ],
+      "created": "2026-07-17"
+    },
+    {
+      "id": "crawler/04-pdf-parameter-locator",
+      "title": "PDF 参数页定位器实战",
+      "domain": "crawler",
+      "path": "crawler/04-pdf-parameter-locator.md",
+      "tags": [
+        "爬虫",
+        "PDF",
+        "OCR",
+        "参数提取"
+      ],
+      "created": "2026-07-17"
+    },
+    {
+      "id": "crawler/05-multi-source-intel-collection",
+      "title": "多数据源情报采集（Intel 模块）架构",
+      "domain": "crawler",
+      "path": "crawler/05-multi-source-intel-collection.md",
+      "tags": [
+        "爬虫",
+        "情报采集",
+        "架构设计"
+      ],
+      "created": "2026-07-17"
+    },
+    {
+      "id": "crawler/06-1688-factory-monitor",
+      "title": "1688 工厂监控全链路采集",
+      "domain": "crawler",
+      "path": "crawler/06-1688-factory-monitor.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "crawler/07-client-side-parser-architecture",
+      "title": "纯前端 JS 解析器架构",
+      "domain": "crawler",
+      "path": "crawler/07-client-side-parser-architecture.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "data-analysis/01-b2b-selection-and-price-monitor",
+      "title": "B2B 选品分析与缺口匹配",
+      "domain": "data-analysis",
+      "path": "data-analysis/01-b2b-selection-and-price-monitor.md",
+      "tags": [
+        "数据分析",
+        "选品分析",
+        "价格监控",
+        "B2B"
+      ],
+      "created": "2026-07-17"
+    },
+    {
+      "id": "programming/01-pydantic-v2-model-design",
+      "title": "Pydantic v2 数据模型设计实战",
+      "domain": "programming",
+      "path": "programming/01-pydantic-v2-model-design.md",
+      "tags": [
+        "编程",
+        "Pydantic",
+        "数据建模"
+      ],
+      "created": "2026-07-17"
+    },
+    {
+      "id": "programming/02-phase-zero-project-startup",
+      "title": "阶段化项目启动（Phase 0) 实战",
+      "domain": "programming",
+      "path": "programming/02-phase-zero-project-startup.md",
+      "tags": [
+        "编程",
+        "项目管理",
+        "项目启动"
+      ],
+      "created": "2026-07-17"
+    },
+    {
+      "id": "programming/03-project-integration-strategy",
+      "title": "子项目整合进父仓库的策略",
+      "domain": "programming",
+      "path": "programming/03-project-integration-strategy.md",
+      "tags": [],
+      "created": ""
+    }
+  ]
+}

@@ -42,6 +42,7 @@ REVIEW = BASE / "review"
 CARDS = REVIEW / "cards"
 STATS_FILE = REVIEW / "stats.json"
 LOG_FILE = REVIEW / "_review-log.md"
+REFERENCES = BASE / "references"
 MEMORY = BASE / "memory"
 
 # SM-2 评分说明
@@ -295,38 +296,140 @@ SITE_DATA = BASE / "site" / "data"
 
 
 def cmd_export():
-    """导出卡片数据到 site/data/cards.json（供前端消费）"""
-    cards = load_all_cards()
+    """导出全部数据到 site/data/（卡片 + 知识索引 + 搜索 + 术语 + 参考）"""
+    SITE_DATA.mkdir(parents=True, exist_ok=True)
     today = date.today().isoformat()
 
+    # 1. 卡片
+    _export_cards(SITE_DATA, today)
+    # 2. 知识索引 + 搜索
+    _export_knowledge(SITE_DATA, today)
+    # 3. 术语表
+    _export_glossary(SITE_DATA)
+    # 4. 参考资源
+    _export_references(SITE_DATA)
+    print(f"✅ 全部数据已导出到 {SITE_DATA.relative_to(BASE)}/")
+
+
+def _export_cards(site_data, today):
+    cards = load_all_cards()
     export = {
-        "version": 1,
-        "exported": today,
+        "version": 1, "exported": today,
         "totalCards": len(cards),
         "dueToday": sum(1 for _, m, _ in cards if m.get("next_review", "1970-01-01") <= today),
         "cards": [],
     }
-
     for fpath, meta, body in cards:
         export["cards"].append({
-            "id": meta["id"],
-            "domain": meta.get("domain", "?"),
-            "q": meta["q"],
-            "a": meta["a"],
-            "interval": meta.get("interval", 0),
-            "ease": meta.get("ease", 2.5),
+            "id": meta["id"], "domain": meta.get("domain", "?"),
+            "q": meta["q"], "a": meta["a"],
+            "interval": meta.get("interval", 0), "ease": meta.get("ease", 2.5),
             "next_review": meta.get("next_review", today),
             "last_reviewed": meta.get("last_reviewed"),
-            "reviews": meta.get("reviews", 0),
-            "created": meta.get("created", today),
+            "reviews": meta.get("reviews", 0), "created": meta.get("created", today),
+        })
+    (site_data / "cards.json").write_text(json.dumps(export, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"📇 卡片: {len(cards)} 张")
+
+
+def _export_knowledge(site_data, today):
+    """知识文档目录 + 全文搜索索引"""
+    index = []
+    search = []
+    for fpath in sorted(KNOWLEDGE.rglob("*.md")):
+        if fpath.name in (".gitkeep", "_template.md"):
+            continue
+        rel = fpath.relative_to(KNOWLEDGE)
+        text = fpath.read_text(encoding="utf-8")
+        m = re.search(r"^#\s+(.+)$", text, re.MULTILINE)
+        title = m.group(1) if m else fpath.stem
+        domain = rel.parts[0] if len(rel.parts) > 1 else "?"
+
+        # front matter tags
+        fm, body = parse_front_matter(text)
+        fm = fm or {}
+        tags = fm.get("tags", [])
+        created = fm.get("created", "")
+
+        entry = {
+            "id": str(rel).replace("\\", "/").replace(".md", ""),
+            "title": title.strip("# "),
+            "domain": domain,
+            "path": str(rel).replace("\\", "/"),
+            "tags": tags,
+            "created": created,
+        }
+        index.append(entry)
+
+        # 搜索：标题 + 正文文本（去 front matter）
+        plain = re.sub(r"^---.*?^---\s*", "", text, flags=re.DOTALL | re.MULTILINE)
+        plain = re.sub(r"[#*`>|\[\]()\-]+", " ", plain)
+        plain = re.sub(r"\s+", " ", plain).strip()
+        search.append({
+            "id": entry["id"],
+            "title": title.strip("# "),
+            "domain": domain,
+            "text": plain[:2000],  # 限制索引大小
         })
 
-    SITE_DATA.mkdir(parents=True, exist_ok=True)
-    (SITE_DATA / "cards.json").write_text(
-        json.dumps(export, ensure_ascii=False, indent=2), encoding="utf-8"
+    (site_data / "knowledge-index.json").write_text(
+        json.dumps({"version": 1, "exported": today, "domains": _group_by_domain(index), "docs": index},
+                   ensure_ascii=False, indent=2), encoding="utf-8"
     )
-    print(f"✅ 已导出 {len(cards)} 张卡片到 site/data/cards.json")
-    print(f"   到期：{export['dueToday']} 张")
+    (site_data / "search-index.json").write_text(
+        json.dumps({"version": 1, "exported": today, "entries": search},
+                   ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    print(f"📚 知识: {len(index)} 篇")
+
+
+def _group_by_domain(entries):
+    groups = {}
+    for e in entries:
+        d = e["domain"]
+        if d not in groups:
+            groups[d] = []
+        groups[d].append(e["id"])
+    return groups
+
+
+def _export_glossary(site_data):
+    """术语表"""
+    items = []
+    for f in sorted(GLOSSARY.glob("*.md")):
+        if f.name == ".gitkeep":
+            continue
+        text = f.read_text(encoding="utf-8")
+        m = re.search(r"^#\s+(.+)$", text, re.MULTILINE)
+        title = m.group(1) if m else f.stem
+        desc = re.sub(r"^#.+?\n+", "", text, count=1).strip()
+        # 只取第一段
+        desc = desc.split("\n\n")[0].strip()
+        items.append({"term": f.stem, "title": title, "desc": desc})
+    (site_data / "glossary.json").write_text(
+        json.dumps({"version": 1, "items": items}, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    print(f"📖 术语: {len(items)} 条")
+
+
+def _export_references(site_data):
+    """参考资源"""
+    refs = {}
+    for f in sorted(REFERENCES.glob("*.md")):
+        if f.name == ".gitkeep":
+            continue
+        category = f.stem  # books, courses, papers, repos, tools, datasets
+        text = f.read_text(encoding="utf-8")
+        # 拿第一行标题
+        m = re.search(r"^#\s+(.+)$", text, re.MULTILINE)
+        title = m.group(1) if m else category
+        # 取所有 sections
+        sections = re.findall(r"^##\s+(.+)$", text, re.MULTILINE)
+        refs[category] = {"title": title, "sections": sections}
+    (site_data / "references.json").write_text(
+        json.dumps({"version": 1, "refs": refs}, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    print(f"🔗 参考: {len(refs)} 类")
 
 
 def cmd_deploy():

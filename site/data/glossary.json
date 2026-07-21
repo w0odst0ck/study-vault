@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "term": "Cloudflare",
+      "title": "Cloudflare",
+      "desc": "CDN + 安全防护服务商。"
+    },
+    {
+      "term": "FTS5",
+      "title": "FTS5（Full-Text Search 5）",
+      "desc": "SQLite 的全文搜索引擎扩展。"
+    },
+    {
+      "term": "GBK",
+      "title": "GBK",
+      "desc": "汉字编码标准，兼容 GB2312，Windows 简体中文系统默认编码。"
+    },
+    {
+      "term": "Literal",
+      "title": "Literal（字面量类型）",
+      "desc": "Python 的 `typing.Literal`，限制变量只能取指定值。"
+    },
+    {
+      "term": "MutationObserver",
+      "title": "MutationObserver",
+      "desc": "浏览器原生 API，监听 DOM 树的变化（元素增删改、属性变化等）。"
+    },
+    {
+      "term": "Playwright",
+      "title": "Playwright",
+      "desc": "微软开发的浏览器自动化框架，支持 Chromium/Firefox/WebKit。"
+    },
+    {
+      "term": "Pydantic",
+      "title": "Pydantic v2",
+      "desc": "Python 数据验证库，通过类型注解做运行时数据校验。"
+    },
+    {
+      "term": "SM2",
+      "title": "SM-2 间隔重复算法",
+      "desc": "SuperMemo 2 算法，用于记忆类复习卡片的间隔调度。"
+    },
+    {
+      "term": "SPA",
+      "title": "SPA（Single Page Application）",
+      "desc": "单页应用。页面在浏览器端通过 JavaScript 动态渲染。"
+    },
+    {
+      "term": "SSR",
+      "title": "SSR（Server-Side Rendering）",
+      "desc": "服务端渲染。页面 HTML 在服务端拼好再发给浏览器。"
+    },
+    {
+      "term": "Tesseract",
+      "title": "Tesseract OCR",
+      "desc": "Google 维护的开源 OCR（光学字符识别）引擎。"
+    },
+    {
+      "term": "pointer-events",
+      "title": "CSS pointer-events",
+      "desc": "CSS 属性，控制元素是否响应鼠标事件。"
+    }
+  ]
+}
