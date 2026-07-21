@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-17",
-  "updated": "2026-07-18",
+  "updated": "2026-07-21",
   "tags": [
     "爬虫",
     "Playwright",
@@ -119,6 +119,7 @@ def switch_platform(self, platform: str):
 - 需手动保存登录态 + 批量操作
 
 ## 回顾
+<!-- cards: crawler-Playwright浏-009, crawler-StealthJS注-010, crawler-跨平台Context-011 -->
 <!-- cards: crawler-Playwright浏-009, crawler-StealthJS注-010, crawler-跨平台Context-011 -->
 <!-- cards: crawler-Playwright浏-009, crawler-StealthJS注-010, crawler-跨平台Context-011 -->
 - Q: Playwright 浏览器管理器的三种搜索策略模式是什么？

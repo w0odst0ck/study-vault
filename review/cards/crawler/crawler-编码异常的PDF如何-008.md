@@ -5,11 +5,11 @@
   "source": "knowledge/crawler/04-pdf-parameter-locator.md",
   "q": "编码异常的 PDF 如何应对？",
   "a": "GB 4785 类 PDF 中所有数字提取器乱码，只能通过 OCR 捞取正文信息。",
-  "created": "2026-07-18",
+  "created": "2026-07-21",
   "last_reviewed": null,
   "interval": 0,
   "ease": 2.5,
-  "next_review": "2026-07-18",
+  "next_review": "2026-07-21",
   "reviews": 0
 }
 ---

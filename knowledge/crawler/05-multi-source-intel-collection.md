@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-17",
-  "updated": "2026-07-18",
+  "updated": "2026-07-21",
   "tags": [
     "爬虫",
     "情报采集",
@@ -11,7 +11,7 @@
   "cards": [
     "crawler-Intel模块的领域分-016",
     "crawler-LLM调用失败时的安全-018",
-    "crawler-数据源协议[ⓘ]选择的优先级顺-017",
+    "crawler-数据源协议选择的优先级顺-017",
     "crawler-跨天去重用什么方法清理-019"
   ]
 }
@@ -127,6 +127,7 @@ python -m intel.main generate --llm     # LLM 可选
 避免: JS 渲染页面（除非 Playwright）
 
 ## 回顾
+<!-- cards: crawler-Intel模块的领域分-016, crawler-LLM调用失败时的安全-018, crawler-数据源协议选择的优先级顺-017, crawler-跨天去重用什么方法清理-019 -->
 <!-- cards: crawler-Intel模块的领域分-016, crawler-LLM调用失败时的安全-018, crawler-数据源协议选择的优先级顺-017, crawler-跨天去重用什么方法清理-019 -->
 <!-- cards: crawler-Intel模块的领域分-016, crawler-LLM调用失败时的安全-018, crawler-数据源协议选择的优先级顺-017, crawler-跨天去重用什么方法清理-019 -->
 - Q: Intel 模块的领域分类体系有哪些？

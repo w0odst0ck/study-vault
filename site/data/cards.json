@@ -1,68 +1,80 @@
 {
   "version": 1,
   "exported": "2026-07-21",
-  "totalCards": 38,
-  "dueToday": 38,
+  "totalCards": 42,
+  "dueToday": 42,
   "cards": [
     {
       "id": "crawler-1688工厂搜索页的中-020",
       "domain": "crawler",
       "q": "1688 工厂搜索页的中文关键词编码方式是什么？",
-      "a": "使用 GBK 编码，非 UTF-8。需 `urllib.parse.quote(keyword, encoding='gbk')`。",
-      "interval": 1,
-      "ease": 2.6,
-      "next_review": "2026-07-19",
-      "last_reviewed": "2026-07-18",
-      "reviews": 1,
-      "created": "2026-07-18"
+      "a": "使用 GBK 编码[ⓘ]，非 UTF-8。需 `urllib.parse.quote(keyword, encoding='gbk')`。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-21",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-1688搜索页弹出的滑-001",
       "domain": "crawler",
       "q": "1688 搜索页弹出的滑块验证码如何解决？",
       "a": "使用 Playwright 的 `wait_for_captcha_solve()` 等待用户手动通过滑块，一次性过滑块后保存浏览器 state 文件，后续复用避免重复弹出。",
-      "interval": 1,
+      "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-19",
-      "last_reviewed": "2026-07-18",
-      "reviews": 1,
-      "created": "2026-07-18"
+      "next_review": "2026-07-21",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-21"
+    },
+    {
+      "id": "crawler-1688纯前端解析器代-028",
+      "domain": "crawler",
+      "q": "1688 纯前端解析器代码量约多少行？",
+      "a": "约 1081 行，分为 search.js（搜索页）、detail.js（详情页）、shared.js、config.js、index.js 五个模块。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-21",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-1688页面使用-022",
       "domain": "crawler",
       "q": "1688 页面使用 `\"networkidle\"` 等待策略时为什么会超时？",
       "a": "页面长连接导致 `\"networkidle\"` 一直等待网络空闲，改为 `\"load\"` 或 `\"domcontentloaded\"`。",
-      "interval": 1,
-      "ease": 2.36,
-      "next_review": "2026-07-19",
-      "last_reviewed": "2026-07-18",
-      "reviews": 1,
-      "created": "2026-07-18"
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-21",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-Intel模块的领域分-016",
       "domain": "crawler",
       "q": "Intel 模块的领域分类体系有哪些？",
       "a": "finance（金融/资本）、self_driving（自动驾驶）、semiconductor（半导体，规划中）。`-d` 参数必选，支持按领域过滤和分组展示。",
-      "interval": 1,
-      "ease": 2.6,
-      "next_review": "2026-07-19",
-      "last_reviewed": "2026-07-18",
-      "reviews": 1,
-      "created": "2026-07-18"
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-21",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-LLM调用失败时的安全-018",
       "domain": "crawler",
       "q": "LLM 调用失败时的安全策略是什么？",
       "a": "LLM 默认禁用（`--llm` 按需启用），调用失败返回 `None` 不 `sys.exit(1)`，规则分类保底。",
-      "interval": 1,
-      "ease": 2.6,
-      "next_review": "2026-07-19",
-      "last_reviewed": "2026-07-18",
-      "reviews": 1,
-      "created": "2026-07-18"
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-21",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-PDF参数页定位器的核-005",
@@ -71,10 +83,10 @@
       "a": "定位优先于提取——自动化定位参数在哪一页，人工确认精确数值，工作量从\"翻 59 页\"降到\"看 5 页\"。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-Playwright浏-009",
@@ -83,10 +95,10 @@
       "a": "渲染模式（直接导航取 HTML，适用 SSR 页面）、API 拦截模式（拦截 XHR/Fetch 得 JSON，适用 SPA 页面）、主页交互模式（打开首页绕过 CF -> 输入搜索框 -> 点击按钮，适用首页无保护的平台）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-SAMR平台的速率限制-013",
@@ -95,10 +107,10 @@
       "a": "`X-RateLimit-Remaining`（剩余配额）、`X-RateLimit-Burst-Capacity`（突发容量 200）、`X-RateLimit-Replenish-Rate`（补充速率 80）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-StealthJS注-010",
@@ -107,10 +119,10 @@
       "a": "修改 `navigator.webdriver=false`、模拟 `window.chrome` 对象、添加 plugins、覆盖 permissions query、修改 languages/hardwareConcurrency/deviceMemory 等指纹参数。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-chromiumla-021",
@@ -119,10 +131,10 @@
       "a": "不会自动创建浏览器上下文，需显式调用 `browser.new_context()` 再 `context.new_page()`。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-openstd的PD-015",
@@ -131,10 +143,10 @@
       "a": "showGb 端点返回 404、viewGb 空响应，API 变动或权限变更导致曾经有效的 3 步 Session 流程全部失效。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-shop_urlUNI-024",
@@ -143,10 +155,10 @@
       "a": "初始 `shop_url=card_url`（每家不同）+ 新增专用 `catalog_url` 字段，避免空占位符冲突。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-中国照明国标中约多少比例-014",
@@ -155,10 +167,10 @@
       "a": "约 76%（355 条照明标准中 270 条采标），主要来源 IEC（225 条）、CIE（13 条）、CISPR（1 条）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-产品目录页URL能直-023",
@@ -167,10 +179,22 @@
       "a": "不能。必须从名片页 DOM 中通过 `data-btrack=\"pc-card-shop-gallery-btn\"` 属性定位入口获取。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
+    },
+    {
+      "id": "crawler-前端解析器的10种错-029",
+      "domain": "crawler",
+      "q": "前端解析器的 10 种错误提示覆盖哪些场景？",
+      "a": "页面未加载、元素未找到、网络断开、数据格式异常、滑块验证弹出、图片加载失败、多页合并异常、兼容性、数据为空、超时。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-21",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-反爬安全策略配置中ra-004",
@@ -179,10 +203,22 @@
       "a": "典型限速为 10 req/min，配合自适应延时 `request_delay: (0.5, 2.0)` 和指数退避使用。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
+    },
+    {
+      "id": "crawler-图片提取有哪4级降级-027",
+      "domain": "crawler",
+      "q": "图片提取有哪 4 级降级策略？",
+      "a": "primary（主图）→ secondary（备选）→ thumbnail（缩略图）→ placeholder（占位图），每级失败自动降级。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-21",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-数据源协议选择的优先级顺-017",
@@ -191,10 +227,10 @@
       "a": "官方 API（有限流但稳定）> RSS/Atom Feed（标准稳定）> HTML 解析（灵活但页面结构变则代码变）> 避免 JS 渲染页面。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-文字层检测和OCR路-006",
@@ -203,10 +239,10 @@
       "a": "文字层用 PyMuPDF（最快，0.12s/59 页）或 pymupdf4llm；OCR 用 Tesseract 5.5 + chi_sim。EasyOCR 作为 OCR 替代方案（pip 全自动但含 PyTorch ~500MB）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-爬虫架构中新增一个数据源-012",
@@ -215,10 +251,22 @@
       "a": "只需写适配器类（继承 `BaseCollector`）+ 在 `standards_config.ini` 注册配置，引擎代码零修改。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
+    },
+    {
+      "id": "crawler-纯前端解析与后端采集的分-026",
+      "domain": "crawler",
+      "q": "纯前端解析与后端采集的分界原则是什么？",
+      "a": "用户数据处理 = 纯浏览器端（隐私合规）；在线采集 = Python 公开代码用户自部署（IP 风险用户自负）；客户端 exe 持续维护作为本地入口。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-21",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-编码异常的PDF如何-008",
@@ -227,10 +275,10 @@
       "a": "GB 4785 类 PDF 中所有数字提取器乱码，只能通过 OCR 捞取正文信息。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-规则分级的P0P1-007",
@@ -239,10 +287,10 @@
       "a": "P0 命中 1 个即判参数页（如\"配光性能\"）、P1 命中 3+ 即判（如\"照度\"\"色温\"）、P2 需 P1+P2 组合验证（如\"最小值\"\"公差\"）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-跨天去重用什么方法清理-019",
@@ -251,10 +299,10 @@
       "a": "MD5 hash 持久化去重，30 天过期自动清理。23 条源数据第二次采集 0 条，全被去重拦住。\n```",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-跨平台Context-011",
@@ -263,10 +311,10 @@
       "a": "每个平台独立 browser context，通过 `switch_platform()` 切换，避免 Cookie/Storage 串用导致跨平台风控。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-震坤行搜索页的SSR-002",
@@ -275,10 +323,10 @@
       "a": "搜索结果通过 `window.__INITIAL_DATA__` JSON 嵌入 HTML，字段映射：`proSkuProductName`→标题、`proBrandName`→品牌、`proMaterialNo`→型号、`proSkuNo`→编码。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-震坤行的阿里云WAF-003",
@@ -287,10 +335,10 @@
       "a": "使用 `MutationObserver` 在遮罩元素 `#waf_nc_block` 插入 DOM 之前将其预移除，避免拦截 pointer events。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "crawler-验证驱动开发的模式是怎样-025",
@@ -299,10 +347,10 @@
       "a": "先写验证脚本逐步骤验证 DOM 选择器，验证通过后再提取为正式脚本，验证脚本保留作为选择器参考。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "data-analysis-价格预警的触发条件和冷启-002",
@@ -311,10 +359,10 @@
       "a": "移动平均 vs 当前价偏离 ≥10% 触发预警；快照不足 3 次时不预警，避免冷启动误报。无预警时零噪声输出。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "data-analysis-品牌提取准确率从0-003",
@@ -323,10 +371,10 @@
       "a": "双重解析策略——从标题中匹配已知品牌列表 + 从店铺名中提取品牌信息，两者交叉验证。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "data-analysis-四层选品策略模型各层含义-001",
@@ -335,10 +383,10 @@
       "a": "🟢必上（强需求高利润）→立即上架、🔵推荐（有潜力）→优先上架、🟡暗马（长尾竞品覆盖少）→试探上架、🔘关注（趋势待观察）→先不动。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "programming-GitHubAPI同-006",
@@ -347,10 +395,10 @@
       "a": "①`star+json` header 必须带，否则不返回 `starred_at`；② Lists API 返回 404（非个人账号不可用）；③ README 返回 base64 编码，需额外解码。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "programming-Phase0阶段的四-004",
@@ -359,10 +407,10 @@
       "a": "①设计文档先行——先写设计文档再写代码；②成本优化——默认 gpt-4o-mini + 缓存 + `--limit`；③增量同步——用 `starred_at` + `sha` 对比，不做全量；④配置与骨架一体化——启动即跑，不需要先配环境。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "programming-Pydanticv2-001",
@@ -371,10 +419,10 @@
       "a": "在数据验证通过后执行额外逻辑，如校验 `full_name` 必须等于 `owner/name` 格式，确保数据一致性。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "programming-Pydantic中-003",
@@ -383,10 +431,10 @@
       "a": "轻量（无需定义类）、天然可序列化为 JSON、API 友好，适合有限状态如 `status: Literal[\"unreviewed\", \"reviewed\", \"archived\"]`。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "programming-guardmd在项-008",
@@ -395,10 +443,10 @@
       "a": "标注哪些目录是自由开发区域（可直接修改无需审核），明确告知团队或 AI Agent 的权限边界。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "programming-关系引擎中规则和AI-005",
@@ -407,10 +455,10 @@
       "a": "规则做即时、确定性、零成本的聚类（话题重叠、语言分类），AI 做灵活、语义、高成本的深层分析。混合模式下 AI 只做规则覆盖不到的范围。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "programming-子项目整合进父项目的标准-007",
@@ -419,10 +467,10 @@
       "a": "①移入父项目目录 ②删除独立 .venv ③清除独立 .git ④更新父项目 .guard.md ⑤更新 .gitignore ⑥分两轮提交（隐私安全→功能变更）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "programming-整合时gitigno-009",
@@ -431,10 +479,10 @@
       "a": "宁多勿漏——覆盖所有子项目的敏感数据模式（cookies/*.db/*.xlsx/cache/.env 等），敏感数据一概不入库。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "programming-整合时的两轮提交策略分别-010",
@@ -443,10 +491,10 @@
       "a": "第一轮提交隐私安全（清理敏感数据、更新 .gitignore），第二轮提交功能变更（整合代码、更新文档）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     },
     {
       "id": "programming-配置管理的三层搜索路径优-002",
@@ -455,10 +503,10 @@
       "a": "`--config` 命令行指定 > `./star-vault.yaml` 配置文件 > 内置默认值。环境变量进一步覆盖配置值。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-18",
+      "next_review": "2026-07-21",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-18"
+      "created": "2026-07-21"
     }
   ]
 }

@@ -9,7 +9,8 @@
       "crawler/04-pdf-parameter-locator",
       "crawler/05-multi-source-intel-collection",
       "crawler/06-1688-factory-monitor",
-      "crawler/07-client-side-parser-architecture"
+      "crawler/07-client-side-parser-architecture",
+      "crawler/08-jd-parser-frontend"
     ],
     "data-analysis": [
       "data-analysis/01-b2b-selection-and-price-monitor"
@@ -91,6 +92,14 @@
       "title": "纯前端 JS 解析器架构",
       "domain": "crawler",
       "path": "crawler/07-client-side-parser-architecture.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "crawler/08-jd-parser-frontend",
+      "title": "京东前端解析器（JS）",
+      "domain": "crawler",
+      "path": "crawler/08-jd-parser-frontend.md",
       "tags": [],
       "created": ""
     },

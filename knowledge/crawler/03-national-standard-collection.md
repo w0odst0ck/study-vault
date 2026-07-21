@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-17",
-  "updated": "2026-07-18",
+  "updated": "2026-07-21",
   "tags": [
     "爬虫",
     "国家标准",
@@ -144,6 +144,7 @@ intl_mappings = {
 5. **替代源探测要快速验证** — 各个分享站逐一试，不行就放弃
 
 ## 回顾
+<!-- cards: crawler-SAMR平台的速率限制-013, crawler-openstd的PD-015, crawler-中国照明国标中约多少比例-014, crawler-爬虫架构中新增一个数据源-012 -->
 <!-- cards: crawler-SAMR平台的速率限制-013, crawler-openstd的PD-015, crawler-中国照明国标中约多少比例-014, crawler-爬虫架构中新增一个数据源-012 -->
 <!-- cards: crawler-SAMR平台的速率限制-013, crawler-openstd的PD-015, crawler-中国照明国标中约多少比例-014, crawler-爬虫架构中新增一个数据源-012 -->
 - Q: 爬虫架构中新增一个数据源需要改哪些代码？
