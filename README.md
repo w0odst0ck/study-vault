@@ -1,73 +1,85 @@
 # 🎋 study-vault
 
-活的知识库。技术知识积累 + SM-2 间隔复习 + 复盘沉淀。
+个人知识库。写文档 → 自动生成复习卡 → 间隔重复 → 在线阅读。
 
-## 站点功能
+## 功能
 
-| 页面 | 链接 | 说明 |
-|------|------|------|
-| 📊 **仪表盘** | `site/index.html` | 卡片统计 + 快速入口 |
-| 📇 **复习** | `site/review/` | SM-2 间隔重复（键盘操作） |
-| 📚 **知识库** | `site/knowledge/` | 目录树 + 文档阅读 + 全文搜索 + 注释侧栏 |
-| 📖 **术语表** | `site/glossary/` | 术语浏览 + 搜索筛选 |
-| 🔗 **参考资源** | `site/references/` | 书籍 / 课程 / 工具 / 数据集 |
+| 页面 | 说明 |
+|------|------|
+| 📊 **仪表盘** | 卡片统计、复习进度、快速入口 |
+| 📇 **复习** | SM-2 间隔重复，键盘操作（空格翻答案，0-5 评分）|
+| 📚 **知识库** | 目录树 + Markdown 阅读 + 全文搜索 + 注释侧栏 |
+| 📖 **术语表** | 术语浏览 + 搜索筛选 |
+| 🔗 **参考资源** | 书籍、课程、工具、数据集索引 |
 
-## 公开内容
+## 结构
 
 ```
 study-vault/
-├── index.md         ← 领域总纲
-├── scripts/         ← 辅助脚本
-│   └── review.py    ← 复习引擎 + 数据导出
-├── site/            ← GitHub Pages 前端
+├── scripts/         ← 工具脚本
+│   ├── review.py    ← 复习引擎 + 数据导出
+│   └── serve.py     ← 本地服务
+├── site/            ← 前端
 │   ├── index.html   ← 仪表盘
 │   ├── knowledge/   ← 知识库阅读器
 │   ├── review/      ← 复习页
 │   ├── glossary/    ← 术语表
 │   ├── references/  ← 参考资源
-│   └── data/        ← JSON 数据（自动导出）
-├── knowledge/       ← 知识文档（11 篇）
-├── review/          ← 复习卡片（38 张）
-├── annotations/     ← 注释（56 条）
-├── glossary/        ← 术语表（12 个）
-└── references/      ← 参考资源索引
+│   └── data/        ← 导出数据（自动生成）
+├── knowledge/       ← 知识文档
+├── review/          ← 复习卡片
+├── annotations/     ← 注释
+├── glossary/        ← 术语
+└── references/      ← 资源索引
 ```
 
-## 本地私有内容（不上传）
+## 工作流
 
-```
-memory/          ← 每日复盘日志
-plan/            ← 学习规划
-project-refs/    ← 项目参考页
-```
-
-## 日常使用
+### 写知识
 
 ```bash
-# 本地启动
-python3 scripts/serve.py              # 启动本地服务 → http://localhost:8080
-
-# 新增知识
-vim knowledge/xxx.md                  # 写知识文档
-python3 scripts/review.py import      # 提取复习卡片
-
-# 复习
-python3 scripts/review.py             # 到期卡片
-python3 scripts/review.py --quick     # 速刷 5 张
-
-# 导出 + 部署
-python3 scripts/review.py export      # 生成前端数据
-python3 scripts/review.py deploy      # 导出 → 提交 → 推送到 GitHub Pages
+vim knowledge/<domain>/<topic>.md         # 写一篇知识文档
+python3 scripts/review.py import          # 从文档提取复习卡片
 ```
 
-## 脚本
+### 复习
 
 ```bash
-python3 scripts/review.py                # 复习到期卡片
-python3 scripts/review.py import         # 从 knowledge/ 提取卡片
-python3 scripts/review.py export         # 导出全部站点数据
-python3 scripts/review.py deploy         # 导出 + 提交 + 推送到 GitHub
-python3 scripts/review.py stats          # 统计信息
+python3 scripts/review.py                 # 复习到期卡片
+python3 scripts/review.py --quick         # 速刷 5 张
+python3 scripts/review.py --domain xxx    # 指定领域
+python3 scripts/review.py stats           # 查看统计
 ```
 
-无需第三方依赖，Python 3.7+ 即可。
+### 发布
+
+```bash
+python3 scripts/review.py export          # 生成前端数据
+python3 scripts/review.py deploy          # 导出 + 提交 + 推送到 GitHub Pages
+```
+
+### 本地预览
+
+```bash
+python3 scripts/serve.py                  # http://localhost:8080
+```
+
+## 卡片管理
+
+复习卡片自动从知识文档的 `## 回顾` 段落提取，SM-2 算法调度：
+
+- 评分 0-2：遗忘 → 重置间隔为 1 天
+- 评分 3-5：记住 → 间隔指数增长
+- 每日到期卡片自动弹出，完成后结果可下载
+
+## 环境要求
+
+- Python 3.7+
+- 标准库（无第三方依赖）
+
+## 在线访问
+
+GitHub Pages 部署后：
+```
+https://<user>.github.io/study-vault/
+```
