@@ -111,6 +111,15 @@ class CardStore {
     };
   }
 
+  // ── 筛选到期卡片 ──
+
+  _getDueCards(cards) {
+    const today = new Date().toISOString().split('T')[0];
+    return cards
+      .filter(c => (c.next_review || today) <= today)
+      .sort((a, b) => (a.next_review || '').localeCompare(b.next_review || ''));
+  }
+
   // ── localStorage 持久化 ──
 
   _sessionId() {
