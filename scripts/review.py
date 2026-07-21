@@ -14,6 +14,7 @@
     python scripts/review.py stats                  -> 查看统计
     python scripts/review.py stats --daily           -> 每日概况
     python scripts/review.py export                 -> 导出卡片数据到 site/data/cards.json
+    python scripts/review.py deploy                  -> 导出 + 提交 + 推送到 GitHub
 """
 
 import os
@@ -26,6 +27,7 @@ import argparse
 import json
 import os
 import re
+import shlex
 import sys
 from collections import defaultdict
 from datetime import date, datetime, timedelta
@@ -309,7 +311,6 @@ def cmd_export():
         export["cards"].append({
             "id": meta["id"],
             "domain": meta.get("domain", "?"),
-            "source": meta.get("source", ""),
             "q": meta["q"],
             "a": meta["a"],
             "interval": meta.get("interval", 0),
@@ -326,6 +327,24 @@ def cmd_export():
     )
     print(f"✅ 已导出 {len(cards)} 张卡片到 site/data/cards.json")
     print(f"   到期：{export['dueToday']} 张")
+
+
+def cmd_deploy():
+    """导出 + 提交 + 推送，一键部署（需要 git 环境）"""
+    cmd_export()
+    cards_json = SITE_DATA / "cards.json"
+    if not cards_json.exists():
+        print("❌ site/data/cards.json 未生成")
+        return 1
+    ret = os.system(
+        f'cd {shlex.quote(str(BASE))} && git add -f site/data/cards.json && '
+        f'git commit --allow-empty -m "update: 卡片数据 $(date +%%Y-%%m-%%d)" && git push'
+    )
+    if ret == 0:
+        print("✅ 已部署到 GitHub Pages（等待 1-2 分钟生效）")
+    else:
+        print("❌ 推送失败，请手动执行 git push")
+    return ret
 
 
 # ── 复习模式 ──
@@ -593,8 +612,8 @@ def _log_session(total, domain_detail, forgotten, remembered, rate):
 def main():
     parser = argparse.ArgumentParser(description="📇 复习引擎")
     parser.add_argument("command", nargs="?", default="review",
-                        choices=["review", "import", "stats", "export"],
-                        help="命令：review(默认) | import | stats | export")
+                        choices=["review", "import", "stats", "export", "deploy"],
+                        help="命令：review(默认) | import | stats | export | deploy")
     parser.add_argument("--count", type=int, default=0,
                         help="复习张数，默认全部到期卡")
     parser.add_argument("--batch", action="store_true",
@@ -625,6 +644,8 @@ def main():
         cmd_stats(json_output=args.json, daily=args.daily)
     elif args.command == "export":
         cmd_export()
+    elif args.command == "deploy":
+        cmd_deploy()
     else:
         cmd_review(count=count, batch=args.batch, domain=args.domain, reset=args.reset)
 

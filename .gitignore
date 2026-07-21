@@ -5,9 +5,6 @@ Thumbs.db
 __pycache__/
 .env
 
-# 构建产物（review.py export 生成）
-site/data/cards.json
-
 # =====================
 # 🔒 隐私数据（不上传公开仓库）
 # =====================
