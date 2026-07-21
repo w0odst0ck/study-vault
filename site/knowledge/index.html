@@ -103,6 +103,37 @@
     .markdown hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
     .markdown a { color: var(--primary-light); }
 
+    /* ⓘ annotation marker */
+    .anno-marker {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 1.1em; height: 1.1em; font-size: 0.65em; line-height: 1;
+      background: #dbeafe; color: var(--primary); border-radius: 50%;
+      cursor: pointer; vertical-align: super; margin: 0 0.1em;
+      transition: all 0.15s ease; user-select: none;
+    }
+    .anno-marker:hover { background: var(--primary); color: #fff; transform: scale(1.15); }
+
+    /* Annotion popover */
+    .anno-popover {
+      position: fixed; z-index: 100;
+      max-width: 380px; width: max-content;
+      background: var(--card-bg); border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      padding: 0.9rem 1.1rem;
+      font-size: 0.85rem; line-height: 1.6;
+      border: 1px solid var(--border);
+      display: none;
+    }
+    .anno-popover.visible { display: block; }
+    .anno-popover .anno-term { font-weight: 700; color: var(--primary); font-size: 0.8rem; margin-bottom: 0.4rem; }
+    .anno-popover .anno-content p { margin-bottom: 0.4rem; }
+    .anno-popover .anno-content code { background: #f3f4f6; padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.85em; }
+    .anno-popover .anno-content a { color: var(--primary-light); text-decoration: underline; }
+    .anno-backdrop {
+      position: fixed; inset: 0; z-index: 99; display: none;
+    }
+    .anno-backdrop.visible { display: block; }
+
     /* Loading */
     #loading { text-align: center; padding: 3rem; color: var(--text-light); }
     .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 0.75rem; }
@@ -158,20 +189,28 @@
 </div>
 
 <aside style="display:none" id="overlay" onclick="closeSidebar()"></aside>
+<div class="anno-backdrop" id="anno-backdrop" onclick="closeAnno()"></div>
+<div class="anno-popover" id="anno-popover">
+  <div class="anno-term"></div>
+  <div class="anno-content"></div>
+</div>
 
 <script>
 // ── State ──
 let index = null;
 let searchIndex = null;
+let annotations = {};
 
 // ── Init ──
 async function init() {
-  const [idxResp, searchResp] = await Promise.all([
+  const [idxResp, searchResp, annoResp] = await Promise.all([
     fetch('../data/knowledge-index.json'),
     fetch('../data/search-index.json'),
+    fetch('../data/annotations.json'),
   ]);
   index = await idxResp.json();
   searchIndex = await searchResp.json();
+  try { annotations = (await annoResp.json()).annotations || {}; } catch(e) { annotations = {}; }
   renderTree();
   // Load doc from hash or first doc
   const hash = location.hash.slice(1);
@@ -226,7 +265,15 @@ async function loadDoc(id) {
   try {
     const resp = await fetch(url);
     const md = await resp.text();
-    content.innerHTML = `<div class="markdown">${renderMarkdown(md)}</div>`;
+    content.innerHTML = `<div class="markdown">${renderMarkdown(md, doc.id)}</div>`;
+    // Annotate ⓘ markers
+    const docAnnos = annotations[doc.id] || [];
+    content.querySelectorAll('.anno-marker').forEach(el => {
+      const idx = parseInt(el.dataset.idx);
+      const anno = docAnnos[idx];
+      if (!anno) return;
+      el.onclick = (e) => showAnno(e, anno.term, anno.content);
+    });
   } catch(e) {
     content.innerHTML = `<div class="empty-state"><p>加载失败：${e.message}</p></div>`;
   }
@@ -234,12 +281,56 @@ async function loadDoc(id) {
   closeSidebar();
 }
 
+// ── Annotation popover ──
+function showAnno(e, term, content) {
+  e.stopPropagation();
+  const popover = document.getElementById('anno-popover');
+  const backdrop = document.getElementById('anno-backdrop');
+  popover.querySelector('.anno-term').textContent = term;
+  // Render content (simple markdown-like formatting)
+  let html = content
+    .replace(/\[\[glossary\/([^\]]+)\]\]/g, '<a href="../glossary/" target="_blank">$1</a>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>');
+  popover.querySelector('.anno-content').innerHTML = '<p>' + html + '</p>';
+
+  // Position
+  const rect = e.target.getBoundingClientRect();
+  let top = rect.bottom + 6;
+  let left = rect.left + rect.width / 2;
+  const popRect = popover.getBoundingClientRect();
+  // Stay in viewport
+  if (left + popRect.width / 2 > window.innerWidth - 10) left = window.innerWidth - popRect.width - 10;
+  if (left - popRect.width / 2 < 10) left = 10;
+  if (top + popRect.height > window.innerHeight - 10) top = rect.top - popRect.height - 6;
+  popover.style.top = top + 'px';
+  if (left < 100) { popover.style.left = '10px'; popover.style.transform = 'none'; }
+  else if (left > window.innerWidth - 100) { popover.style.right = '10px'; popover.style.left = 'auto'; popover.style.transform = 'none'; }
+  else { popover.style.left = '50%'; popover.style.transform = 'translateX(-50%)'; }
+
+  popover.classList.add('visible');
+  backdrop.classList.add('visible');
+}
+function closeAnno() {
+  document.getElementById('anno-popover').classList.remove('visible');
+  document.getElementById('anno-backdrop').classList.remove('visible');
+}
+
 // ── Markdown renderer ──
-function renderMarkdown(md) {
+function renderMarkdown(md, docId) {
   // Remove front matter
   md = md.replace(/^---[\s\S]*?---\n*/, '');
-  // Escape HTML
+  // Escape HTML first, then protect [ⓘ]
   md = md.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  // Replace [ⓘ] with numbered index markers
+  let annoIdx = 0;
+  const docAnnos = (annotations[docId] || []);
+  md = md.replace(/\[ⓘ\]/g, function() {
+    const i = annoIdx++;
+    const term = docAnnos[i] ? encodeURIComponent(docAnnos[i].term) : '';
+    return `<sup class="anno-marker" data-idx="${i}">ⓘ</sup>`;
+  });
   // Headers
   md = md.replace(/^### (.+)$/gm, '<h3>$1</h3>');
   md = md.replace(/^## (.+)$/gm, '<h2>$1</h2>');

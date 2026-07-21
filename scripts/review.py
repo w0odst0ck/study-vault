@@ -296,7 +296,7 @@ SITE_DATA = BASE / "site" / "data"
 
 
 def cmd_export():
-    """导出全部数据到 site/data/（卡片 + 知识索引 + 搜索 + 术语 + 参考）"""
+    """导出全部数据到 site/data/（卡片 + 知识索引 + 搜索 + 术语 + 参考 + 注释）"""
     SITE_DATA.mkdir(parents=True, exist_ok=True)
     today = date.today().isoformat()
 
@@ -304,9 +304,11 @@ def cmd_export():
     _export_cards(SITE_DATA, today)
     # 2. 知识索引 + 搜索
     _export_knowledge(SITE_DATA, today)
-    # 3. 术语表
+    # 3. 注释
+    _export_annotations(SITE_DATA)
+    # 4. 术语表
     _export_glossary(SITE_DATA)
-    # 4. 参考资源
+    # 5. 参考资源
     _export_references(SITE_DATA)
     print(f"✅ 全部数据已导出到 {SITE_DATA.relative_to(BASE)}/")
 
@@ -381,6 +383,35 @@ def _export_knowledge(site_data, today):
                    ensure_ascii=False, indent=2), encoding="utf-8"
     )
     print(f"📚 知识: {len(index)} 篇")
+
+
+def _export_annotations(site_data):
+    """注释数据：按知识文档 ID 分组"""
+    annotations = {}
+    for fpath in sorted(ANNOTATIONS.rglob("*.md")):
+        if fpath.name == ".gitkeep":
+            continue
+        rel = fpath.relative_to(ANNOTATIONS)
+        doc_id = str(rel).replace("\\", "/").replace(".md", "")
+        text = fpath.read_text(encoding="utf-8")
+        # 解析每一段注释：### term [ⓘ]\ncontent
+        # 跳过文档标题行
+        entries = []
+        for section in re.split(r"^###\s+", text, flags=re.MULTILINE)[1:]:
+            lines = section.strip().split("\n")
+            term = lines[0].replace("[ⓘ]", "").strip()
+            content = "\n".join(lines[1:]).strip()
+            if term:
+                entries.append({"term": term, "content": content})
+        if entries:
+            annotations[doc_id] = entries
+
+    (site_data / "annotations.json").write_text(
+        json.dumps({"version": 1, "annotations": annotations}, ensure_ascii=False, indent=2),
+        encoding="utf-8"
+    )
+    total = sum(len(v) for v in annotations.values())
+    print(f"📌 注释: {total} 条（{len(annotations)} 篇）")
 
 
 def _group_by_domain(entries):
