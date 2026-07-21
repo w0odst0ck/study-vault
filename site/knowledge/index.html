@@ -371,7 +371,7 @@ function wireAnnotations(docId) {
     const idx = parseInt(el.dataset.idx);
     const anno = docAnnos[idx];
     if (!anno) return;
-    el.onclick = (e) => { e.preventDefault(); openPanel(idx); };
+    el.onclick = (e) => { e.preventDefault(); openPanel(_currentDocId, idx); };
   });
 }
 
@@ -396,16 +396,16 @@ function initCache() {
 function togglePanel() {
   const panel = document.getElementById('anno-panel');
   if (panel.classList.contains('open')) { closePanel(); }
-  else { openPanel(); }
+  else { openPanel(_currentDocId); }
 }
 
-function openPanel(scrollToIdx) {
+function openPanel(docId, scrollToIdx) {
   const panel = document.getElementById('anno-panel');
   const backdrop = document.getElementById('anno-backdrop');
   panel.classList.add('open');
   if (window.innerWidth <= 900) backdrop.classList.add('visible');
   document.querySelector('.btn-anno').classList.add('active');
-  renderPanel(_currentDocId, scrollToIdx);
+  renderPanel(docId || _currentDocId, scrollToIdx);
 }
 
 function closePanel() {
