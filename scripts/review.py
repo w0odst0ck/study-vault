@@ -444,24 +444,40 @@ def _export_glossary(site_data):
 
 
 def _export_references(site_data):
-    """参考资源"""
+    """参考资源 — 含外部链接 + 本地参考索引"""
     refs = {}
+
+    # 外部资源文件（books/courses/papers/repos/tools/datasets）
     for f in sorted(REFERENCES.glob("*.md")):
         if f.name == ".gitkeep":
             continue
-        category = f.stem  # books, courses, papers, repos, tools, datasets
+        category = f.stem
         text = f.read_text(encoding="utf-8")
-        # 拿第一行标题
         m = re.search(r"^#\s+(.+)$", text, re.MULTILINE)
         title = m.group(1) if m else category
-        # 取所有 sections
+        links = re.findall(r"\[([^\]]+)\]\(([^)]+)\)", text)
         sections = re.findall(r"^##\s+(.+)$", text, re.MULTILINE)
-        refs[category] = {"title": title, "sections": sections}
+        refs[category] = {"title": title, "sections": sections, "links": [{"text": l[0], "url": l[1]} for l in links]}
+
+    # 本地参考子目录（dsa/ 等）
+    for sub in sorted(REFERENCES.iterdir()):
+        if not sub.is_dir() or sub.name.startswith("."):
+            continue
+        index_file = sub / "_index.md"
+        if not index_file.exists():
+            continue
+        text = index_file.read_text(encoding="utf-8")
+        m = re.search(r"^#\s+(.+)$", text, re.MULTILINE)
+        title = m.group(1) if m else sub.name
+        # 提取目录中的 sections（## 标题）作为导航项
+        sections = re.findall(r"^##\s+(.+)$", text, re.MULTILINE)
+        file_count = len(list(sub.rglob("*.md")))
+        refs[sub.name] = {"title": f"📁 {title}", "sections": sections, "links": [], "isLocal": True, "fileCount": file_count}
+
     (site_data / "references.json").write_text(
         json.dumps({"version": 1, "refs": refs}, ensure_ascii=False, indent=2), encoding="utf-8"
     )
     print(f"🔗 参考: {len(refs)} 类")
-
 
 def cmd_deploy():
     """导出 + 提交 + 推送，一键部署（需要 git 环境）"""
