@@ -19,13 +19,6 @@
     .ref-section:before { content: '▸ '; }
     #loading { text-align: center; padding: 2rem; }
     .emoji-icon { font-size: 1.2rem; margin-right: 0.3rem; }
-    .ref-links { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.4rem; }
-    .ref-link-item { padding: 0.15rem 0; }
-    .ref-link { color: var(--primary); text-decoration: none; font-size: 0.9rem; }
-    .ref-link:hover { text-decoration: underline; }
-    .ref-link::before { content: '→ '; opacity: 0.5; }
-    .local-link .ref-link { color: var(--text-light); font-size: 0.8rem; }
-    .local-link .ref-link::before { content: '📄 '; opacity: 0.7; }
   </style>
 </head>
 <body>
@@ -61,20 +54,9 @@ async function init() {
     card.className = 'ref-card';
     const icon = ICONS[key] || '📎';
     const label = LABELS[key] || key;
-    const hasLinks = ref.links && ref.links.length > 0;
-    const isLocal = ref.isLocal;
-    let body = '';
-    if (hasLinks) {
-      body = '<div class="ref-links">' + ref.links.map(l => {
-        const cls = isLocal ? 'local-link' : '';
-        return `<div class="ref-link-item ${cls}"><a href="${l.url}" ${isLocal ? '' : 'target="_blank" rel="noopener"'} class="ref-link">${l.text}</a></div>`;
-      }).join('') + '</div>';
-    } else {
-      body = ref.sections.map(s => `<div class="ref-section">${s}</div>`).join('');
-    }
     card.innerHTML = `
       <div class="ref-title">${icon} ${ref.title || label}</div>
-      ${body}
+      ${ref.sections.map(s => `<div class="ref-section">${s}</div>`).join('')}
     `;
     container.appendChild(card);
   }
