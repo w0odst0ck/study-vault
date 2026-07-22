@@ -2,13 +2,14 @@
 {
   "status": "active",
   "created": "2026-07-17",
-  "updated": "2026-07-21",
+  "updated": "2026-07-22",
   "tags": [
     "编程",
     "项目管理",
     "项目启动"
   ],
   "cards": [
+    "programming-C和Python-012",
     "programming-GitHubAPI同-006",
     "programming-Phase0阶段的四-004",
     "programming-关系引擎中规则和AI-005"
@@ -143,11 +144,13 @@ TEMPLATE_DIR = Path(__file__).parent.parent / "templates"
 
 ## 回顾
 <!-- cards: programming-GitHubAPI同-006, programming-Phase0阶段的四-004, programming-关系引擎中规则和AI-005 -->
-<!-- cards: programming-GitHubAPI同-006, programming-Phase0阶段的四-004, programming-关系引擎中规则和AI-005 -->
-<!-- cards: programming-GitHubAPI同-006, programming-Phase0阶段的四-004, programming-关系引擎中规则和AI-005 -->
 - Q: Phase 0 阶段的四个核心理念是什么？
   A: ①设计文档先行——先写设计文档再写代码；②成本优化——默认 gpt-4o-mini + 缓存 + `--limit`；③增量同步——用 `starred_at` + `sha` 对比，不做全量；④配置与骨架一体化——启动即跑，不需要先配环境。
 - Q: 关系引擎中规则和 AI 的分工策略是什么？
   A: 规则做即时、确定性、零成本的聚类（话题重叠、语言分类），AI 做灵活、语义、高成本的深层分析。混合模式下 AI 只做规则覆盖不到的范围。
 - Q: GitHub API 同步中的三个重要发现是什么？
   A: ①`star+json` header 必须带，否则不返回 `starred_at`；② Lists API 返回 404（非个人账号不可用）；③ README 返回 base64 编码，需额外解码。
+
+- Q: C++ 和 Python 项目启动时的关键差异？
+  A: C++ 需要 CMakeLists.txt/Makefile 构建系统配置 + 头文件路径管理；Python 只需要 requirements.txt/pyproject.toml，
+  无编译步骤。Phase 0 的成本优化策略在 C++ 中对应增量编译（ccache）而非 API 调用控制

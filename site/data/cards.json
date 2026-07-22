@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exported": "2026-07-21",
-  "totalCards": 42,
-  "dueToday": 42,
+  "exported": "2026-07-22",
+  "totalCards": 156,
+  "dueToday": 156,
   "cards": [
     {
       "id": "crawler-1688工厂搜索页的中-020",
@@ -11,10 +11,10 @@
       "a": "使用 GBK 编码[ⓘ]，非 UTF-8。需 `urllib.parse.quote(keyword, encoding='gbk')`。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-1688搜索页弹出的滑-001",
@@ -23,10 +23,10 @@
       "a": "使用 Playwright 的 `wait_for_captcha_solve()` 等待用户手动通过滑块，一次性过滑块后保存浏览器 state 文件，后续复用避免重复弹出。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-1688纯前端解析器代-028",
@@ -35,10 +35,10 @@
       "a": "约 1081 行，分为 search.js（搜索页）、detail.js（详情页）、shared.js、config.js、index.js 五个模块。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-1688页面使用-022",
@@ -47,10 +47,10 @@
       "a": "页面长连接导致 `\"networkidle\"` 一直等待网络空闲，改为 `\"load\"` 或 `\"domcontentloaded\"`。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-Intel模块的领域分-016",
@@ -59,10 +59,10 @@
       "a": "finance（金融/资本）、self_driving（自动驾驶）、semiconductor（半导体，规划中）。`-d` 参数必选，支持按领域过滤和分组展示。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-LLM调用失败时的安全-018",
@@ -71,10 +71,10 @@
       "a": "LLM 默认禁用（`--llm` 按需启用），调用失败返回 `None` 不 `sys.exit(1)`，规则分类保底。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-PDF参数页定位器的核-005",
@@ -83,10 +83,10 @@
       "a": "定位优先于提取——自动化定位参数在哪一页，人工确认精确数值，工作量从\"翻 59 页\"降到\"看 5 页\"。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-Playwright浏-009",
@@ -95,10 +95,10 @@
       "a": "渲染模式（直接导航取 HTML，适用 SSR 页面）、API 拦截模式（拦截 XHR/Fetch 得 JSON，适用 SPA 页面）、主页交互模式（打开首页绕过 CF -> 输入搜索框 -> 点击按钮，适用首页无保护的平台）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-SAMR平台的速率限制-013",
@@ -107,10 +107,10 @@
       "a": "`X-RateLimit-Remaining`（剩余配额）、`X-RateLimit-Burst-Capacity`（突发容量 200）、`X-RateLimit-Replenish-Rate`（补充速率 80）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-StealthJS注-010",
@@ -119,10 +119,10 @@
       "a": "修改 `navigator.webdriver=false`、模拟 `window.chrome` 对象、添加 plugins、覆盖 permissions query、修改 languages/hardwareConcurrency/deviceMemory 等指纹参数。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-chromiumla-021",
@@ -131,10 +131,10 @@
       "a": "不会自动创建浏览器上下文，需显式调用 `browser.new_context()` 再 `context.new_page()`。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-openstd的PD-015",
@@ -143,10 +143,22 @@
       "a": "showGb 端点返回 404、viewGb 空响应，API 变动或权限变更导致曾经有效的 3 步 Session 流程全部失效。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-quickScan的作-034",
+      "domain": "crawler",
+      "q": "quickScan 的作用是什么？",
+      "a": "快速扫描前 20% HTML 即可判定平台类型和版本，无需全量加载，让用户 20% 进度时获得识别反馈",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-shop_urlUNI-024",
@@ -155,10 +167,10 @@
       "a": "初始 `shop_url=card_url`（每家不同）+ 新增专用 `catalog_url` 字段，避免空占位符冲突。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-中国照明国标中约多少比例-014",
@@ -167,10 +179,22 @@
       "a": "约 76%（355 条照明标准中 270 条采标），主要来源 IEC（225 条）、CIE（13 条）、CISPR（1 条）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-为什么京东解析器要复用-031",
+      "domain": "crawler",
+      "q": "为什么京东解析器要复用 DOMParser？",
+      "a": "每次 parse 7-12MB HTML，三次独立解析性能差。一次解析传 doc 给所有子函数，时间从 3× 降到 1×。jsdom 超 10MB 会崩（Node 端限制，浏览器端正常）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-产品目录页URL能直-023",
@@ -179,10 +203,46 @@
       "a": "不能。必须从名片页 DOM 中通过 `data-btrack=\"pc-card-shop-gallery-btn\"` 属性定位入口获取。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-京东新版属性表如何提取-035",
+      "domain": "crawler",
+      "q": "京东新版属性表如何提取？",
+      "a": "`<div class=attrs>` 存在于渲染 DOM。新版通过 unquoted attrs 正则匹配提取，非旧版 CSS class 匹配",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-京东新版页面和旧版的核心-030",
+      "domain": "crawler",
+      "q": "京东新版页面和旧版的核心区别是什么？",
+      "a": "新版 React 2025+ 渲染，CSS 类名压缩混淆。关键结构 `class=price/value/attrs/item/top-name` 未被混淆，属性表仍存在于渲染 DOM",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-前端解析器如何防止XS-033",
+      "domain": "crawler",
+      "q": "前端解析器如何防止 XSS？",
+      "a": "图片用 `document.createElement('img')` DOM API 构建，禁止 `innerHTML` 拼接商品数据",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-前端解析器的10种错-029",
@@ -191,10 +251,10 @@
       "a": "页面未加载、元素未找到、网络断开、数据格式异常、滑块验证弹出、图片加载失败、多页合并异常、兼容性、数据为空、超时。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-反爬安全策略配置中ra-004",
@@ -203,10 +263,10 @@
       "a": "典型限速为 10 req/min，配合自适应延时 `request_delay: (0.5, 2.0)` 和指数退避使用。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-图片提取有哪4级降级-027",
@@ -215,10 +275,22 @@
       "a": "primary（主图）→ secondary（备选）→ thumbnail（缩略图）→ placeholder（占位图），每级失败自动降级。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-多SKU京东页面的价-032",
+      "domain": "crawler",
+      "q": "多 SKU 京东页面的价格如何采集？",
+      "a": "循环匹配全部 `class=price value` 块，15-18 个价格变体，取 min 为售价、max 为原价",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-数据源协议选择的优先级顺-017",
@@ -227,10 +299,10 @@
       "a": "官方 API（有限流但稳定）> RSS/Atom Feed（标准稳定）> HTML 解析（灵活但页面结构变则代码变）> 避免 JS 渲染页面。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-文字层检测和OCR路-006",
@@ -239,10 +311,10 @@
       "a": "文字层用 PyMuPDF（最快，0.12s/59 页）或 pymupdf4llm；OCR 用 Tesseract 5.5 + chi_sim。EasyOCR 作为 OCR 替代方案（pip 全自动但含 PyTorch ~500MB）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-爬虫架构中新增一个数据源-012",
@@ -251,10 +323,10 @@
       "a": "只需写适配器类（继承 `BaseCollector`）+ 在 `standards_config.ini` 注册配置，引擎代码零修改。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-纯前端解析与后端采集的分-026",
@@ -263,10 +335,10 @@
       "a": "用户数据处理 = 纯浏览器端（隐私合规）；在线采集 = Python 公开代码用户自部署（IP 风险用户自负）；客户端 exe 持续维护作为本地入口。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-编码异常的PDF如何-008",
@@ -275,10 +347,10 @@
       "a": "GB 4785 类 PDF 中所有数字提取器乱码，只能通过 OCR 捞取正文信息。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-规则分级的P0P1-007",
@@ -287,10 +359,10 @@
       "a": "P0 命中 1 个即判参数页（如\"配光性能\"）、P1 命中 3+ 即判（如\"照度\"\"色温\"）、P2 需 P1+P2 组合验证（如\"最小值\"\"公差\"）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-跨天去重用什么方法清理-019",
@@ -299,10 +371,10 @@
       "a": "MD5 hash 持久化去重，30 天过期自动清理。23 条源数据第二次采集 0 条，全被去重拦住。\n```",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-跨平台Context-011",
@@ -311,10 +383,10 @@
       "a": "每个平台独立 browser context，通过 `switch_platform()` 切换，避免 Cookie/Storage 串用导致跨平台风控。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-震坤行搜索页的SSR-002",
@@ -323,10 +395,10 @@
       "a": "搜索结果通过 `window.__INITIAL_DATA__` JSON 嵌入 HTML，字段映射：`proSkuProductName`→标题、`proBrandName`→品牌、`proMaterialNo`→型号、`proSkuNo`→编码。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-震坤行的阿里云WAF-003",
@@ -335,10 +407,10 @@
       "a": "使用 `MutationObserver` 在遮罩元素 `#waf_nc_block` 插入 DOM 之前将其预移除，避免拦截 pointer events。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "crawler-验证驱动开发的模式是怎样-025",
@@ -347,10 +419,10 @@
       "a": "先写验证脚本逐步骤验证 DOM 选择器，验证通过后再提取为正式脚本，验证脚本保留作为选择器参考。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "data-analysis-价格预警的触发条件和冷启-002",
@@ -359,10 +431,10 @@
       "a": "移动平均 vs 当前价偏离 ≥10% 触发预警；快照不足 3 次时不预警，避免冷启动误报。无预警时零噪声输出。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "data-analysis-品牌提取准确率从0-003",
@@ -371,10 +443,10 @@
       "a": "双重解析策略——从标题中匹配已知品牌列表 + 从店铺名中提取品牌信息，两者交叉验证。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "data-analysis-四层选品策略模型各层含义-001",
@@ -383,10 +455,1126 @@
       "a": "🟢必上（强需求高利润）→立即上架、🔵推荐（有潜力）→优先上架、🟡暗马（长尾竞品覆盖少）→试探上架、🔘关注（趋势待观察）→先不动。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-01背包和完全背包在-007",
+      "domain": "dsa",
+      "q": "0-1 背包和完全背包在遍历顺序上的区别？",
+      "a": "0-1 背包内层逆序（保证每个物品只用一次），完全背包内层正序（允许多次使用）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-BFS为什么要用队列-024",
+      "domain": "dsa",
+      "q": "BFS 为什么要用队列？",
+      "a": "BFS 需要按层处理，先入先出保证同一层的节点先被访问完再进入下一层",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-BFS层序遍历如何区分-014",
+      "domain": "dsa",
+      "q": "BFS 层序遍历如何区分每一层？",
+      "a": "每层开始时用 `len(q)` 固定当前层大小，循环该次数后开始下一层",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-CC中二叉树遍历-045",
+      "domain": "dsa",
+      "q": "C/C++ 中二叉树遍历用递归时需要注意什么？",
+      "a": "Python 递归深度默认 ~1000，C++ 递归栈也会有限制。大数据集推荐迭代栈（显式 stack 模拟递归）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-Counter和手动-026",
+      "domain": "dsa",
+      "q": "Counter 和手动 dict 计数的区别？",
+      "a": "Counter 是 dict 子类，内置 most_common() 排序，适合快速频率统计；手动 dict 适合需要额外逻辑的场景",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-Cstdsta-040",
+      "domain": "dsa",
+      "q": "C++ std::stack 和 Python list 模拟栈有什么不同？",
+      "a": "C++ stack 默认用 deque 做底层容器，禁止遍历只允许 top/push/pop；Python list 模拟栈可任意访问和切片，但大 O 相同",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-Cunordere-041",
+      "domain": "dsa",
+      "q": "C++ unordered_map 和 Python dict 底层实现有什么异同？",
+      "a": "都是哈希表。Python dict 用开放地址法（CPython 3.6+ 保持插入顺序），C++ unordered_map 用链地址法，不保证顺序",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-C和C链表节点-039",
+      "domain": "dsa",
+      "q": "C 和 C++ 链表节点定义有什么区别？",
+      "a": "C 用 `struct ListNode { int val; struct ListNode* next; }` + typedef；C++ 用 template 泛型，构造函数初始化，可选智能指针",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-C的stdl-042",
+      "domain": "dsa",
+      "q": "C++ 的 std::lower_bound 和 Python bisect.bisect_left 对应什么？",
+      "a": "都对应「第一个 >= target」的位置。C++ 返回迭代器，Python 返回索引。Python 标准库 `bisect` 模块二分实现比手写更稳",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-C的vector-044",
+      "domain": "dsa",
+      "q": "C++ 的 vector 二维数组定义和 Python 列表推导式有什么差异？",
+      "a": "Python `[[0]*n for _ in range(m)]`；C++ `vector<vector<int>> dp(m, vector<int>(n, 0))`。注意 Python 不能用 `[[0]*n]*m` 因为会共享引用",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-O1OnO-056",
+      "domain": "dsa",
+      "q": "O(1)、O(n)、O(n²)、O(n log n) 分别代表什么规模？",
+      "a": "O(1) 常数、O(n) 线性、O(n log n) 线性对数（排序级）、O(n²) 平方（暴力级）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-Pythonlist-038",
+      "domain": "dsa",
+      "q": "Python list、C++ vector、C 数组在内存分配上有什么区别？",
+      "a": "Python list 存 PyObject 指针（对象引用），动态扩容 O(n) 摊销 O(1)；C++ vector 连续存储元素，自动倍增扩容；C 数组固定长度栈/堆分配，不自动扩容",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-Pythonsorte-048",
+      "domain": "dsa",
+      "q": "Python sorted() 底层用什么算法？",
+      "a": "Timsort — 归并+插入混合，对部分有序数据 O(n)，最坏 O(n log n)",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-Python回溯用列表-043",
+      "domain": "dsa",
+      "q": "Python 回溯用列表传递 path，C++ 一般用什么？",
+      "a": "C++ 用 `vector<int>& path` 传引用 + 回溯 `pop_back()`；Python 默认传引用但记录时要 `path[:]` 拷贝副本",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-lower_bound-033",
+      "domain": "dsa",
+      "q": "lower_bound 为什么 right 初始化为 len(nums) 而不是 len(nums)-1？",
+      "a": "当所有元素都小于 target 时，答案应为 len(nums)，左闭右开区间允许这个值",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-set去重的原理-028",
+      "domain": "dsa",
+      "q": "set 去重的原理？",
+      "a": "哈希存已见元素，遇到重复时 O(1) 检测到",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-两数之和的哈希解法为什么-025",
+      "domain": "dsa",
+      "q": "两数之和的哈希解法为什么是 O(n)？",
+      "a": "一次遍历，每个元素检查 complement 是否在哈希表中，哈希查找 O(1)",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-为什么快排最坏On²-059",
+      "domain": "dsa",
+      "q": "为什么快排最坏 O(n²) 但实际很快？",
+      "a": "最坏发生在已有序+每次选端点 pivot；随机 pivot / 三数取中后概率极低，平均 O(n log n)",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-二分查找的前提条件是什么-029",
+      "domain": "dsa",
+      "q": "二分查找的前提条件是什么？",
+      "a": "数据必须有序（单调性），才能通过比较中间值排除一半搜索空间",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-二分答案的思路是什么-031",
+      "domain": "dsa",
+      "q": "二分答案的思路是什么？",
+      "a": "不直接搜索答案位置，而是二分答案的值域，用 check(mid) 验证可行性，利用单调性缩小区间",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-二叉树遍历的递归框架是什-011",
+      "domain": "dsa",
+      "q": "二叉树遍历的递归框架是什么？",
+      "a": "三个位置：前序（先处理根）、中序（中间处理根）、后序（最后处理根）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-分发饼干为什么先排序再匹-053",
+      "domain": "dsa",
+      "q": "分发饼干为什么先排序再匹配？",
+      "a": "排序后可以用双指针 O(n log n) 实现最小浪费匹配",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-判断平衡二叉树的1-012",
+      "domain": "dsa",
+      "q": "判断平衡二叉树的 -1 哨兵法是什么思路？",
+      "a": "递归返回 -1 表示\"已发现非法\"，上层收到 -1 直接传播，避免额外状态变量",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-前缀和解决什么问题-005",
+      "domain": "dsa",
+      "q": "前缀和解决什么问题？",
+      "a": "频繁的区间求和查询，构建 O(n)，每次查询 O(1)",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-加油站问题中累积油量变负-054",
+      "domain": "dsa",
+      "q": "加油站问题中累积油量变负后为什么跳过之前所有起点？",
+      "a": "如果 [start, i] 累积为负，说明中间任何起点到 i 都会更早变负，不如直接试 i+1",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-动态数组append-057",
+      "domain": "dsa",
+      "q": "动态数组 append 的均摊复杂度为什么是 O(1)？",
+      "a": "扩容倍增策略下，n 次插入总开销约 2n，均摊到每次为 O(1)",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-动态规划四步心法是什么-006",
+      "domain": "dsa",
+      "q": "动态规划四步心法是什么？",
+      "a": "定义状态 → 写出转移方程 → 初始化边界 → 确定遍历顺序",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-区间DP的典型遍历模-010",
+      "domain": "dsa",
+      "q": "区间 DP 的典型遍历模式？",
+      "a": "外层循环枚举区间长度，内层循环枚举区间起点，dp[i][j] 依赖 dp[i+1][j-1] 等缩小区间",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-区间调度为什么按结束时间-051",
+      "domain": "dsa",
+      "q": "区间调度为什么按结束时间排序？",
+      "a": "结束最早 = 给后面留的时间最多，贪心保证全局最优",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-单调栈的核心思路-022",
+      "domain": "dsa",
+      "q": "单调栈的核心思路？",
+      "a": "保持栈内元素单调（如递减），遇到破坏单调性的元素就弹出并记录结果，保证每个元素入栈出栈各一次",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-单调队列实现滑动窗口最大-023",
+      "domain": "dsa",
+      "q": "单调队列实现滑动窗口最大值的原理？",
+      "a": "deque 存索引，值保持递减。头部是当前窗口最大值，滑动时从头部移除过期索引",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-反转链表的迭代法pre-016",
+      "domain": "dsa",
+      "q": "反转链表的迭代法（prev/cur/nxt）是什么？",
+      "a": "prev 指向已反转部分头，cur 指向当前待反转节点，nxt 保存后续。每次 cur.next = prev 后整体前移。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-可变窗口和固定窗口的区别-004",
+      "domain": "dsa",
+      "q": "可变窗口和固定窗口的区别？",
+      "a": "固定窗口在 `right-left == k` 时触发处理+移动左指针；可变窗口在满足条件时持续收缩左指针",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-合并有序链表的时间空间-019",
+      "domain": "dsa",
+      "q": "合并有序链表的时间/空间复杂度？",
+      "a": "O(n+m) 时间，O(1) 空间（dummy 不算），只改变指针不创建新节点",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-回溯中的剪枝是什么-036",
+      "domain": "dsa",
+      "q": "回溯中的剪枝是什么？",
+      "a": "在递归前判断当前选择是否合法，不合法提前跳过（continue），避免进入无效分支",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-回溯算法的三要素是什么-035",
+      "domain": "dsa",
+      "q": "回溯算法的三要素是什么？",
+      "a": "路径（已做的选择）、选择列表（当前可选的）、结束条件（何时记录答案）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-堆排的建堆时间复杂度-050",
+      "domain": "dsa",
+      "q": "堆排的建堆时间复杂度？",
+      "a": "O(n)，从最后一个非叶子节点向下调整。排序阶段 n 次出堆 O(n log n)，总计 O(n log n)",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-子集为什么每个节点都记录-037",
+      "domain": "dsa",
+      "q": "子集为什么每个节点都记录，而排列只记录叶子？",
+      "a": "子集元素顺序无关，[1,2] 和 [2,1] 算同一个，所以每个前缀都是不同子集。排列全排列只关心最终顺序",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-子集组合排列三者的回-034",
+      "domain": "dsa",
+      "q": "子集、组合、排列三者的回溯区别？",
+      "a": "子集记录每个节点&start；组合只在 len==k 记录&start；排列没有 start 用 used[] 标记",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-异位词分组为什么要排序作-027",
+      "domain": "dsa",
+      "q": "异位词分组为什么要排序作为 key？",
+      "a": "异位词排序后相同，排序字符串是稳定且唯一的组标识",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-归并排序如何计算逆序对-047",
+      "domain": "dsa",
+      "q": "归并排序如何计算逆序对？",
+      "a": "合并时，当右半元素小于左半当前元素，说明左半剩余所有元素都大于该右半元素，累加 `len(left) - i`",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-归并排序用Master-058",
+      "domain": "dsa",
+      "q": "归并排序用 Master Theorem 怎么算？",
+      "a": "T(n) = 2T(n/2) + O(n) → a=2, b=2, f(n)=n → log_2(2)=1 → 情况2 → Θ(n log n)",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-快慢指针去重的核心逻辑-002",
+      "domain": "dsa",
+      "q": "快慢指针去重的核心逻辑？",
+      "a": "fast 探路，遇到新值就把 slow+1 位置覆盖为新值，slow 始终指向\"已处理区\"最后一个",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-快排最坏情况什么时候发生-049",
+      "domain": "dsa",
+      "q": "快排最坏情况什么时候发生？如何改进？",
+      "a": "数组已有序且每次 pivot 选端点 → O(n²)。改进：随机选 pivot / 三数取中",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-快排的核心步骤-046",
+      "domain": "dsa",
+      "q": "快排的核心步骤？",
+      "a": "选 pivot → 分区（左小右大）→ 递归排序左右分区",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-括号匹配为什么用栈-021",
+      "domain": "dsa",
+      "q": "括号匹配为什么用栈？",
+      "a": "括号嵌套的闭合顺序是后进先出，栈天然匹配",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-树形DP的核心写法特-008",
+      "domain": "dsa",
+      "q": "树形 DP 的核心写法特征？",
+      "a": "后序遍历，每个节点返回一个状态数组（如 [不选当前, 选当前]），父节点合并子节点结果",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-树相关算法的空间复杂度怎-060",
+      "domain": "dsa",
+      "q": "树相关算法的空间复杂度怎么看？",
+      "a": "递归深度 = 树高 h，平衡树 h=log n，链状树 h=n。空间就是 O(h)",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-根据前序中序重建二叉树-013",
+      "domain": "dsa",
+      "q": "根据前序+中序重建二叉树的步骤？",
+      "a": "前序第一个为根 → 在中序找根索引 → 左子树递归前序[1:idx+1]、中序[:idx] → 右子树递归剩余",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-滑动窗口框架的通用写法-003",
+      "domain": "dsa",
+      "q": "滑动窗口框架的通用写法？",
+      "a": "右指针扩张（窗口增大）→ 满足条件时左指针收缩（窗口变小）→ 每步更新最优解",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-环形链表入口如何推导-018",
+      "domain": "dsa",
+      "q": "环形链表入口如何推导？",
+      "a": "快慢指针相遇 → 一个指针从头走，另一个从相遇点走，相遇处即为入口",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-相向双指针适合什么场景-001",
+      "domain": "dsa",
+      "q": "相向双指针适合什么场景？典型题目？",
+      "a": "有序数组 + 两数之和、回文串判断。O(n) 替代 O(n²)",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-空间优化中01背包-009",
+      "domain": "dsa",
+      "q": "空间优化中，0-1 背包为什么内层需要逆序？",
+      "a": "逆序遍历 cap 到 w[i]，确保 dp[w] 使用的是上一行的旧值，不会重复使用当前物品",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-第一个等于和最后一个等于-030",
+      "domain": "dsa",
+      "q": "第一个等于和最后一个等于的实现区别？",
+      "a": "找到 target 后，第一个等于向左缩（right = mid - 1），最后一个等于向右缩（left = mid + 1）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-贪心和DP怎么区分-055",
+      "domain": "dsa",
+      "q": "贪心和 DP 怎么区分？",
+      "a": "贪心一步到位不回头（局部决策→全局最优）；DP 多阶段保留所有可能（填表求最优）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-跳跃游戏如何判断能否到达-052",
+      "domain": "dsa",
+      "q": "跳跃游戏如何判断能否到达末尾？",
+      "a": "遍历每个位置，维护 max_reach，如果 i > max_reach 说明中间断了",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-边界处理时left-032",
+      "domain": "dsa",
+      "q": "边界处理时 `left + (right - left) // 2` 为什么比 `(left + right) // 2` 好？",
+      "a": "防溢出，当 left 和 right 很大时 left+right 可能超过整数上限",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-链表操作中dummy-017",
+      "domain": "dsa",
+      "q": "链表操作中 dummy 节点的作用？",
+      "a": "作为哨兵头节点，使头节点的插入/删除无需特判，简化代码",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-链表递归反转的思路-020",
+      "domain": "dsa",
+      "q": "链表递归反转的思路？",
+      "a": "假设后面已经反转好了，当前 head.next 指向了反转后的尾节点，让 head.next.next = head 完成局部反转",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "dsa-验证BST为什么不能-015",
+      "domain": "dsa",
+      "q": "验证 BST 为什么不能只检查左 < 根 < 右？",
+      "a": "需要全局范围约束（min/max），仅检查局部会漏掉深层违规（如右子树中出现比根小的值）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-5类截图仿站工具分别是-013",
+      "domain": "independent-site",
+      "q": "5 类截图仿站工具分别是什么？",
+      "a": "AI HTML代码生成、截图→设计稿、Figma→代码、AI生成式设计、传统HTML克隆。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-LEMP架构包含哪些组-002",
+      "domain": "independent-site",
+      "q": "LEMP 架构包含哪些组件？",
+      "a": "Linux + Nginx + MySQL + PHP + WordPress + WooCommerce。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-README和主文档的-020",
+      "domain": "independent-site",
+      "q": "README 和主文档的区别？",
+      "a": "README 是简短索引指向主文档，主文档才是内容核心。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-WooCommerce-001",
+      "domain": "independent-site",
+      "q": "WooCommerce 对比 Next.js 的核心选型依据是什么？",
+      "a": "团队能力。没专职开发者或无复杂交互需求 → WooCommerce；有开发团队且需要高性能复杂交互 → Next.js。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-WooCommerce-004",
+      "domain": "independent-site",
+      "q": "WooCommerce 首年预算大概多少？",
+      "a": "≈ ¥500（域名 + 轻量服务器），对比 SSR 框架开发成本约 1/10。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-screenshott-011",
+      "domain": "independent-site",
+      "q": "screenshot-to-code 输出的内容在 WooCommerce 中怎么用？",
+      "a": "取 HTML 部分做成 WP 自定义页面模板，产品/购物车/结算页用 WooCommerce 原生模板。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-主文档应包含哪些内容-018",
+      "domain": "independent-site",
+      "q": "主文档应包含哪些内容？",
+      "a": "一句话描述、技术架构、目录结构图、阶段划分、各目录说明、TODO。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-传统克隆工具HTTra-014",
+      "domain": "independent-site",
+      "q": "传统克隆工具（HTTrack / SingleFile）适合什么场景？",
+      "a": "适合参考存档和离线研究，不适合直接用于生产站点。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-做文件重组的触发条件是什-016",
+      "domain": "independent-site",
+      "q": "做文件重组的触发条件是什么？",
+      "a": "关键审批通过、技术架构确定、产生大量草稿文件、文档散落查找困难。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-分段逛站路线怎么安排-007",
+      "domain": "independent-site",
+      "q": "分段逛站路线怎么安排？",
+      "a": "6站分阶段：首页印象 → 首页细节 → 产品页 → 结算流程 → 技术分析 → 趋势补漏。不建议同时跳多个站。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-哪些场景适合WooCo-005",
+      "domain": "independent-site",
+      "q": "哪些场景适合 WooCommerce 而非 Next.js？",
+      "a": "小团队无专职开发、SKU<100、预算敏感、截图仿站只做营销页。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-归档和删除的区别是什么-019",
+      "domain": "independent-site",
+      "q": "归档和删除的区别是什么？",
+      "a": "归档是移入 archive/ 不干扰视野但能找回，删除是彻底丢失。归档时在文件名或注释里记「为什么淘汰」。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-截图仿站WooCo-003",
+      "domain": "independent-site",
+      "q": "截图仿站 + WooCommerce 的嵌入原则是什么？",
+      "a": "仿站只做营销页（首页/着陆页/关于页），产品/购物车/结算用 WooCommerce 原生模板，不魔改。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-推荐度最高的截图工具是哪-015",
+      "domain": "independent-site",
+      "q": "推荐度最高的截图工具是哪款？",
+      "a": "screenshot-to-code，输出 HTML 可嵌入 WP，上手简单。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-选截图仿站工具时首先要判-012",
+      "domain": "independent-site",
+      "q": "选截图仿站工具时首先要判断什么？",
+      "a": "输出格式是否与目标平台兼容。如 AI Website Cloner 输出 Next.js 就不适合 WooCommerce。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-逛站总结表包含哪些栏目-010",
+      "domain": "independent-site",
+      "q": "逛站总结表包含哪些栏目？",
+      "a": "品牌色、首页布局、产品页、亮点、避坑，最后一列留自己的方向决策。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-逛站笔记的最低质量要求是-008",
+      "domain": "independent-site",
+      "q": "逛站笔记的最低质量要求是什么？",
+      "a": "写具体对比：不说「这站好看」，说「哪好看 + 为什么好看 + 是否适合自己」。每人站配截图 + 3-5句总结。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-逛竞品站的checkl-006",
+      "domain": "independent-site",
+      "q": "逛竞品站的 checklist 分哪几个维度？",
+      "a": "视觉层（色彩/字体/风格）、内容层（模块结构）、体验层（语言/速度/适配）、技术层（建站工具/支付/CDN）。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-逛竞品站的核心原则-009",
+      "domain": "independent-site",
+      "q": "逛竞品站的核心原则？",
+      "a": "不要抄，找差异化和模式共识；做减法，判断是否真的需要；截图即证据。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "independent-site-重组三步走是哪三步-017",
+      "domain": "independent-site",
+      "q": "重组三步走是哪三步？",
+      "a": "确立唯一入口文档 → 归档废案（archive/） → 数据/资源/工具分离。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-CPU密集任务在Py-032",
+      "domain": "programming",
+      "q": "CPU 密集任务在 Python 中应该用什么？",
+      "a": "`multiprocessing.Pool` — 多进程绕开 GIL，利用多核并行",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-CRAII和P-025",
+      "domain": "programming",
+      "q": "C++ RAII 和 Python with 语句的异同？",
+      "a": "都是资源自动管理。RAII 绑定到变量生命周期（构造获取/析构释放），自动触发；`with` 是显式代码块，依赖 `__enter__`/`__exit__` 协议",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-Cvector和-026",
+      "domain": "programming",
+      "q": "C++ vector 和 Python list 的扩容差异？",
+      "a": "vector 存实际元素，扩容触发 move/copy（迭代器失效）；list 存 PyObject* 指针，扩容只拷贝指针，无迭代器失效问题",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-C和Python-012",
+      "domain": "programming",
+      "q": "C++ 和 Python 项目启动时的关键差异？",
+      "a": "C++ 需要 CMakeLists.txt/Makefile 构建系统配置 + 头文件路径管理；Python 只需要 requirements.txt/pyproject.toml，\n  无编译步骤。Phase 0 的成本优化策略在 C++ 中对应增量编译（ccache）而非 API 调用控制",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-C和Python-028",
+      "domain": "programming",
+      "q": "C++ 和 Python 的包管理关键差异？",
+      "a": "Python 包是运行时解析（pip install 即用）；C++ 包需编译（头文件+库文件+链接），vcpkg/Conan 处理源码编译和二进制依赖",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-C容器为什么需要区-027",
+      "domain": "programming",
+      "q": "C++ 容器为什么需要区分 map 和 unordered_map？",
+      "a": "map 基于红黑树 O(log n) 排序存储，支持范围查询；unordered_map 基于哈希表 O(1)，不保证顺序。Python dict 统一用哈希表，3.7+ 额外维护插入顺序",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-C项目整合时比P-013",
+      "domain": "programming",
+      "q": "C++ 项目整合时比 Python 多哪些步骤？",
+      "a": "CMake 构建系统合并（冲突的 target 命名、不同 C++ 标准）、头文件路径冲突解决、\n  链接库依赖管理（Python 无此问题，运行时按 import 路径查找）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-FastAPI主项目结-038",
+      "domain": "programming",
+      "q": "FastAPI 主项目结构的最佳实践？",
+      "a": "routers/ 分离路由、models.py 放 Pydantic 模型、dependencies.py 放公共依赖、config.py 放配置",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-FastAPI依赖注入-035",
+      "domain": "programming",
+      "q": "FastAPI 依赖注入（Depends）的优势？",
+      "a": "自动解析参数、可复用共享逻辑、支持类/函数作为依赖、自动注入到 Swagger 文档",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-FastAPI如何自动-034",
+      "domain": "programming",
+      "q": "FastAPI 如何自动生成 API 文档？",
+      "a": "启动后自动在 `/docs`（Swagger UI）和 `/redoc`（ReDoc）提供交互式文档",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-FastAPI的a-036",
+      "domain": "programming",
+      "q": "FastAPI 的 `async def` 和 `def` 如何选择？",
+      "a": "I/O 密集（async ORM/HTTP 请求）用 `async def`；CPU 密集或同步数据库用 `def`（FastAPI 自动放线程池执行）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-FastAPI请求体验-037",
+      "domain": "programming",
+      "q": "FastAPI 请求体验证的底层是什么？",
+      "a": "Pydantic v2 模型定义 → 自动解析 JSON 请求体 → 类型校验 + 字段验证 → 返回 422 或处理后数据",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-GIL是什么对多线程-029",
+      "domain": "programming",
+      "q": "GIL 是什么？对多线程有什么影响？",
+      "a": "Global Interpreter Lock，同一时刻只有一个线程执行 Python 字节码。CPU 密集任务多线程反而慢，I/O 密集任务多线程可用（I/O 等待时释放 GIL）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
     },
     {
       "id": "programming-GitHubAPI同-006",
@@ -395,10 +1583,10 @@
       "a": "①`star+json` header 必须带，否则不返回 `starred_at`；② Lists API 返回 404（非个人账号不可用）；③ README 返回 base64 编码，需额外解码。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "programming-Phase0阶段的四-004",
@@ -407,10 +1595,10 @@
       "a": "①设计文档先行——先写设计文档再写代码；②成本优化——默认 gpt-4o-mini + 缓存 + `--limit`；③增量同步——用 `starred_at` + `sha` 对比，不做全量；④配置与骨架一体化——启动即跑，不需要先配环境。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "programming-Pydanticv2-001",
@@ -419,10 +1607,10 @@
       "a": "在数据验证通过后执行额外逻辑，如校验 `full_name` 必须等于 `owner/name` 格式，确保数据一致性。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "programming-Pydantic中-003",
@@ -431,10 +1619,94 @@
       "a": "轻量（无需定义类）、天然可序列化为 JSON、API 友好，适合有限状态如 `status: Literal[\"unreviewed\", \"reviewed\", \"archived\"]`。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-PythonPydan-011",
+      "domain": "programming",
+      "q": "Python Pydantic 模型和 C++ struct/class 在设计上的核心区别？",
+      "a": "Pydantic 模型自带验证/序列化/反序列化（声明式），C++ struct 只是数据容器（需要手写验证）；\n  C++ 类的封装粒度更细（public/protected/private），Python 用 `_`/`__` 约定而非强制",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-Python封装如何实-019",
+      "domain": "programming",
+      "q": "Python 封装如何实现私有属性？",
+      "a": "双下划线 `__attr` 触发名称修饰（name mangling），外部不能用 `obj.__attr` 访问",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-Python的装饰器和-024",
+      "domain": "programming",
+      "q": "Python 的装饰器和 C++ 的函数包装有什么区别？",
+      "a": "Python 装饰器在函数定义时（编译时）通过 `@` 语法糖静态挂载；C++ 需在调用处显式包装（Lambda/函数指针），无等效语法糖",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-__call__让-022",
+      "domain": "programming",
+      "q": "`__call__` 让对象具备了什么能力？",
+      "a": "对象可以像函数一样被调用 `obj(args)`，常用于实现函数式接口或类装饰器",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-__str__和-021",
+      "domain": "programming",
+      "q": "`__str__` 和 `__repr__` 有什么区别？",
+      "a": "`__str__` 给用户看（友好），`__repr__` 给开发者看（精确，应能重建对象）。无 `__str__` 时 `__repr__` 会顶替",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-asynciogat-031",
+      "domain": "programming",
+      "q": "`asyncio.gather()` 的作用？",
+      "a": "并发执行多个 awaitable 对象，返回所有结果列表。任一协程异常则全部取消（可用 `return_exceptions=True` 避免）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-contextman-018",
+      "domain": "programming",
+      "q": "`@contextmanager` 装饰器的 yield 做了什么？",
+      "a": "yield 分割了上下文：yield 前是 `__enter__` 逻辑，yield 后是 `__exit__` 逻辑",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
     },
     {
       "id": "programming-guardmd在项-008",
@@ -443,10 +1715,46 @@
       "a": "标注哪些目录是自由开发区域（可直接修改无需审核），明确告知团队或 AI Agent 的权限边界。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-threadingL-033",
+      "domain": "programming",
+      "q": "`threading.Lock` 的 with 语句用法？",
+      "a": "`with lock:` 自动 `acquire()`，离开 with 块自动 `release()`，避免忘记释放导致死锁",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-为什么wraps-017",
+      "domain": "programming",
+      "q": "为什么 `@wraps(func)` 很重要？",
+      "a": "保留原函数的 `__name__`、`__doc__` 等元信息，否则被 wrapper 覆盖导致调试困难",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-什么是鸭子类型-023",
+      "domain": "programming",
+      "q": "什么是鸭子类型？",
+      "a": "\"如果它走路像鸭子、叫起来像鸭子，那它就是鸭子\"——Python 不要求显式接口继承，只要对象有对应方法即可传入使用",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
     },
     {
       "id": "programming-关系引擎中规则和AI-005",
@@ -455,10 +1763,22 @@
       "a": "规则做即时、确定性、零成本的聚类（话题重叠、语言分类），AI 做灵活、语义、高成本的深层分析。混合模式下 AI 只做规则覆盖不到的范围。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-协程相比线程的优势是什么-030",
+      "domain": "programming",
+      "q": "协程相比线程的优势是什么？",
+      "a": "协程用户态切换，无内核开销，内存占用极小（几千协程 vs 几千线程不可行），适合高并发 I/O 场景",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
     },
     {
       "id": "programming-子项目整合进父项目的标准-007",
@@ -467,10 +1787,10 @@
       "a": "①移入父项目目录 ②删除独立 .venv ③清除独立 .git ④更新父项目 .guard.md ⑤更新 .gitignore ⑥分两轮提交（隐私安全→功能变更）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "programming-整合时gitigno-009",
@@ -479,10 +1799,10 @@
       "a": "宁多勿漏——覆盖所有子项目的敏感数据模式（cookies/*.db/*.xlsx/cache/.env 等），敏感数据一概不入库。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
     },
     {
       "id": "programming-整合时的两轮提交策略分别-010",
@@ -491,10 +1811,46 @@
       "a": "第一轮提交隐私安全（清理敏感数据、更新 .gitignore），第二轮提交功能变更（整合代码、更新文档）。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-生成器和普通函数的区别-015",
+      "domain": "programming",
+      "q": "生成器和普通函数的区别？",
+      "a": "生成器函数用 `yield` 返回值，调用时返回生成器对象，执行到 yield 暂停，下次 next() 继续",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-类方法classme-020",
+      "domain": "programming",
+      "q": "类方法（@classmethod）和静态方法（@staticmethod）的区别？",
+      "a": "类方法接收 `cls` 作为第一个参数，可访问类属性/调用其他类方法；静态方法与类无关，就是放在类里的普通函数",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-装饰器标准模板的结构-014",
+      "domain": "programming",
+      "q": "装饰器标准模板的结构？",
+      "a": "`def decorator(func): @wraps(func); def wrapper(*args,**kwargs): ... ; return wrapper`",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
     },
     {
       "id": "programming-配置管理的三层搜索路径优-002",
@@ -503,10 +1859,22 @@
       "a": "`--config` 命令行指定 > `./star-vault.yaml` 配置文件 > 内置默认值。环境变量进一步覆盖配置值。",
       "interval": 0,
       "ease": 2.5,
-      "next_review": "2026-07-21",
+      "next_review": "2026-07-22",
       "last_reviewed": null,
       "reviews": 0,
-      "created": "2026-07-21"
+      "created": "2026-07-22"
+    },
+    {
+      "id": "programming-闭包的三要素-016",
+      "domain": "programming",
+      "q": "闭包的三要素？",
+      "a": "函数嵌套、内部函数引用外部变量、外部函数返回内部函数",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-22",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-22"
     }
   ]
 }

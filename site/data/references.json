@@ -1,6 +1,13 @@
 {
   "version": 1,
   "refs": {
+    "_index": {
+      "title": "参考资源索引",
+      "sections": [
+        "本地参考",
+        "外部资源"
+      ]
+    },
     "books": {
       "title": "📚 书目",
       "sections": [

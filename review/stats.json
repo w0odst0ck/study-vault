@@ -1,22 +1,30 @@
 {
-  "totalCards": 42,
-  "dueToday": 42,
+  "totalCards": 156,
+  "dueToday": 156,
   "streak": 0,
-  "lastReview": "2026-07-21",
+  "lastReview": "2026-07-22",
   "retentionRate": 0.0,
-  "lastUpdated": "2026-07-21",
+  "lastUpdated": "2026-07-22",
   "perDomain": {
     "crawler": {
-      "total": 29,
-      "due": 29
+      "total": 35,
+      "due": 35
     },
     "data-analysis": {
       "total": 3,
       "due": 3
     },
+    "dsa": {
+      "total": 60,
+      "due": 60
+    },
+    "independent-site": {
+      "total": 20,
+      "due": 20
+    },
     "programming": {
-      "total": 10,
-      "due": 10
+      "total": 38,
+      "due": 38
     }
   }
 }

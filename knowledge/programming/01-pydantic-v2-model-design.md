@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-17",
-  "updated": "2026-07-21",
+  "updated": "2026-07-22",
   "tags": [
     "编程",
     "Pydantic",
@@ -11,6 +11,7 @@
   "cards": [
     "programming-Pydanticv2-001",
     "programming-Pydantic中-003",
+    "programming-PythonPydan-011",
     "programming-配置管理的三层搜索路径优-002"
   ]
 }
@@ -144,11 +145,13 @@ class StateManager:
 
 ## 回顾
 <!-- cards: programming-Pydanticv2-001, programming-Pydantic中-003, programming-配置管理的三层搜索路径优-002 -->
-<!-- cards: programming-Pydanticv2-001, programming-Pydantic中-003, programming-配置管理的三层搜索路径优-002 -->
-<!-- cards: programming-Pydanticv2-001, programming-Pydantic中-003, programming-配置管理的三层搜索路径优-002 -->
 - Q: Pydantic v2 中 `model_validator` 的主要用途是什么？
   A: 在数据验证通过后执行额外逻辑，如校验 `full_name` 必须等于 `owner/name` 格式，确保数据一致性。
 - Q: 配置管理的三层搜索路径优先级是什么？
   A: `--config` 命令行指定 > `./star-vault.yaml` 配置文件 > 内置默认值。环境变量进一步覆盖配置值。
 - Q: Pydantic 中 `Literal` 类型相比枚举有什么优势？
   A: 轻量（无需定义类）、天然可序列化为 JSON、API 友好，适合有限状态如 `status: Literal["unreviewed", "reviewed", "archived"]`。
+
+- Q: Python Pydantic 模型和 C++ struct/class 在设计上的核心区别？
+  A: Pydantic 模型自带验证/序列化/反序列化（声明式），C++ struct 只是数据容器（需要手写验证）；
+  C++ 类的封装粒度更细（public/protected/private），Python 用 `_`/`__` 约定而非强制

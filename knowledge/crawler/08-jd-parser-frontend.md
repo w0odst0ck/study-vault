@@ -102,26 +102,15 @@ parseDetail(html)
 
 ## 回顾
 
-### 京东新版页面和旧版的核心区别是什么？
-
-新版页面使用 React 2025+ 渲染，CSS 类名被压缩混淆。旧版 class 名可预测。但关键结构 `class=price/value/attrs/item/top-name` 在新版中未被混淆，属性表 `attrs` 仍存在于渲染 DOM 中。
-
-### 为什么要复用 DOMParser？
-
-每次解析 7-12MB HTML，三次独立解析性能差。一次解析传递 doc 给所有子函数，整体解析时间从 3× 降到 1×。但 jsdom 中超过 10MB 会崩溃——此限制仅限 Node 端，浏览器端正常。
-
-### 多 SKU 页面的价格如何采集？
-
-循环匹配全部 `class=price value` 块，一个多 SKU 页面通常包含 15-18 个价格变体。取最小值作为售价、最大值作为原价记录。
-
-### 前端解析器如何防止 XSS？
-
-图片列使用 DOM API (`document.createElement('img')`) 构建，禁止 `innerHTML` 拼接商品数据。所有用户可控字段走 DOM API 设置属性/文本内容。
-
-### quickScan 的作用是什么？
-
-快速扫描前 20% HTML 内容即可判定平台类型和版本，无需等待全量加载完成。让用户 20% 进度时就获得平台识别反馈。
-
-### 京东新版属性表如何提取？
-
-attribute 页面中 `<div class=attrs>` 实际存在于渲染 DOM。新版通过 unquoted attrs 正则匹配提取，而不是旧版的 CSS class 匹配。
+- Q: 京东新版页面和旧版的核心区别是什么？
+  A: 新版 React 2025+ 渲染，CSS 类名压缩混淆。关键结构 `class=price/value/attrs/item/top-name` 未被混淆，属性表仍存在于渲染 DOM
+- Q: 为什么京东解析器要复用 DOMParser？
+  A: 每次 parse 7-12MB HTML，三次独立解析性能差。一次解析传 doc 给所有子函数，时间从 3× 降到 1×。jsdom 超 10MB 会崩（Node 端限制，浏览器端正常）
+- Q: 多 SKU 京东页面的价格如何采集？
+  A: 循环匹配全部 `class=price value` 块，15-18 个价格变体，取 min 为售价、max 为原价
+- Q: 前端解析器如何防止 XSS？
+  A: 图片用 `document.createElement('img')` DOM API 构建，禁止 `innerHTML` 拼接商品数据
+- Q: quickScan 的作用是什么？
+  A: 快速扫描前 20% HTML 即可判定平台类型和版本，无需全量加载，让用户 20% 进度时获得识别反馈
+- Q: 京东新版属性表如何提取？
+  A: `<div class=attrs>` 存在于渲染 DOM。新版通过 unquoted attrs 正则匹配提取，非旧版 CSS class 匹配

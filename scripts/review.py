@@ -774,6 +774,7 @@ def main():
 
     if args.command == "import":
         cmd_import(force=args.force, update_doc=not args.no_update_doc)
+        cmd_export()  # 导入后自动导出
     elif args.command == "stats":
         cmd_stats(json_output=args.json, daily=args.daily)
     elif args.command == "export":

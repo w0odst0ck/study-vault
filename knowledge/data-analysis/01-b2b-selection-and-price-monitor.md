@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-17",
-  "updated": "2026-07-21",
+  "updated": "2026-07-22",
   "tags": [
     "数据分析",
     "选品分析",
@@ -115,8 +115,6 @@ def extract_brand(title: str, shop_name: str) -> str:
 - Ctrl+S `_files/` 目录兜底
 
 ## 回顾
-<!-- cards: data-analysis-价格预警的触发条件和冷启-002, data-analysis-品牌提取准确率从0-003, data-analysis-四层选品策略模型各层含义-001 -->
-<!-- cards: data-analysis-价格预警的触发条件和冷启-002, data-analysis-品牌提取准确率从0-003, data-analysis-四层选品策略模型各层含义-001 -->
 <!-- cards: data-analysis-价格预警的触发条件和冷启-002, data-analysis-品牌提取准确率从0-003, data-analysis-四层选品策略模型各层含义-001 -->
 - Q: 四层选品策略模型各层含义是什么？
   A: 🟢必上（强需求高利润）→立即上架、🔵推荐（有潜力）→优先上架、🟡暗马（长尾竞品覆盖少）→试探上架、🔘关注（趋势待观察）→先不动。

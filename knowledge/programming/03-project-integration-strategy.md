@@ -141,3 +141,7 @@ git show HEAD:old/path > new/path
   A: 宁多勿漏——覆盖所有子项目的敏感数据模式（cookies/*.db/*.xlsx/cache/.env 等），敏感数据一概不入库。
 - Q: 整合时的两轮提交策略分别是什么？
   A: 第一轮提交隐私安全（清理敏感数据、更新 .gitignore），第二轮提交功能变更（整合代码、更新文档）。
+
+- Q: C++ 项目整合时比 Python 多哪些步骤？
+  A: CMake 构建系统合并（冲突的 target 命名、不同 C++ 标准）、头文件路径冲突解决、
+  链接库依赖管理（Python 无此问题，运行时按 import 路径查找）
