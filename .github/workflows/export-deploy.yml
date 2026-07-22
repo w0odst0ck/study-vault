@@ -12,6 +12,7 @@ on:
       - 'review/**'
       - 'scripts/review.py'
       - 'site/**'
+      - 'references/**'
       - '.github/workflows/export-deploy.yml'
   workflow_dispatch:
 

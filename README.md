@@ -1,6 +1,8 @@
 # 🎋 study-vault
 
-个人知识库。写文档 → 自动生成复习卡 → 间隔重复 → 本地预览。
+> 🔗 [w0odst0ck.github.io/study-vault](https://w0odst0ck.github.io/study-vault/)
+
+个人知识库。写文档 → 自动生成复习卡 → 间隔重复 → 在线/本地预览。
 
 ## 数据状态
 
