@@ -4,7 +4,7 @@
 
 用法:
     python scripts/review.py                        -> 复习到期的卡片
-    python scripts/review.py import                 -> 从 knowledge/ 提取卡片
+    python scripts/review.py import                 -> 扫描 knowledge/ 提取卡片 → 自动导出到 site/data/
     python scripts/review.py import --force         -> 覆盖已有卡片
     python scripts/review.py import --no-update-doc -> 不写回文档映射
     python scripts/review.py --count N              -> 指定复习张数
