@@ -144,6 +144,7 @@ class StateManager:
 6. **MinLength/MaxLength 防御式编程** — 尽早失败，不要等内存爆炸
 
 ## 回顾
+<!-- cards: programming-Pydanticv2-001, programming-Pydantic中-003, programming-PythonPydan-011, programming-配置管理的三层搜索路径优-002 -->
 <!-- cards: programming-Pydanticv2-001, programming-Pydantic中-003, programming-配置管理的三层搜索路径优-002 -->
 - Q: Pydantic v2 中 `model_validator` 的主要用途是什么？
   A: 在数据验证通过后执行额外逻辑，如校验 `full_name` 必须等于 `owner/name` 格式，确保数据一致性。

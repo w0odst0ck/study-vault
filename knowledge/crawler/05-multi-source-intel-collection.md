@@ -128,6 +128,7 @@ python -m intel.main generate --llm     # LLM 可选
 
 ## 回顾
 <!-- cards: crawler-Intel模块的领域分-016, crawler-LLM调用失败时的安全-018, crawler-数据源协议选择的优先级顺-017, crawler-跨天去重用什么方法清理-019 -->
+<!-- cards: crawler-Intel模块的领域分-016, crawler-LLM调用失败时的安全-018, crawler-数据源协议选择的优先级顺-017, crawler-跨天去重用什么方法清理-019 -->
 - Q: Intel 模块的领域分类体系有哪些？
   A: finance（金融/资本）、self_driving（自动驾驶）、semiconductor（半导体，规划中）。`-d` 参数必选，支持按领域过滤和分组展示。
 - Q: 数据源协议选择的优先级顺序是什么？

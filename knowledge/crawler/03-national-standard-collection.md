@@ -145,6 +145,7 @@ intl_mappings = {
 
 ## 回顾
 <!-- cards: crawler-SAMR平台的速率限制-013, crawler-openstd的PD-015, crawler-中国照明国标中约多少比例-014, crawler-爬虫架构中新增一个数据源-012 -->
+<!-- cards: crawler-SAMR平台的速率限制-013, crawler-openstd的PD-015, crawler-中国照明国标中约多少比例-014, crawler-爬虫架构中新增一个数据源-012 -->
 - Q: 爬虫架构中新增一个数据源需要改哪些代码？
   A: 只需写适配器类（继承 `BaseCollector`）+ 在 `standards_config.ini` 注册配置，引擎代码零修改。
 - Q: SAMR 平台的速率限制参数有哪些？

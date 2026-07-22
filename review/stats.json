@@ -1,9 +1,9 @@
 {
-  "totalCards": 156,
-  "dueToday": 146,
+  "totalCards": 166,
+  "dueToday": 156,
   "streak": 1,
   "lastReview": "2026-07-22",
-  "retentionRate": 6.4,
+  "retentionRate": 6.0,
   "lastUpdated": "2026-07-22",
   "perDomain": {
     "crawler": {
@@ -15,8 +15,8 @@
       "due": 3
     },
     "dsa": {
-      "total": 60,
-      "due": 60
+      "total": 70,
+      "due": 70
     },
     "independent-site": {
       "total": 20,

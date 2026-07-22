@@ -29,6 +29,8 @@
       "dsa/09-sorting",
       "dsa/10-greedy",
       "dsa/11-complexity-analysis",
+      "dsa/12-python-dsa-pitfalls",
+      "dsa/13-dsa-solve-methodology",
       "dsa/_index"
     ],
     "independent-site": [
@@ -246,6 +248,22 @@
       "title": "复杂度分析",
       "domain": "dsa",
       "path": "dsa/11-complexity-analysis.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "dsa/12-python-dsa-pitfalls",
+      "title": "Python DSA 刷题常见踩坑",
+      "domain": "dsa",
+      "path": "dsa/12-python-dsa-pitfalls.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "dsa/13-dsa-solve-methodology",
+      "title": "DSA 解题思维与方法论",
+      "domain": "dsa",
+      "path": "dsa/13-dsa-solve-methodology.md",
       "tags": [],
       "created": ""
     },
