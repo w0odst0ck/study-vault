@@ -6,8 +6,8 @@
 
 | 指标 | 数值 |
 |------|------|
-| 知识文档 | **34 篇** |
-| 复习卡片 | **156 张** |
+| 知识文档 | **36 篇** |
+| 复习卡片 | **166 张** |
 | 覆盖领域 | 5 个（爬虫 / 数据分析 / 独立站 / DSA / 编程） |
 
 | 入口 | 链接 |
@@ -23,7 +23,7 @@
 
 ## 知识文档总览
 
-### 数据结构与算法（11 篇 + 93 篇参考）
+### 数据结构与算法（13 篇 + 93 篇参考）
 
 | # | 文档 | 卡数 |
 |---|------|------|
@@ -38,6 +38,8 @@
 | 09 | [排序算法](knowledge/dsa/09-sorting.md) | 5 |
 | 10 | [贪心算法](knowledge/dsa/10-greedy.md) | 5 |
 | 11 | [复杂度分析](knowledge/dsa/11-complexity-analysis.md) | 5 |
+| 12 | [Python 刷题踩坑](knowledge/dsa/12-python-dsa-pitfalls.md) | 10 |
+| 13 | [解题思维方法论](knowledge/dsa/13-dsa-solve-methodology.md) | 5 |
 | — | 多语参考 + LeetCode 课程 | [`references/dsa/_index.md`](references/dsa/_index.md) |
 
 ### 爬虫（8 篇 · 35 张卡）
@@ -99,10 +101,10 @@ python3 scripts/serve.py                  # http://localhost:8080
 ```
 study-vault/
 ├── index.md           ← 本文件（知识库总索引）
-├── knowledge/         ← 知识文档（34 篇，5 个域）
+├── knowledge/         ← 知识文档（36 篇，5 个域）
 ├── references/        ← 参考资源（dsa 三语手册 + leetcode）
 ├── plan/              ← 学习规划（13 个领域）
-├── review/            ← 复习卡片（156 张）
+├── review/            ← 复习卡片（166 张）
 ├── memory/            ← 每日复盘
 ├── scripts/           ← 辅助脚本（review.py / serve.py）
 ├── site/              ← 前端页面（复习页 / 仪表盘）
