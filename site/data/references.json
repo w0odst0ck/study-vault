@@ -6,6 +6,40 @@
       "sections": [
         "本地参考",
         "外部资源"
+      ],
+      "links": [
+        {
+          "text": "DSA 多语参考手册",
+          "url": "dsa/_index.md"
+        },
+        {
+          "text": "LeetCode 刷题课程（C++）",
+          "url": "dsa/leetcode-learning/_index.md"
+        },
+        {
+          "text": "书籍",
+          "url": "books.md"
+        },
+        {
+          "text": "课程",
+          "url": "courses.md"
+        },
+        {
+          "text": "论文",
+          "url": "papers.md"
+        },
+        {
+          "text": "工具",
+          "url": "tools.md"
+        },
+        {
+          "text": "数据集",
+          "url": "datasets.md"
+        },
+        {
+          "text": "代码仓库",
+          "url": "repos.md"
+        }
       ]
     },
     "books": {
@@ -14,6 +48,24 @@
         "爬虫 & 反爬",
         "Python / 编程",
         "PDF / 数据处理"
+      ],
+      "links": [
+        {
+          "text": "Web Scraping with Python",
+          "url": "https://www.oreilly.com/library/view/web-scraping-with/9781098145347/"
+        },
+        {
+          "text": "Fluent Python",
+          "url": "https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/"
+        },
+        {
+          "text": "Python Tricks",
+          "url": "https://realpython.com/products/python-tricks-book/"
+        },
+        {
+          "text": "PDF 解析实战：PyMuPDF 官方文档",
+          "url": "https://pymupdf.readthedocs.io/"
+        }
       ]
     },
     "courses": {
@@ -23,15 +75,23 @@
         "PDF 处理",
         "数据建模",
         "国家标准"
+      ],
+      "links": [
+        {
+          "text": "playwright-extra",
+          "url": "https://github.com/nicedayzhu/playwright-extra"
+        }
       ]
     },
     "datasets": {
       "title": "💾 数据集",
-      "sections": []
+      "sections": [],
+      "links": []
     },
     "papers": {
       "title": "📄 论文",
-      "sections": []
+      "sections": [],
+      "links": []
     },
     "repos": {
       "title": "📦 GitHub 仓库",
@@ -46,6 +106,72 @@
         "PDF / OCR",
         "数据建模",
         "数据采集 & 标准"
+      ],
+      "links": [
+        {
+          "text": "Python-100-Days",
+          "url": "https://github.com/jackfrued/Python-100-Days"
+        },
+        {
+          "text": "system-design-101",
+          "url": "https://github.com/ByteByteGoHq/system-design-101"
+        },
+        {
+          "text": "AI-For-Beginners",
+          "url": "https://github.com/microsoft/AI-For-Beginners"
+        },
+        {
+          "text": "ai-edu",
+          "url": "https://github.com/microsoft/ai-edu"
+        },
+        {
+          "text": "cs249r_book",
+          "url": "https://github.com/harvard-edge/cs249r_book"
+        },
+        {
+          "text": "build-your-own-x",
+          "url": "https://github.com/codecrafters-io/build-your-own-x"
+        },
+        {
+          "text": "ossu/computer-science",
+          "url": "https://github.com/ossu/computer-science"
+        },
+        {
+          "text": "microsoft/playwright-python",
+          "url": "https://github.com/microsoft/playwright-python"
+        },
+        {
+          "text": "microsoft/playwright",
+          "url": "https://github.com/microsoft/playwright"
+        },
+        {
+          "text": "pymupdf/PyMuPDF",
+          "url": "https://github.com/pymupdf/PyMuPDF"
+        },
+        {
+          "text": "pymupdf/pymupdf4llm",
+          "url": "https://github.com/pymupdf/pymupdf4llm"
+        },
+        {
+          "text": "tesseract-ocr/tesseract",
+          "url": "https://github.com/tesseract-ocr/tesseract"
+        },
+        {
+          "text": "JaidedAI/EasyOCR",
+          "url": "https://github.com/JaidedAI/EasyOCR"
+        },
+        {
+          "text": "pydantic/pydantic",
+          "url": "https://github.com/pydantic/pydantic"
+        },
+        {
+          "text": "openstat/国家标准信息平台",
+          "url": "https://openstd.samr.gov.cn/"
+        },
+        {
+          "text": "IEC Webstore",
+          "url": "https://webstore.iec.ch/"
+        }
       ]
     },
     "tools": {
@@ -57,7 +183,173 @@
         "Web 框架",
         "数据库",
         "开发工具"
+      ],
+      "links": [
+        {
+          "text": "Playwright",
+          "url": "https://playwright.dev/"
+        },
+        {
+          "text": "PyMuPDF (fitz)",
+          "url": "https://pymupdf.readthedocs.io/"
+        },
+        {
+          "text": "pymupdf4llm",
+          "url": "https://github.com/pymupdf/pymupdf4llm"
+        },
+        {
+          "text": "pdfplumber",
+          "url": "https://github.com/jsvine/pdfplumber"
+        },
+        {
+          "text": "Tesseract OCR",
+          "url": "https://github.com/tesseract-ocr/tesseract"
+        },
+        {
+          "text": "EasyOCR",
+          "url": "https://github.com/JaidedAI/EasyOCR"
+        },
+        {
+          "text": "Pydantic v2",
+          "url": "https://docs.pydantic.dev/"
+        },
+        {
+          "text": "Jinja2",
+          "url": "https://jinja.palletsprojects.com/"
+        },
+        {
+          "text": "Flask",
+          "url": "https://flask.palletsprojects.com/"
+        },
+        {
+          "text": "Streamlit",
+          "url": "https://streamlit.io/"
+        },
+        {
+          "text": "SQLite FTS5",
+          "url": "https://www.sqlite.org/fts5.html"
+        },
+        {
+          "text": "GitHub REST API",
+          "url": "https://docs.github.com/en/rest"
+        },
+        {
+          "text": "pandas",
+          "url": "https://pandas.pydata.org/"
+        },
+        {
+          "text": "Click",
+          "url": "https://click.palletsprojects.com/"
+        },
+        {
+          "text": "httpx",
+          "url": "https://www.python-httpx.org/"
+        }
       ]
+    },
+    "dsa": {
+      "title": "📁 DSA 参考手册 · 语法糖",
+      "sections": [
+        "目录",
+        "外部参考",
+        "相关知识文档"
+      ],
+      "links": [
+        {
+          "text": "`1.数组与向量/`",
+          "url": "1）一.数据结构/1.数组与向量/"
+        },
+        {
+          "text": "`2.链表/`",
+          "url": "1）一.数据结构/2.链表/"
+        },
+        {
+          "text": "`3.栈/`",
+          "url": "1）一.数据结构/3.栈/"
+        },
+        {
+          "text": "`4.队列/`",
+          "url": "1）一.数据结构/4.队列/"
+        },
+        {
+          "text": "`5.哈希表/`",
+          "url": "1）一.数据结构/5.哈希表/"
+        },
+        {
+          "text": "`6.树（二叉树）/`",
+          "url": "1）一.数据结构/6.树（二叉树）/"
+        },
+        {
+          "text": "`1.排序/`",
+          "url": "2）二.算法/1.排序/"
+        },
+        {
+          "text": "`2.搜索/`",
+          "url": "2）二.算法/2.搜索/"
+        },
+        {
+          "text": "`3.动态规划/`",
+          "url": "2）二.算法/3.动态规划/"
+        },
+        {
+          "text": "`4.贪心/`",
+          "url": "2）二.算法/4.贪心/"
+        },
+        {
+          "text": "`5.图/`",
+          "url": "2）二.算法/5.图/"
+        },
+        {
+          "text": "`7.回溯/`",
+          "url": "2）二.算法/7.回溯/"
+        },
+        {
+          "text": "`2.字符串处理/`",
+          "url": "3）三.其它框架与工具/2.字符串处理/"
+        },
+        {
+          "text": "`4.迭代器/`",
+          "url": "3）三.其它框架与工具/4.迭代器/"
+        },
+        {
+          "text": "LeetCode 刷题课程（C++）",
+          "url": "leetcode-learning/_index.md"
+        },
+        {
+          "text": "`knowledge/dsa/01-array-two-pointer-sliding-window.md`",
+          "url": "../../knowledge/dsa/01-array-two-pointer-sliding-window.md"
+        },
+        {
+          "text": "`knowledge/dsa/02-linked-list.md`",
+          "url": "../../knowledge/dsa/02-linked-list.md"
+        },
+        {
+          "text": "`knowledge/dsa/03-stack-queue.md`",
+          "url": "../../knowledge/dsa/03-stack-queue.md"
+        },
+        {
+          "text": "`knowledge/dsa/04-hash-table.md`",
+          "url": "../../knowledge/dsa/04-hash-table.md"
+        },
+        {
+          "text": "`knowledge/dsa/05-binary-search.md`",
+          "url": "../../knowledge/dsa/05-binary-search.md"
+        },
+        {
+          "text": "`knowledge/dsa/06-backtracking.md`",
+          "url": "../../knowledge/dsa/06-backtracking.md"
+        },
+        {
+          "text": "`knowledge/dsa/07-dynamic-programming.md`",
+          "url": "../../knowledge/dsa/07-dynamic-programming.md"
+        },
+        {
+          "text": "`knowledge/dsa/08-binary-tree.md`",
+          "url": "../../knowledge/dsa/08-binary-tree.md"
+        }
+      ],
+      "isLocal": true,
+      "fileCount": 102
     }
   }
 }

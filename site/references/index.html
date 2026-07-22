@@ -14,9 +14,19 @@
       background: var(--card-bg); border-radius: 10px; padding: 1.25rem; margin-bottom: 0.75rem;
       box-shadow: 0 1px 6px rgba(0,0,0,0.04);
     }
+    .ref-card-empty { opacity: 0.5; font-style: italic; }
     .ref-title { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
     .ref-section { font-size: 0.8rem; color: var(--text-light); margin-bottom: 0.3rem; }
     .ref-section:before { content: '▸ '; }
+    .ref-empty-hint { font-size: 0.8rem; color: var(--text-light); }
+    .ref-links { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.3rem; }
+    .ref-link { display: block; padding: 0.2rem 0; text-decoration: none; font-size: 0.85rem; color: var(--primary); }
+    .ref-link:hover { text-decoration: underline; }
+    .ref-link::before { content: '→ '; opacity: 0.5; }
+    .ref-link-ext::after { content: ' 🔗'; font-size: 0.7rem; opacity: 0.5; }
+    .ref-link-local { color: var(--text); }
+    .ref-link-local::before { content: '📄 '; }
+    .ref-file-count { font-size: 0.75rem; color: var(--text-light); margin-left: 0.3rem; }
     #loading { text-align: center; padding: 2rem; }
     .emoji-icon { font-size: 1.2rem; margin-right: 0.3rem; }
   </style>
@@ -25,7 +35,7 @@
 <div class="container">
   <div class="header">
     <h1>🔗 参考资源</h1>
-    <div class="subtitle">书籍 · 课程 · 工具 · 数据集</div>
+    <div class="subtitle">书籍 · 课程 · 工具 · 数据集 · 本地参考</div>
   </div>
 
   <div class="nav-links">
@@ -44,26 +54,64 @@
 const ICONS = { books: '📚', courses: '📖', papers: '📄', repos: '📦', tools: '🛠', datasets: '💾' };
 const LABELS = { books: '书籍', courses: '课程', papers: '论文', repos: '仓库', tools: '工具', datasets: '数据集' };
 
+function isExternal(url) {
+  return url.startsWith('http://') || url.startsWith('https://');
+}
+
 async function init() {
   const resp = await fetch('../data/references.json');
   const data = await resp.json();
   document.getElementById('loading').style.display = 'none';
   const container = document.getElementById('refs-container');
+
   for (const [key, ref] of Object.entries(data.refs)) {
+    // 跳过顶层 _index（引用自 references/_index.md 的导航，不在参考页重复展示）
+    if (key === '_index') continue;
+
     const card = document.createElement('div');
     card.className = 'ref-card';
-    const icon = ICONS[key] || '📎';
-    const label = LABELS[key] || key;
+
+    const icon = ref.isLocal ? '📁' : (ICONS[key] || '📎');
+    const label = ref.isLocal ? '' : (LABELS[key] || key);
+    const title = ref.title || label;
+
+    let body = '';
+
+    // 有链接 → 渲染链接列表
+    if (ref.links && ref.links.length > 0) {
+      const items = ref.links.map(l => {
+        const ext = isExternal(l.url);
+        const cls = ext ? 'ref-link ref-link-ext' : 'ref-link ref-link-local';
+        const target = ext ? 'target="_blank" rel="noopener"' : '';
+        return `<a href="${l.url}" class="${cls}" ${target}>${l.text}</a>`;
+      }).join('');
+      body = `<div class="ref-links">${items}</div>`;
+    }
+
+    // 无链接但有 sections → 渲染 sections
+    if ((!ref.links || ref.links.length === 0) && ref.sections && ref.sections.length > 0) {
+      body = ref.sections.map(s => `<div class="ref-section">${s}</div>`).join('');
+    }
+
+    // 无链接无 sections → 占位
+    if (!body) {
+      body = `<span class="ref-empty-hint">暂无数据</span>`;
+      card.classList.add('ref-card-empty');
+    }
+
+    // 本地参考附带文件数
+    const countBadge = ref.fileCount ? `<span class="ref-file-count">(${ref.fileCount} 篇)</span>` : '';
+
     card.innerHTML = `
-      <div class="ref-title">${icon} ${ref.title || label}</div>
-      ${ref.sections.map(s => `<div class="ref-section">${s}</div>`).join('')}
+      <div class="ref-title">${icon} ${title} ${countBadge}</div>
+      ${body}
     `;
     container.appendChild(card);
   }
 }
 init();
 </script>
-<!-- Bottom nav (mobile only) -->
+
 <nav class="bottom-nav">
   <a href="../"><span class="nav-icon">📊</span>仪表</a>
   <a href="../review/"><span class="nav-icon">📇</span>复习</a>
