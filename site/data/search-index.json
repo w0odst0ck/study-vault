@@ -12,7 +12,7 @@
       "id": "crawler/02-playwright-browser-manager",
       "title": "Playwright 浏览器管理器实战",
       "domain": "crawler",
-      "text": "Playwright 浏览器管理器实战 来源：price compare、BriefNexus 项目实战 日期：2026 07 核心设计模式：单例浏览器管理器 ⓘ python class BrowserManager: \"\"\"浏览器管理器，全局单例\"\"\" def __init__ self : self.contexts = {} 跨平台 context 隔离 ⓘ self.stealth_js = STEALTH_JS 核心方法 方法 用途 场景 search_render 渲染模式 打开页面 → 返回 HTML search_api API 拦截模式 拦截 XHR → 返回 JSON search_via_homepage 主页搜索交互 绕过 CF 保护 new_page 统一创建页面 自动 inject stealth JS wait_for_captcha_solve 滑块等待 1688 等验证码场景 login 浏览器登录 需登录的平台 switch_platform 跨平台切换 context 隔离 Stealth JS ⓘ 注入 隐藏 headless 特征的核心方案： javascript // 修改 navigator.webdriver Object.defineProperty navigator, 'webdriver', { get: = false } ; // 修改 chrome 属性 window.chrome = { ... }; // 添加 plugins Object.defineProperty navigator, 'plugins', { get: = 1,2,3,4,5 } ; // 覆盖 permissions query // 修改 languages, hardwareConcurrency, deviceMemory 等 三大搜索策略模式 1. 渲染模式（直接导航） ⓘ 搜索页 URL → 打开页面 → wait DOM → 返回完整 HTML 适用：SSR 页面（ZKH search.html） 2. API 拦截模式 导航页面 → 拦截 XHR/fetch 请求 → 返回 JSON 适用：SPA 页面（ZKH API） 3. 主页交互模式 打开首页（绕过 CF）→ 输入搜索框 → 点击按钮 → 等待结果 适用：首页无保护的平台 跨平台 Context 隔离 python 每个平台独立 browser context contexts = { \"1688\": { \"cookies\": ..., \"storage\": ... }, \"zkh\": { \"cookies\": ..., \"storage\": ... }, } def switch_platform self, platform: str : \"\"\"切换平台 context，避免 Cookie 串用\"\"\" 登录态管理 Cookie 持久化：保存到 JSON 文件，启动时加载 过期检测：前置检测 + 自动重新登录 登录辅助： login 方法弹出登录界面 WSL2 下注意事项 networkidle ⓘ 超时（轮询/长连接），需改用 domcontentloaded 无 X Server 时无法启动 Chromium headed 模式 WSL2 文件系统操作需注意跨操作系统路径 夸克网盘自动化（特殊场景） 标准全文下载流程： 1. bzxz.net 标准详情页 → 提取夸克分享链接 2. 导航到夸克 → 点击\"保存到网盘\" 3. 桌面端下载 PDF 关键发现： 夸克页面 networkidle 超时，需 domcontentloaded 分享链接大部分已过期 需手动保存登录态 + 批量操作 回顾 <! cards: crawler Playwright浏 009, crawler StealthJS注 010, crawler 跨平台Context 011 <! cards: crawler Playwright浏 009, crawler StealthJS注 010, crawler 跨平台Context 011 Q: Playwright 浏览器管理器的三种搜索策略模式是什么？ A: 渲染模式（直接导航取 HTML，适用 SSR 页面）、API 拦截模式（拦截 XHR/Fetch 得 JSON，适用 SPA 页面）、主页交互模式（打开首页绕过 CF 输入搜索框 点击按钮，适用首页无保护的平台）。 Q: Stealth JS 注入的核心原理是什么？ A: 修改 navigator.webdriver=false 、模拟 window.chrome 对象、添加 plugins、覆盖 permissions qu"
+      "text": "Playwright 浏览器管理器实战 来源：price compare、BriefNexus 项目实战 日期：2026 07 核心设计模式：单例浏览器管理器 ⓘ python class BrowserManager: \"\"\"浏览器管理器，全局单例\"\"\" def __init__ self : self.contexts = {} 跨平台 context 隔离 ⓘ self.stealth_js = STEALTH_JS 核心方法 方法 用途 场景 search_render 渲染模式 打开页面 → 返回 HTML search_api API 拦截模式 拦截 XHR → 返回 JSON search_via_homepage 主页搜索交互 绕过 CF 保护 new_page 统一创建页面 自动 inject stealth JS wait_for_captcha_solve 滑块等待 1688 等验证码场景 login 浏览器登录 需登录的平台 switch_platform 跨平台切换 context 隔离 Stealth JS ⓘ 注入 隐藏 headless 特征的核心方案： javascript // 修改 navigator.webdriver Object.defineProperty navigator, 'webdriver', { get: = false } ; // 修改 chrome 属性 window.chrome = { ... }; // 添加 plugins Object.defineProperty navigator, 'plugins', { get: = 1,2,3,4,5 } ; // 覆盖 permissions query // 修改 languages, hardwareConcurrency, deviceMemory 等 三大搜索策略模式 1. 渲染模式（直接导航） ⓘ 搜索页 URL → 打开页面 → wait DOM → 返回完整 HTML 适用：SSR 页面（ZKH search.html） 2. API 拦截模式 导航页面 → 拦截 XHR/fetch 请求 → 返回 JSON 适用：SPA 页面（ZKH API） 3. 主页交互模式 打开首页（绕过 CF）→ 输入搜索框 → 点击按钮 → 等待结果 适用：首页无保护的平台 跨平台 Context 隔离 python 每个平台独立 browser context contexts = { \"1688\": { \"cookies\": ..., \"storage\": ... }, \"zkh\": { \"cookies\": ..., \"storage\": ... }, } def switch_platform self, platform: str : \"\"\"切换平台 context，避免 Cookie 串用\"\"\" 登录态管理 Cookie 持久化：保存到 JSON 文件，启动时加载 过期检测：前置检测 + 自动重新登录 登录辅助： login 方法弹出登录界面 WSL2 下注意事项 networkidle ⓘ 超时（轮询/长连接），需改用 domcontentloaded 无 X Server 时无法启动 Chromium headed 模式 WSL2 文件系统操作需注意跨操作系统路径 夸克网盘自动化（特殊场景） 标准全文下载流程： 1. bzxz.net 标准详情页 → 提取夸克分享链接 2. 导航到夸克 → 点击\"保存到网盘\" 3. 桌面端下载 PDF 关键发现： 夸克页面 networkidle 超时，需 domcontentloaded 分享链接大部分已过期 需手动保存登录态 + 批量操作 回顾 <! cards: crawler Playwright浏 009, crawler StealthJS注 010, crawler 跨平台Context 011 <! cards: crawler Playwright浏 009, crawler StealthJS注 010, crawler 跨平台Context 011 <! cards: crawler Playwright浏 009, crawler StealthJS注 010, crawler 跨平台Context 011 Q: Playwright 浏览器管理器的三种搜索策略模式是什么？ A: 渲染模式（直接导航取 HTML，适用 SSR 页面）、API 拦截模式（拦截 XHR/Fetch 得 JSON，适用 SPA 页面）、主页交互模式（打开首页绕过 CF 输入搜索框 点击按钮，适用首页无保护的平台）。 Q: Stealth JS 注入的核心原理是什么？"
     },
     {
       "id": "crawler/03-national-standard-collection",
@@ -60,13 +60,43 @@
       "id": "data-analysis/01-b2b-selection-and-price-monitor",
       "title": "B2B 选品分析与缺口匹配",
       "domain": "data-analysis",
-      "text": "B2B 选品分析与缺口匹配 来源：PH 震坤行选品 、price compare 项目 日期：2026 07 选品策略分层 四层策略模型 ⓘ ： 层级 说明 策略 🟢 必上 强需求、高利润 立即上架 🔵 推荐 有潜力的品类 优先上架 🟡 暗马 长尾、竞品覆盖少 试探上架 🔘 关注 趋势待观察 先不动 多平台缺口分析 6 步流水线 python gap/ 缺口分析模块 1. 读选品清单（建议上架的商品） 2. 读在售清单（已上架的商品） 3. 标准化键（统一品牌/型号格式） 4. 差集运算（选品 在售 = 缺口） 5. 模糊匹配（处理命名差异） 6. 导出 Excel（缺品明细） 核心逻辑 输出 ：缺品明细 + 门类/策略统计 + 潜匹配人工确认表 数据驱动 ：三平台（京东/震坤行/1688）搜索页数据输入 价格监控体系 架构 python monitor/ ├── db.py SQLite 三层表（商品/快照/预警） ├── ingester.py 三平台 CSV → 入库 └── alerter.py 预警引擎 预警方案 方法 ：移动平均 ⓘ vs 当前价偏离（非逐次比对） 阈值 ：偏离 ≥ 10% 触发 冷启动 ⓘ ：快照 < 3 次不出声（避免冷启动误报） 输出 ：有预警写 CSV+TXT，无预警零噪声 数据库设计 sql 三层表 CREATE TABLE products 商品层 id TEXT PRIMARY KEY, brand TEXT, model TEXT, platform TEXT ; CREATE TABLE snapshots 快照层 id INTEGER PK, product_id TEXT FK, price REAL, captured_at TIMESTAMP ; CREATE TABLE alerts 预警层 id INTEGER PK, product_id TEXT FK, deviation REAL, triggered_at TIMESTAMP ; B2B 工业品平台特点 搜索引擎 ：京东搜索京东 industrial.jd.com 已废弃，转向 SPA 架构 1688 ：采购助手插件 XLSX 导出为主力数据源 震坤行 ：WAF + Cloudflare 双重保护，SSR 数据提取 选品模板 ：统一 selection_schema.py ，每品类 10 条推荐 产品方向决策 ❌ Streamlit ⓘ （原型验证后废弃） ❌ gap/ 缺口分析模块（单独产品化价值低） ❌ Tauri 桌面端（开发成本高） ✅ Flask Web （主力路线） 价格提取技巧 品牌提取 python 标题+店铺双重解析 ⓘ → 品牌提取准确率 0%→91% def extract_brand title: str, shop_name: str str: 从标题中匹配已知品牌列表 从店铺名中提取品牌信息 两者交叉验证 1688 详情页 CDN 直链 cbu01.alicdn.com SingleFile 保存图片： data sf original src → CDN 直链 Ctrl+S _files/ 目录兜底 回顾 <! cards: data analysis 价格预警的触发条件和冷启 002, data analysis 品牌提取准确率从0 003, data analysis 四层选品策略模型各层含义 001 <! cards: data analysis 价格预警的触发条件和冷启 002, data analysis 品牌提取准确率从0 003, data analysis 四层选品策略模型各层含义 001 Q: 四层选品策略模型各层含义是什么？ A: 🟢必上（强需求高利润）→立即上架、🔵推荐（有潜力）→优先上架、🟡暗马（长尾竞品覆盖少）→试探上架、🔘关注（趋势待观察）→先不动。 Q: 价格预警的触发条件和冷启动规则是什么？ A: 移动平均 vs 当前价偏离 ≥10% 触发预警；快照不足 3 次时不预警，避免冷启动误报。无预警时零噪声输出。 Q: 品牌提取准确率从 0% 提升到 91% 的关键方法是什么？ A: 双重解析策略——从标题中匹配已知品牌列表 + 从店铺名中提取品牌信息，两者交叉验证。"
+      "text": "B2B 选品分析与缺口匹配 来源：PH 震坤行选品 、price compare 项目 日期：2026 07 选品策略分层 四层策略模型 ⓘ ： 层级 说明 策略 🟢 必上 强需求、高利润 立即上架 🔵 推荐 有潜力的品类 优先上架 🟡 暗马 长尾、竞品覆盖少 试探上架 🔘 关注 趋势待观察 先不动 多平台缺口分析 6 步流水线 python gap/ 缺口分析模块 1. 读选品清单（建议上架的商品） 2. 读在售清单（已上架的商品） 3. 标准化键（统一品牌/型号格式） 4. 差集运算（选品 在售 = 缺口） 5. 模糊匹配（处理命名差异） 6. 导出 Excel（缺品明细） 核心逻辑 输出 ：缺品明细 + 门类/策略统计 + 潜匹配人工确认表 数据驱动 ：三平台（京东/震坤行/1688）搜索页数据输入 价格监控体系 架构 python monitor/ ├── db.py SQLite 三层表（商品/快照/预警） ├── ingester.py 三平台 CSV → 入库 └── alerter.py 预警引擎 预警方案 方法 ：移动平均 ⓘ vs 当前价偏离（非逐次比对） 阈值 ：偏离 ≥ 10% 触发 冷启动 ⓘ ：快照 < 3 次不出声（避免冷启动误报） 输出 ：有预警写 CSV+TXT，无预警零噪声 数据库设计 sql 三层表 CREATE TABLE products 商品层 id TEXT PRIMARY KEY, brand TEXT, model TEXT, platform TEXT ; CREATE TABLE snapshots 快照层 id INTEGER PK, product_id TEXT FK, price REAL, captured_at TIMESTAMP ; CREATE TABLE alerts 预警层 id INTEGER PK, product_id TEXT FK, deviation REAL, triggered_at TIMESTAMP ; B2B 工业品平台特点 搜索引擎 ：京东搜索京东 industrial.jd.com 已废弃，转向 SPA 架构 1688 ：采购助手插件 XLSX 导出为主力数据源 震坤行 ：WAF + Cloudflare 双重保护，SSR 数据提取 选品模板 ：统一 selection_schema.py ，每品类 10 条推荐 产品方向决策 ❌ Streamlit ⓘ （原型验证后废弃） ❌ gap/ 缺口分析模块（单独产品化价值低） ❌ Tauri 桌面端（开发成本高） ✅ Flask Web （主力路线） 价格提取技巧 品牌提取 python 标题+店铺双重解析 ⓘ → 品牌提取准确率 0%→91% def extract_brand title: str, shop_name: str str: 从标题中匹配已知品牌列表 从店铺名中提取品牌信息 两者交叉验证 1688 详情页 CDN 直链 cbu01.alicdn.com SingleFile 保存图片： data sf original src → CDN 直链 Ctrl+S _files/ 目录兜底 回顾 <! cards: data analysis 价格预警的触发条件和冷启 002, data analysis 品牌提取准确率从0 003, data analysis 四层选品策略模型各层含义 001 <! cards: data analysis 价格预警的触发条件和冷启 002, data analysis 品牌提取准确率从0 003, data analysis 四层选品策略模型各层含义 001 <! cards: data analysis 价格预警的触发条件和冷启 002, data analysis 品牌提取准确率从0 003, data analysis 四层选品策略模型各层含义 001 Q: 四层选品策略模型各层含义是什么？ A: 🟢必上（强需求高利润）→立即上架、🔵推荐（有潜力）→优先上架、🟡暗马（长尾竞品覆盖少）→试探上架、🔘关注（趋势待观察）→先不动。 Q: 价格预警的触发条件和冷启动规则是什么？ A: 移动平均 vs 当前价偏离 ≥10% 触发预警；快照不足 3 次时不预警，避免冷启动误报。无预警时零噪声输出。 Q: 品牌提取准确率从 0% 提升到 91% 的关键方法是什么？ A: 双重解析策略——从标题中匹配已知品牌列表 + 从店铺名中提取品牌信息，两者交叉验证。"
+    },
+    {
+      "id": "data-analysis/02-ab-testing-causality",
+      "title": "数据分析面试核心：AB实验、因果推断、指标体系",
+      "domain": "data-analysis",
+      "text": "数据分析面试核心：AB实验、因果推断、指标体系 数据岗面试必考三件套 来源：旧知识库「Knowledge Base for Interviews」 2. 因果推断 核心问题 关联 ≠ 因果 。观察到的相关性可能来自混杂变量。 常用方法 方法 适用场景 核心思想 随机实验（RCT） 条件允许时 随机分组消除混杂 DID（双重差分） 政策/干预前后 实验组 对照组在干预前后的差值之差 工具变量 IV 存在不可观测的混杂 找一个只影响 Treatment 不影响 Outcome 的变量 断点回归 RDD 阈值附近 利用阈值附近的随机性 倾向性得分匹配 PSM 观察数据 根据倾向性得分匹配相似的个体 辛普森悖论 python 分组看正相关，合并看负相关 原因：混杂变量（如样本量分布不均） 解决：按层分析后加权汇总 回顾 Q: AB 实验中的多重比较问题怎么解决？ A: Bonferroni 校正（α除以比较次数）、FDR 控制、先定主指标 Q: AB 实验什么时候可以提前停止？ A: 原则上不能。如需提前停止，用序贯检验（sequential testing）而非固定样本检验 Q: 辛普森悖论是什么？怎么避免？ A: 分组正相关但总体负相关，由混杂变量导致。解决方法：按层分析 + 加权汇总 Q: 因果推断的黄金标准是什么？现实替代方案是什么？ A: 黄金标准是 RCT（随机对照实验）。现实用 DID、IV、RDD、PSM 等方法 Q: 北极星指标和虚荣指标的区别？ A: 北极星指标直接反映业务价值且可行动（如 DAU），虚荣指标看起来好看但无法指导行动（如累计注册用户数）"
     },
     {
       "id": "data-analysis/_index",
       "title": "数据分析知识文档索引",
       "domain": "data-analysis",
-      "text": "数据分析知识文档索引 文档 核心内容 卡数 01 B2B 选品分析与价格监控 01 b2b selection and price monitor.md 1688 搜索聚类、K 线比价、厂家画像 3"
+      "text": "数据分析知识文档索引 B2B 选品 / AB 实验 / 指标体系 文档 核心内容 卡数 01 B2B 选品分析与价格监控 01 b2b selection and price monitor.md 1688 搜索聚类、K 线比价 3 02 AB 实验与指标体系 02 ab testing causality.md AB实验/因果推断/指标体系 5"
+    },
+    {
+      "id": "data-engineering/01-sql-templates",
+      "title": "SQL 面试核心：窗口函数、CTE、性能优化",
+      "domain": "data-engineering",
+      "text": "SQL 面试核心：窗口函数、CTE、性能优化 数据岗手撕 SQL 必考 来源：旧知识库「Knowledge Base for Interviews」 2. CTE 与子查询 sql CTE：比子查询更清晰，可复用 WITH top_dept AS SELECT dept, AVG salary AS avg_sal FROM employees GROUP BY dept ORDER BY avg_sal DESC LIMIT 3 SELECT e.name, e.dept, e.salary FROM employees e JOIN top_dept t ON e.dept = t.dept 递归 CTE：树形结构（组织架构、类目） WITH RECURSIVE org_tree AS SELECT id, name, manager_id, 1 AS level FROM org WHERE manager_id IS NULL UNION ALL SELECT e.id, e.name, e.manager_id, t.level + 1 FROM org e JOIN org_tree t ON e.manager_id = t.id SELECT FROM org_tree 回顾 Q: ROW_NUMBER 、RANK 、DENSE_RANK 的区别？ A: 并列时 ROW_NUMBER 随机分配、RANK 跳过后续排名、DENSE_RANK 不跳过 Q: LAG 和 LEAD 的作用？ A: LAG col, n 获取前 n 行的值，LEAD col, n 获取后 n 行的值 Q: CTE 相比子查询的优势？ A: 可复用、可递归、逻辑更清晰、调试方便 Q: 窗口函数和 GROUP BY 的区别？ A: GROUP BY 聚合后行数减少，窗口函数不减少行数且保留原数据 Q: SQL 执行顺序是什么？ A: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT"
+    },
+    {
+      "id": "data-engineering/02-hive-data-warehouse",
+      "title": "数据仓库与 Hive 基础",
+      "domain": "data-engineering",
+      "text": "数据仓库与 Hive 基础 数仓分层 / Hive SQL / 数据建模 来源：旧知识库「Knowledge Base for Interviews」 2. Hive SQL 核心差异 项目 Hive 传统 SQL 存储 HDFS 本地磁盘 执行引擎 MapReduce/Tez/Spark 本地引擎 事务 不支持（ACID 有限） 完整支持 索引 无（分区+分桶替代） B+树 存储格式 Parquet/ORC/AVRO 行存 Hive 特有语法 sql 分区表 CREATE TABLE orders id INT, amount DOUBLE PARTITIONED BY dt STRING 分桶表 CLUSTERED BY user_id INTO 10 BUCKETS 行转列 SELECT id, SUM IF type='A', val, 0 AS type_a, SUM IF type='B', val, 0 AS type_b FROM t GROUP BY id 列转行（炸裂） SELECT id, category FROM t LATERAL VIEW EXPLODE categories t2 AS category 回顾 Q: 数仓分层的目的是什么？ A: 数据解耦（变动互不影响）、数据复用（下层清洗上层直接用）、权限管控 Q: Hive 分区和分桶的区别？ A: 分区是目录划分（按日期），分桶是文件划分（按 hash）。分区减少扫描范围，分桶优化 JOIN/抽样 Q: Hive 行转列和列转行的常用方法？ A: 行转列用 SUM IF ... 或 CASE WHEN 配合聚合；列转行用 LATERAL VIEW EXPLODE Q: 星型模型和雪花模型的优缺点？ A: 星型查询快（JOIN 少）、冗余多；雪花模型规范化、空间省但 JOIN 多性能差 Q: 事实表有哪些类型？ A: 事务事实表（每笔交易）、周期快照事实表（每天快照）、累积快照事实表（流转过程）"
+    },
+    {
+      "id": "data-engineering/03-project-experience",
+      "title": "数据岗项目经验 · STAR 卡片",
+      "domain": "data-engineering",
+      "text": "数据岗项目经验 · STAR 卡片 6 个实战项目，用 STAR 法则提炼成 QA 来源：旧知识库「0工作知识库/projects」 2. 数据质量管理平台 S ：业务数据存在大量异常（价格异常、排名缺失、同品不同价），人工审核成本高。 T ：建设自动化数据质量平台，覆盖审查→告警→修复全流程。 A ：设计 6 类审查规则（缺失值/价格/排名/销量/销售额/价格审查），规则可配，告警自动推送。 R ：数据异常发现时间从天级降到小时级，审查规则覆盖率 95%。 Q: 数据质量平台的审查规则怎么设计的？ A: 6 类规则（缺失值/价格/排名/销量/销售额/价格合理性），规则配置化驱动，支持按表/字段级启用 4. 法律 AI 问答系统 S ：法律文档检索效率低，用户需要精准法条引用而非通用回答。 T ：构建法律领域的 RAG 问答系统，支持法条/判例检索。 A ：FlagEmbedding 做向量化 + Milvus 向量库 + LLM 生成回答，Embedding 评估选型（BGE/M3E 对比）。 R ：法条检索 Top 5 准确率 85%，回答引用可追溯。 Q: 法律 RAG 系统 Embedding 模型怎么选型的？ A: 对比 BGE/M3E 等模型在法条检索任务上的 Recall@K，选 Top 5 准确率最高的 6. 行星分类 ML 模型 S ：天文观测数据量大，需要自动识别行星类型。 T ：训练 ML 模型对行星光谱数据进行分类。 A ：特征工程处理光谱数据，对比随机森林/XGBoost/LR 效果，调参优化。 R ：分类准确率 92%，模型可解释性强（特征重要性分析）。 Q: 这个项目 ML 流程中哪一步花时间最多？ A: 特征工程——光谱数据的预处理（归一化、缺失值处理、特征选择）占整体工作量 60%+"
+    },
+    {
+      "id": "data-engineering/_index",
+      "title": "数据工程知识文档索引",
+      "domain": "data-engineering",
+      "text": "数据工程知识文档索引 SQL / 数仓 / 项目经验 文档 核心内容 卡数 01 SQL 面试核心 01 sql templates.md 窗口函数/CTE/性能优化 5 02 数据仓库与 Hive 基础 02 hive data warehouse.md 数仓分层/Hive SQL/数据建模 5 03 项目经验 STAR 03 project experience.md 6 个实战项目 STAR 卡片 6"
     },
     {
       "id": "dsa/01-array-two-pointer-sliding-window",
@@ -150,7 +180,7 @@
       "id": "dsa/_index",
       "title": "DSA 知识文档索引",
       "domain": "dsa",
-      "text": "DSA 知识文档索引 9 篇知识文档 + 21 篇多语参考手册 + 50 张复习卡 知识文档一览 文档 核心内容 卡数 01 数组、双指针、滑动窗口 01 array two pointer sliding window.md 数组遍历 / 相向双指针 / 快慢指针 / 滑动窗口 / 前缀和 6 02 链表 02 linked list.md 创建 / 反转 / 合并 / 环检测 / 删除 6 03 栈与队列 03 stack queue.md 括号匹配 / 单调栈 / BFS / 单调队列 5 04 哈希表 04 hash table.md 计数 / 两数之和 / 去重 / 异位词分组 5 05 二分查找 05 binary search.md 5 种变体 + 二分答案 6 06 回溯 06 backtracking.md 子集 / 组合 / 排列 + 通用模板 5 07 动态规划 07 dynamic programming.md 线性 DP / 区间 DP / 背包 DP / 树形 DP 6 08 二叉树 08 binary tree.md DFS / BFS / 构造 / 查找 / 路径 6 09 排序算法 09 sorting.md 快排 / 归并 / 堆排 / 库函数对比 5 多语参考手册 21 篇 C/C++/Python 三语对照参考文档 → ../../references/dsa/_index.md ../../references/dsa/_index.md 关联规划 DSA 学习规划 ../../plan/08 dsa.md — 8 章已完成 7 章 学习路线图 ../../plan/ROADMAP.md — 第二波自动驾驶方向的前置基础"
+      "text": "DSA 知识文档索引 9 篇知识文档 + 21 篇多语参考手册 + 50 张复习卡 知识文档一览 文档 核心内容 卡数 01 数组、双指针、滑动窗口 01 array two pointer sliding window.md 数组遍历 / 相向双指针 / 快慢指针 / 滑动窗口 / 前缀和 6 02 链表 02 linked list.md 创建 / 反转 / 合并 / 环检测 / 删除 6 03 栈与队列 03 stack queue.md 括号匹配 / 单调栈 / BFS / 单调队列 5 04 哈希表 04 hash table.md 计数 / 两数之和 / 去重 / 异位词分组 5 05 二分查找 05 binary search.md 5 种变体 + 二分答案 6 06 回溯 06 backtracking.md 子集 / 组合 / 排列 + 通用模板 5 07 动态规划 07 dynamic programming.md 线性 DP / 区间 DP / 背包 DP / 树形 DP 6 08 二叉树 08 binary tree.md DFS / BFS / 构造 / 查找 / 路径 6 09 排序算法 09 sorting.md 快排 / 归并 / 堆排 / 库函数对比 5 10 贪心算法 10 greedy.md 5 类经典题型 + 与 DP 的区分 5 11 复杂度分析 11 complexity analysis.md 大O / 均摊 / Master Theorem 5 12 Python 刷题踩坑 12 python dsa pitfalls.md 语法坑 / 常见错误模式 / C++ 对比 10 13 解题思维方法论 13 dsa solve methodology.md 暴力→优化 / 边界条件 / 递归三问 5 多语参考手册 资源 说明 语法糖三语框架 ../../references/dsa/_index.md 21 篇 C/C++/Python 对照参考 LeetCode 刷题课程（C++） ../../references/dsa/leetcode learning/_index.md 72 篇讲解 + 数百道 C++ 题解 Hot100 21 天刷题计划（Python） ../../references/dsa/leetcode hot100/ 华为 OD 专属 + 24 个 .py 题解 关联规划 DSA 学习规划 ../../plan/08 dsa.md — 8 章全部完成 学习路线图 ../../plan/ROADMAP.md — 第二波自动驾驶方向的前置基础"
     },
     {
       "id": "independent-site/01-woocommerce-tech-stack-selection",
@@ -181,6 +211,24 @@
       "title": "独立站知识文档索引",
       "domain": "independent-site",
       "text": "独立站知识文档索引 4 篇文档 · 技术选型 / 竞品调研 / 截图仿站 / 项目重构 文档 核心内容 卡数 01 WooCommerce 技术选型 01 woocommerce tech stack selection.md WooCommerce vs Next.js 决策、LEMP 架构 5 02 竞品逛站方法论 02 competitive site survey methodology.md 四维 checklist、6 站分段路线 5 03 截图仿站工具选型 03 screenshot to site tool selection.md 5 类 11 款工具对比、JCodesMore 踩坑 5 04 项目重构方法论 04 project restructure methodology.md 触发条件、三步走、archive 归档 5"
+    },
+    {
+      "id": "machine-learning/01-ml-core",
+      "title": "机器学习面试核心",
+      "domain": "machine-learning",
+      "text": "机器学习面试核心 模型对比 / 评估指标 / 特征工程 / 过拟合 来源：旧知识库「Knowledge Base for Interviews」 2. 评估指标 分类 准确率 = TP+TN / TP+TN+FP+FN 数据平衡时用 精确率 = TP / TP+FP 关注\"预测为真\"的准确度 召回率 = TP / TP+FN 关注\"找全所有真值\" F1 = 2 P R / P+R 精确率和召回率的调和平均 AUC ROC 模型排序能力，不依赖阈值 回归 MSE = mean y_pred y_true ² MAE = mean y_pred y_true R² = 1 SS_res / SS_tot 4. 过拟合与欠拟合 过拟合 欠拟合 训练误差 很低 很高 验证误差 很高 很高 原因 模型太复杂、数据太少 模型太简单、特征不足 解决 正则化、更多数据、早停、剪枝 更复杂模型、更多特征、减少正则化 防止过拟合的常用方法 python L1/L2 正则化 — 在损失函数加惩罚项 Dropout — 训练时随机丢弃神经元 早停 — 验证集不改善时停止训练 数据增强 — 增加训练样本多样性 交叉验证 — 评估泛化能力 回顾 Q: 随机森林为什么能抗过拟合？ A: Bagging 多棵树平均降低方差 + 随机选择特征增加多样性 Q: XGBoost 相比 GBDT 的改进？ A: 二阶泰勒展开（比一阶更准）、正则化项、列抽样、并行近似直方图 Q: 特征缩放为什么对线性模型必要，对树模型不必要？ A: 线性模型梯度更新受特征尺度影响，树模型按特征值切分不受尺度影响 Q: AUC 为 0.5 和 1.0 分别代表什么？ A: 0.5 完全随机，1.0 完美区分。AUC 衡量模型排序能力，与阈值无关 Q: 类别不平衡怎么处理？ A: 过采样（SMOTE）、欠采样、调整类别权重、使用 AUC 等不敏感指标"
+    },
+    {
+      "id": "machine-learning/02-dl-crash",
+      "title": "深度学习面试速查",
+      "domain": "machine-learning",
+      "text": "深度学习面试速查 核心概念 / 激活函数 / 网络结构 / NLP 基础 来源：旧知识库「Knowledge Base for Interviews」 2. 激活函数 函数 公式 优点 缺点 Sigmoid 1/ 1+e⁻ˣ 输出 0 1，适合二分类 梯度消失、非零中心 Tanh eˣ e⁻ˣ / eˣ+e⁻ˣ 零中心 梯度消失 ReLU max 0, x 计算快、缓解梯度消失 Dead ReLU LeakyReLU max αx, x 解决 Dead ReLU α 需要调参 经验 ：默认用 ReLU，输出层按任务选（二分类→Sigmoid，多分类→Softmax） 4. 常用网络结构 结构 用途 核心思想 CNN 图像/文本 局部连接 + 权值共享 + 池化 RNN/LSTM 序列/时间序列 门控机制解决长期依赖 Transformer NLP/CV/多模态 自注意力 + 位置编码，并行计算 ResNet 深层网络 残差连接解决退化问题 Transformer 核心 Self Attention: Q × K^T → softmax → × V Multi Head: 多个自注意力头拼接 位置编码: 让模型感知序列位置 LayerNorm + FFN: 每个子层后的标配 回顾 Q: ReLU 相比 Sigmoid 的优势？ A: 计算快、正区间梯度恒为 1 缓解梯度消失、稀疏激活 Q: 梯度消失和梯度爆炸分别怎么解决？ A: 消失→ReLU/BatchNorm/残差连接；爆炸→梯度裁剪/权重初始化 Q: Transformer 为什么比 RNN 好？ A: 自注意力并行计算（RNN 串行）、全局视野（RNN 逐步遗忘）、多模态适用 Q: Dropout 为什么能防过拟合？ A: 每次随机删除神经元 → 相当于训练多个子网络 → 类似 Bagging 集成 Q: BatchNorm 在训练和推理时的区别？ A: 训练时用 batch 均值和方差，推理时用全局滑动平均"
+    },
+    {
+      "id": "machine-learning/_index",
+      "title": "机器学习知识文档索引",
+      "domain": "machine-learning",
+      "text": "机器学习知识文档索引 ML 面试核心 / DL 面试速查 文档 核心内容 卡数 01 机器学习面试核心 01 ml core.md 模型对比/评估指标/特征工程 5 02 深度学习面试速查 02 dl crash.md 激活函数/优化器/Transformer 5"
     },
     {
       "id": "programming/01-pydantic-v2-model-design",

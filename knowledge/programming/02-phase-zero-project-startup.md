@@ -144,6 +144,7 @@ TEMPLATE_DIR = Path(__file__).parent.parent / "templates"
 
 ## 回顾
 <!-- cards: programming-C和Python-012, programming-GitHubAPI同-006, programming-Phase0阶段的四-004, programming-关系引擎中规则和AI-005 -->
+<!-- cards: programming-C和Python-012, programming-GitHubAPI同-006, programming-Phase0阶段的四-004, programming-关系引擎中规则和AI-005 -->
 <!-- cards: programming-GitHubAPI同-006, programming-Phase0阶段的四-004, programming-关系引擎中规则和AI-005 -->
 - Q: Phase 0 阶段的四个核心理念是什么？
   A: ①设计文档先行——先写设计文档再写代码；②成本优化——默认 gpt-4o-mini + 缓存 + `--limit`；③增量同步——用 `starred_at` + `sha` 对比，不做全量；④配置与骨架一体化——启动即跑，不需要先配环境。

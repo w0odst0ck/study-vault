@@ -15,7 +15,14 @@
     ],
     "data-analysis": [
       "data-analysis/01-b2b-selection-and-price-monitor",
+      "data-analysis/02-ab-testing-causality",
       "data-analysis/_index"
+    ],
+    "data-engineering": [
+      "data-engineering/01-sql-templates",
+      "data-engineering/02-hive-data-warehouse",
+      "data-engineering/03-project-experience",
+      "data-engineering/_index"
     ],
     "dsa": [
       "dsa/01-array-two-pointer-sliding-window",
@@ -39,6 +46,11 @@
       "independent-site/03-screenshot-to-site-tool-selection",
       "independent-site/04-project-restructure-methodology",
       "independent-site/_index"
+    ],
+    "machine-learning": [
+      "machine-learning/01-ml-core",
+      "machine-learning/02-dl-crash",
+      "machine-learning/_index"
     ],
     "programming": [
       "programming/01-pydantic-v2-model-design",
@@ -156,10 +168,50 @@
       "created": "2026-07-17"
     },
     {
+      "id": "data-analysis/02-ab-testing-causality",
+      "title": "数据分析面试核心：AB实验、因果推断、指标体系",
+      "domain": "data-analysis",
+      "path": "data-analysis/02-ab-testing-causality.md",
+      "tags": [],
+      "created": ""
+    },
+    {
       "id": "data-analysis/_index",
       "title": "数据分析知识文档索引",
       "domain": "data-analysis",
       "path": "data-analysis/_index.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "data-engineering/01-sql-templates",
+      "title": "SQL 面试核心：窗口函数、CTE、性能优化",
+      "domain": "data-engineering",
+      "path": "data-engineering/01-sql-templates.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "data-engineering/02-hive-data-warehouse",
+      "title": "数据仓库与 Hive 基础",
+      "domain": "data-engineering",
+      "path": "data-engineering/02-hive-data-warehouse.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "data-engineering/03-project-experience",
+      "title": "数据岗项目经验 · STAR 卡片",
+      "domain": "data-engineering",
+      "path": "data-engineering/03-project-experience.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "data-engineering/_index",
+      "title": "数据工程知识文档索引",
+      "domain": "data-engineering",
+      "path": "data-engineering/_index.md",
       "tags": [],
       "created": ""
     },
@@ -312,6 +364,30 @@
       "title": "独立站知识文档索引",
       "domain": "independent-site",
       "path": "independent-site/_index.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "machine-learning/01-ml-core",
+      "title": "机器学习面试核心",
+      "domain": "machine-learning",
+      "path": "machine-learning/01-ml-core.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "machine-learning/02-dl-crash",
+      "title": "深度学习面试速查",
+      "domain": "machine-learning",
+      "path": "machine-learning/02-dl-crash.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "machine-learning/_index",
+      "title": "机器学习知识文档索引",
+      "domain": "machine-learning",
+      "path": "machine-learning/_index.md",
       "tags": [],
       "created": ""
     },

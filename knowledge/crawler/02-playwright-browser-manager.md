@@ -121,6 +121,7 @@ def switch_platform(self, platform: str):
 ## 回顾
 <!-- cards: crawler-Playwright浏-009, crawler-StealthJS注-010, crawler-跨平台Context-011 -->
 <!-- cards: crawler-Playwright浏-009, crawler-StealthJS注-010, crawler-跨平台Context-011 -->
+<!-- cards: crawler-Playwright浏-009, crawler-StealthJS注-010, crawler-跨平台Context-011 -->
 - Q: Playwright 浏览器管理器的三种搜索策略模式是什么？
   A: 渲染模式（直接导航取 HTML，适用 SSR 页面）、API 拦截模式（拦截 XHR/Fetch 得 JSON，适用 SPA 页面）、主页交互模式（打开首页绕过 CF -> 输入搜索框 -> 点击按钮，适用首页无保护的平台）。
 - Q: Stealth JS 注入的核心原理是什么？

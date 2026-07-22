@@ -6,9 +6,9 @@
 
 | 指标 | 数值 |
 |------|------|
-| 知识文档 | **36 篇** |
-| 复习卡片 | **166 张** |
-| 覆盖领域 | 5 个（爬虫 / 数据分析 / 独立站 / DSA / 编程） |
+| 知识文档 | **42 篇** |
+| 复习卡片 | **191 张** |
+| 覆盖领域 | 7 个（爬虫 / 数据分析 / 数据工程 / 独立站 / DSA / 机器学习 / 编程） |
 
 | 入口 | 链接 |
 |------|------|
@@ -77,11 +77,27 @@
 | 07 | [FastAPI 实战入门](knowledge/programming/07-fastapi.md) | 5 |
 | 99 | [三语对比总结](knowledge/programming/99-cross-language-comparison.md) | 5 |
 
-### 数据分析（1 篇 · 3 张卡）
+### 数据分析（2 篇 · 8 张卡）
 
-| 文档 | 卡数 |
-|------|------|
-| [B2B 选品与价格监控](knowledge/data-analysis/01-b2b-selection-and-price-monitor.md) | 3 |
+| # | 文档 | 卡数 |
+|---|------|------|
+| 01 | [B2B 选品与价格监控](knowledge/data-analysis/01-b2b-selection-and-price-monitor.md) | 3 |
+| 02 | [AB 实验与指标体系](knowledge/data-analysis/02-ab-testing-causality.md) | 5 |
+
+### 数据工程（3 篇 · 10 张卡）
+
+| # | 文档 | 卡数 |
+|---|------|------|
+| 01 | [SQL 面试核心](knowledge/data-engineering/01-sql-templates.md) | 5 |
+| 02 | [数据仓库与 Hive 基础](knowledge/data-engineering/02-hive-data-warehouse.md) | 5 |
+| 03 | [项目经验 STAR](knowledge/data-engineering/03-project-experience.md) | 6 |
+
+### 机器学习（2 篇 · 10 张卡）
+
+| # | 文档 | 卡数 |
+|---|------|------|
+| 01 | [机器学习面试核心](knowledge/machine-learning/01-ml-core.md) | 5 |
+| 02 | [深度学习面试速查](knowledge/machine-learning/02-dl-crash.md) | 5 |
 
 ---
 
@@ -101,10 +117,10 @@ python3 scripts/serve.py                  # http://localhost:8080
 ```
 study-vault/
 ├── index.md           ← 本文件（知识库总索引）
-├── knowledge/         ← 知识文档（36 篇，5 个域）
+├── knowledge/         ← 知识文档（42 篇，7 个域）
 ├── references/        ← 参考资源（dsa 三语手册 + leetcode）
 ├── plan/              ← 学习规划（13 个领域）
-├── review/            ← 复习卡片（166 张）
+├── review/            ← 复习卡片（191 张）
 ├── memory/            ← 每日复盘
 ├── scripts/           ← 辅助脚本（review.py / serve.py）
 ├── site/              ← 前端页面（复习页 / 仪表盘）
