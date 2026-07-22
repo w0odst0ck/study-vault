@@ -81,9 +81,11 @@ async function init() {
     if (ref.links && ref.links.length > 0) {
       const items = ref.links.map(l => {
         const ext = isExternal(l.url);
+        // 本地参考链接指向部署后的 references/ 路径
+        const href = (!ext && ref.isLocal) ? '../references/' + ref.key + '/' + l.url : l.url;
         const cls = ext ? 'ref-link ref-link-ext' : 'ref-link ref-link-local';
         const target = ext ? 'target="_blank" rel="noopener"' : '';
-        return `<a href="${l.url}" class="${cls}" ${target}>${l.text}</a>`;
+        return `<a href="${href}" class="${cls}" ${target}>${l.text}</a>`;
       }).join('');
       body = `<div class="ref-links">${items}</div>`;
     }

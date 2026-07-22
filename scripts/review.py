@@ -480,6 +480,7 @@ def _export_references(site_data):
         file_count = len(list(sub.rglob("*.md")))
         refs[sub.name] = {
             "title": f"📁 {title}",
+            "key": sub.name,
             "sections": sections,
             "links": [{"text": l[0], "url": l[1]} for l in links],
             "isLocal": True,

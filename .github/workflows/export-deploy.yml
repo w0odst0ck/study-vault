@@ -26,6 +26,9 @@ jobs:
       - name: Export cards.json
         run: python3 scripts/review.py export
 
+      - name: Copy references for online browsing
+        run: cp -r references site/references
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
