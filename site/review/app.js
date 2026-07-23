@@ -1,13 +1,19 @@
 /**
- * study-vault 复习引擎 v2（分批 + 智能推荐）
- * SM-2 算法 + 分批续接 + 优先级排序
- * localStorage 自动保存 — 关页不丢
+ * study-vault 复习引擎 v2（分批 + 跨设备同步）
+ * SM-2 算法 + 分批续接 + 优先级排序 + GitHub API 云端同步
+ * localStorage 持久化 — 关页不丢 · 跨设备同步
  */
 
 // ═══ 常量 ═══
 const BATCH_OPTIONS = [10, 20, 50, 0];  // 0 = 全部
 const LS_KEY = 'study_vault_session';
 const HIST_KEY = 'study_vault_review_history';
+const PERSIST_KEY = 'study_vault_persisted';  // 持久化卡片状态 (version 2)
+const PAT_KEY = 'study_vault_gh_pat';         // GitHub PAT
+const SCHEMA_VER = 2;
+
+const GITHUB_REPO = 'w0odst0ck/study-vault';
+const GITHUB_API = 'https://api.github.com';
 
 // ═══════════════════════════════════════════════
 // SM-2 算法
@@ -33,34 +39,130 @@ function sm2Next(interval, ease, rating) {
 }
 
 // ═══════════════════════════════════════════════
+// 工具：Unicode 安全的 base64
+// ═══════════════════════════════════════════════
+
+function base64Encode(str) {
+  const bytes = new TextEncoder().encode(str);
+  const bin = Array.from(bytes, b => String.fromCharCode(b)).join('');
+  return btoa(bin);
+}
+
+function base64Decode(b64) {
+  const bin = atob(b64);
+  const bytes = new Uint8Array(Array.from(bin, c => c.charCodeAt(0)));
+  return new TextDecoder().decode(bytes);
+}
+
+// ═══════════════════════════════════════════════
 // 卡片存储
 // ═══════════════════════════════════════════════
 
 class CardStore {
   constructor() {
     // 全量数据
-    this.allCards = [];         // 所有卡片
-    this.dueCards = [];         // 今日到期（排序后）
+    this.allCards = [];
+    this.dueCards = [];
 
     // 批次控制
-    this.batchSize = 10;        // 当前批大小
-    this.cursor = 0;            // 当前批在 dueCards 中的起始偏移
+    this.batchSize = 10;
+    this.cursor = 0;
+    this.currentIndex = 0;
 
     // 结果
-    this.results = {};          // cardId → { rating, interval, ease, nextReview }
-    this.currentIndex = 0;      // 当前在批内的索引
+    this.results = {};
 
     // 统计
-    this.allDueCount = 0;       // 总到期数
-    this.isComplete = false;    // 全部刷完
+    this.allDueCount = 0;
+    this.isComplete = false;
+
+    // 持久化数据（早于 session）
+    this._persisted = {};  // cardId → { interval, ease, next_review, last_reviewed }
+
+    this._loadPersisted();
     this._restoreSession();
   }
 
-  /** 加载卡片数据 */
+  // ── 持久化层（localStorage） ──
+
+  _loadPersisted() {
+    try {
+      const raw = localStorage.getItem(PERSIST_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      // Schema 版本检查
+      if (data.schema !== SCHEMA_VER) {
+        localStorage.removeItem(PERSIST_KEY);
+        return;
+      }
+      this._persisted = data.cards || {};
+    } catch (e) { /* 格式错误直接丢弃 */ }
+  }
+
+  _savePersisted() {
+    // 只保留最新状态，不保留历史
+    const cards = {};
+    for (const [id, result] of Object.entries(this.results)) {
+      cards[id] = {
+        interval: result.interval,
+        ease: result.ease,
+        next_review: result.nextReview,
+        last_reviewed: result.lastReviewed,
+        rating: result.rating,
+      };
+    }
+    try {
+      const data = {
+        schema: SCHEMA_VER,
+        updated: new Date().toISOString(),
+        cards,
+      };
+      localStorage.setItem(PERSIST_KEY, JSON.stringify(data));
+    } catch (e) { /* ignored */ }
+  }
+
+  /** 清理过期卡片（cards.json 更新后删除的卡） */
+  _cleanupPersisted(allCardIds) {
+    const oldKeys = Object.keys(this._persisted);
+    let changed = false;
+    for (const id of oldKeys) {
+      if (!allCardIds.has(id)) {
+        delete this._persisted[id];
+        changed = true;
+      }
+    }
+    if (changed) {
+      try {
+        localStorage.setItem(PERSIST_KEY, JSON.stringify({
+          schema: SCHEMA_VER,
+          updated: new Date().toISOString(),
+          cards: this._persisted,
+        }));
+      } catch (e) { /* ignored */ }
+    }
+  }
+
+  // ── 加载 + 合并持久化数据 ──
+
   async load() {
     const resp = await fetch('../data/cards.json');
     const data = await resp.json();
-    this.allCards = data.cards || [];
+    this.allCards = (data.cards || []).map(c => {
+      // 合并持久化的 SM-2 状态
+      const p = this._persisted[c.id];
+      if (p) {
+        c.interval = p.interval;
+        c.ease = p.ease;
+        c.next_review = p.next_review;
+        c.last_reviewed = p.last_reviewed;
+      }
+      return c;
+    });
+
+    // 清理过期持久化数据
+    const allIds = new Set(this.allCards.map(c => c.id));
+    this._cleanupPersisted(allIds);
+
     this.dueCards = this._getSortedDue(this.allCards);
     this.allDueCount = this.dueCards.length;
 
@@ -71,18 +173,7 @@ class CardStore {
       if (sessionIds.sort().join(',') !== currentIds) {
         this._clearSession();
       } else {
-        const remaining = this.dueCards.slice(this.cursor + this.currentIndex);
-        const remainingIds = remaining.map(c => c.id);
-        const newSlice = [];
-        let found = 0;
-        for (const c of this.dueCards) {
-          if (remainingIds.includes(c.id) && found < this.batchSize) {
-            newSlice.push(c);
-            found++;
-          }
-        }
-        // Recalculate cursor
-        const doneCount = Object.keys(this.results).length;
+        const doneCount = this.totalDone;
         this.cursor = doneCount;
         this.currentIndex = 0;
         return {
@@ -93,7 +184,6 @@ class CardStore {
       }
     }
 
-    // 新 session
     this.cursor = 0;
     this.currentIndex = 0;
     this.results = {};
@@ -101,51 +191,43 @@ class CardStore {
     return { restored: false, total: this.allDueCount, completed: 0 };
   }
 
-  /** 获取当前批的卡片 */
+  // ── 批处理 ──
+
   get batchCards() {
     return this.dueCards.slice(this.cursor, this.cursor + this.batchSize);
   }
 
-  /** 当前批有几张 */
   get batchCount() {
     return Math.min(this.batchSize, this.allDueCount - this.cursor);
   }
 
-  /** 当前批内还剩几张（含当前卡） */
   get batchRemaining() {
     return this.batchCount - this.currentIndex;
   }
 
-  /** 当前卡 */
   get currentCard() {
     const batch = this.batchCards;
     return batch[this.currentIndex] || null;
   }
 
-  /** 当前批已完成数 */
   get batchDone() {
     return this.currentIndex;
   }
 
-  /** 全局已完成数 */
   get totalDone() {
     return this.cursor + this.currentIndex;
   }
 
-  /** 全部到期数 */
   get totalDue() { return this.allDueCount; }
 
-  /** 当前批之外还有到期卡 */
   get hasMoreDue() {
     return this.cursor + this.batchSize < this.allDueCount;
   }
 
-  /** 当前批是否已完成 */
   get isBatchComplete() {
     return this.currentIndex >= this.batchCount && !this.isComplete;
   }
 
-  /** 所有到期卡是否都已刷完 */
   get allDone() {
     return this.totalDone >= this.allDueCount;
   }
@@ -168,7 +250,6 @@ class CardStore {
 
     this._saveSession();
 
-    // 检查批次/全局是否完成
     if (this.currentIndex >= this.batchCount) {
       if (this.cursor + this.batchSize >= this.allDueCount) {
         this.isComplete = true;
@@ -178,50 +259,112 @@ class CardStore {
     return result;
   }
 
-  /** 续接：开始下一批 */
   extendBatch(overrideSize) {
     const nextSize = overrideSize || this.batchSize;
-    // 前进 cursor
     this.cursor += this.batchCount;
     this.currentIndex = 0;
-    // 如果指定了新大小，更新
-    if (overrideSize) {
-      this.batchSize = overrideSize;
-    }
-    // 如果已经到末尾
-    if (this.cursor >= this.allDueCount) {
-      this.isComplete = true;
-    }
+    if (overrideSize) this.batchSize = overrideSize;
+    if (this.cursor >= this.allDueCount) this.isComplete = true;
     this._saveSession();
   }
 
-  /** 改变批大小（仅对新 session 生效） */
   setBatchSize(size) {
     this.batchSize = size > 0 ? size : this.allDueCount;
   }
 
-  /** 导出结果 */
-  exportResults() {
-    return {
-      version: 1,
-      exported: new Date().toISOString().split('T')[0],
-      totalReviewed: Object.keys(this.results).length,
-      results: Object.values(this.results),
-    };
+  // ── 持久化存储（每次批完后调用） ──
+
+  persistResults() {
+    this._savePersisted();
   }
 
-  /** 获取本批统计 */
+  // ── GitHub API 云端同步 ──
+
+  /** 是否有已经评分但未同步的结果 */
+  get hasUnsyncedResults() {
+    return Object.keys(this.results).length > 0;
+  }
+
+  /** 最近的同步时间 */
+  get lastSyncTime() {
+    try {
+      const raw = localStorage.getItem(PERSIST_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw).updated || null;
+    } catch { return null; }
+  }
+
+  /** 同步到 GitHub */
+  async syncToGithub(pat) {
+    if (!pat || Object.keys(this.results).length === 0) return { ok: false, error: '没有需要同步的结果' };
+
+    const content = {
+      cards: {},
+      synced: new Date().toISOString(),
+    };
+
+    for (const [id, r] of Object.entries(this.results)) {
+      content.cards[id] = {
+        interval: r.interval,
+        ease: r.ease,
+        next_review: r.nextReview,
+        last_reviewed: r.lastReviewed,
+        rating: r.rating,
+      };
+    }
+
+    // 1. 先获取文件 SHA（如果存在）
+    let sha = null;
+    try {
+      const getResp = await fetch(
+        `${GITHUB_API}/repos/${GITHUB_REPO}/contents/review/sync-results.json?ref=main`,
+        { headers: { Authorization: `Bearer ${pat}` } }
+      );
+      if (getResp.ok) {
+        const data = await getResp.json();
+        sha = data.sha;
+      }
+    } catch { /* 新文件，无 SHA */ }
+
+    // 2. 写入文件
+    const encoded = base64Encode(JSON.stringify(content, null, 2));
+    const body = {
+      message: `sync: ${Object.keys(content.cards).length} 张卡片`,
+      content: encoded,
+      branch: 'main',
+    };
+    if (sha) body.sha = sha;
+
+    const putResp = await fetch(
+      `${GITHUB_API}/repos/${GITHUB_REPO}/contents/review/sync-results.json`,
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${pat}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      }
+    );
+
+    if (!putResp.ok) {
+      const err = await putResp.json().catch(() => ({}));
+      return { ok: false, error: err.message || `HTTP ${putResp.status}` };
+    }
+
+    return { ok: true, count: Object.keys(content.cards).length };
+  }
+
+  // ── 统计 ──
+
   getBatchStats() {
     const batchIds = this.batchCards.map(c => c.id);
-    const batchResults = batchIds
-      .map(id => this.results[id])
-      .filter(Boolean);
+    const batchResults = batchIds.map(id => this.results[id]).filter(Boolean);
     const total = batchResults.length;
     const forgotten = batchResults.filter(r => r.rating < 3).length;
     const remembered = total - forgotten;
     const rate = total > 0 ? Math.round(remembered / total * 100) : 0;
 
-    // 按领域统计遗忘
     const domainStats = {};
     batchResults.forEach(r => {
       const d = r.domain || '?';
@@ -233,7 +376,6 @@ class CardStore {
     return { total, remembered, forgotten, rate, domainStats };
   }
 
-  /** 获取全局统计 */
   getAllStats() {
     const results = Object.values(this.results);
     const total = results.length;
@@ -243,24 +385,21 @@ class CardStore {
     return { total, remembered, forgotten, rate };
   }
 
-  // ── 排序：遗忘率高的优先 ──
+  // ── 排序 ──
 
   _getSortedDue(cards) {
     const today = new Date().toISOString().split('T')[0];
-    const due = cards
+    return cards
       .filter(c => (c.next_review || today) <= today)
       .sort((a, b) => {
-        // 1. ease 越低越优先（遗忘倾向高）
         const easeA = a.ease || 2.5;
         const easeB = b.ease || 2.5;
         if (easeA !== easeB) return easeA - easeB;
-        // 2. 过期越久越优先
-        return ((a.next_review || today).localeCompare(b.next_review || today));
+        return ((a.next_review || '').localeCompare(b.next_review || ''));
       });
-    return due;
   }
 
-  // ── localStorage 持久化 ──
+  // ── localStorage Session ──
 
   _sessionId() {
     return this._sid || (this._sid = 'sess_' + Date.now());
@@ -277,9 +416,7 @@ class CardStore {
       results: this.results,
       currentIndex: this.currentIndex,
     };
-    try {
-      localStorage.setItem(LS_KEY, JSON.stringify(data));
-    } catch (e) { /* ignored */ }
+    try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch (e) {}
   }
 
   _restoreSession() {
@@ -298,7 +435,7 @@ class CardStore {
       this.currentIndex = data.currentIndex || 0;
       this.cursor = data.cursor || 0;
       this.batchSize = data.batchSize || 10;
-    } catch (e) { /* ignored */ }
+    } catch (e) {}
   }
 
   _clearSession() {
@@ -324,6 +461,8 @@ class ReviewUI {
   constructor(store) {
     this.store = store;
     this.answerRevealed = false;
+    this.ghPat = localStorage.getItem(PAT_KEY) || '';
+    this.isSyncing = false;
     this.recommendations = {
       great: '状态不错 👍 正确率很高，再来一组巩固？',
       good: '继续加油 💪  趁热打铁再来一批',
@@ -335,6 +474,7 @@ class ReviewUI {
   init() {
     this._bindElements();
     this._initBatchSelector();
+    this._initSyncPanel();
     this.loading(true);
     this.store.load().then(status => {
       this.loading(false);
@@ -346,6 +486,7 @@ class ReviewUI {
         this._showToast(`已恢复上次进度（${status.completed}/${status.total}）`);
       }
       this._showProgress();
+      this._updateSyncStatus();
       this._startBatch();
     }).catch(err => {
       this.loading(false);
@@ -355,15 +496,12 @@ class ReviewUI {
 
   _bindElements() {
     this.el = {
-      // 批选择器
       batchSelector: document.getElementById('batch-selector'),
-      // 进度
       progress: document.getElementById('progress'),
       progressFill: document.getElementById('progress-fill'),
       progressCount: document.getElementById('progress-count'),
       progressGlobal: document.getElementById('progress-global'),
       progressLabel: document.getElementById('progress-label'),
-      // 卡片
       cardContainer: document.getElementById('card-container'),
       cardArea: document.getElementById('card-area'),
       domain: document.getElementById('domain'),
@@ -372,43 +510,40 @@ class ReviewUI {
       answer: document.getElementById('answer'),
       revealSection: document.getElementById('reveal-section'),
       ratingSection: document.getElementById('rating-section'),
-      // 批次完成
       batchComplete: document.getElementById('batch-complete'),
       batchStats: document.getElementById('batch-stats'),
       batchDomainBreakdown: document.getElementById('batch-domain-breakdown'),
       batchRecommendation: document.getElementById('batch-recommendation'),
-      // 总完成
+      syncBtn: document.getElementById('sync-btn'),
+      syncStatus: document.getElementById('sync-status'),
+      patInput: document.getElementById('pat-input'),
+      patSaveBtn: document.getElementById('pat-save-btn'),
+      patConfig: document.getElementById('pat-config'),
       summary: document.getElementById('summary'),
       summaryStats: document.getElementById('summary-stats'),
-      // 工具
       emptyState: document.getElementById('empty-state'),
       loadingEl: document.getElementById('loading'),
       errorEl: document.getElementById('error'),
       toast: document.getElementById('toast'),
     };
 
-    // Button events
     document.getElementById('reveal-btn').addEventListener('click', () => this._revealAnswer());
     document.querySelectorAll('.rating-btn').forEach(btn => {
       btn.addEventListener('click', () => this._rate(parseInt(btn.dataset.rating)));
     });
-    document.getElementById('next-batch-btn').addEventListener('click', () => this._nextBatch());
-    document.getElementById('next-all-btn').addEventListener('click', () => this._nextAll());
-    document.getElementById('stop-btn').addEventListener('click', () => this._stopReview());
+    document.getElementById('next-batch-btn').addEventListener('click', () => { this.store.persistResults(); this._nextBatch(); });
+    document.getElementById('next-all-btn').addEventListener('click', () => { this.store.persistResults(); this._nextAll(); });
+    document.getElementById('stop-btn').addEventListener('click', () => { this.store.persistResults(); this._stopReview(); });
     document.getElementById('download-btn').addEventListener('click', () => this._downloadResults());
     document.getElementById('restart-btn').addEventListener('click', () => this._restart());
+    this.el.syncBtn.addEventListener('click', () => this._doSync());
+    this.el.patSaveBtn.addEventListener('click', () => this._savePat());
 
-    // Keyboard
     document.addEventListener('keydown', (e) => {
       if (e.key === ' ' || e.key === 'Enter') {
-        if (!this.answerRevealed) {
-          e.preventDefault();
-          this._revealAnswer();
-        }
+        if (!this.answerRevealed) { e.preventDefault(); this._revealAnswer(); }
       }
-      if (this.answerRevealed && e.key >= '0' && e.key <= '5') {
-        this._rate(parseInt(e.key));
-      }
+      if (this.answerRevealed && e.key >= '0' && e.key <= '5') this._rate(parseInt(e.key));
     });
   }
 
@@ -418,16 +553,75 @@ class ReviewUI {
       const label = v === 0 ? '全部' : `${v} 张/批`;
       return `<option value="${v}" ${v === 10 ? 'selected' : ''}>${label}</option>`;
     }).join('');
-    sel.addEventListener('change', () => {
-      const val = parseInt(sel.value);
-      this.store.setBatchSize(val);
-    });
+    sel.addEventListener('change', () => this.store.setBatchSize(parseInt(sel.value)));
+  }
+
+  _initSyncPanel() {
+    if (this.ghPat) {
+      this.el.patConfig.style.display = 'none';
+    } else {
+      this.el.syncBtn.textContent = '🔑 配置 Git Token';
+      this.el.syncBtn.disabled = false;
+    }
+  }
+
+  _savePat() {
+    const pat = this.el.patInput.value.trim();
+    if (!pat || pat.length < 20) {
+      this._showToast('Token 格式不对');
+      return;
+    }
+    this.ghPat = pat;
+    localStorage.setItem(PAT_KEY, pat);
+    this.el.patConfig.style.display = 'none';
+    this.el.syncBtn.textContent = '☁️ 同步到 GitHub';
+    this.el.syncBtn.disabled = false;
+    this._showToast('Token 已保存');
+  }
+
+  _updateSyncStatus() {
+    const synced = this.store.hasUnsyncedResults;
+    const lastSync = this.store.lastSyncTime;
+    if (lastSync) {
+      const d = new Date(lastSync);
+      this.el.syncStatus.textContent = `上次同步: ${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`;
+    }
+    if (synced && this.ghPat) {
+      this.el.syncBtn.disabled = false;
+      this.el.syncBtn.textContent = `☁️ 同步 (${Object.keys(this.store.results).length} 张)`;
+    }
+  }
+
+  async _doSync() {
+    if (this.isSyncing) return;
+    this.isSyncing = true;
+    this.el.syncBtn.textContent = '⏳ 同步中...';
+    this.el.syncBtn.disabled = true;
+
+    try {
+      const result = await this.store.syncToGithub(this.ghPat);
+      if (result.ok) {
+        this._showToast(`✅ 已同步 ${result.count} 张卡片到 GitHub，自动触发部署更新`);
+        this.el.syncStatus.textContent = `已同步: ${result.count} 张 · ${new Date().toLocaleTimeString()}`;
+        this.el.syncBtn.textContent = '✅ 已同步';
+        // 持久化标记为已同步
+        this.store.persistResults();
+      } else {
+        this._showToast(`❌ 同步失败: ${result.error}`);
+        this.el.syncBtn.textContent = '☁️ 同步失败，重试';
+        this.el.syncBtn.disabled = false;
+      }
+    } catch (err) {
+      this._showToast(`❌ 同步出错: ${err.message}`);
+      this.el.syncBtn.textContent = '☁️ 重试同步';
+      this.el.syncBtn.disabled = false;
+    }
+    this.isSyncing = false;
   }
 
   // ── 批次完成 / 续接 ──
 
   _startBatch() {
-    // 隐藏批次完成、总完成
     this.el.batchComplete.style.display = 'none';
     this.el.summary.classList.remove('visible');
     this.el.cardArea.style.display = 'block';
@@ -436,7 +630,6 @@ class ReviewUI {
 
   _nextBatch() {
     this.store.extendBatch();
-    // 如果 extendBatch 后发现全部刷完了
     if (this.store.isComplete) {
       this._finishAll();
     } else {
@@ -445,7 +638,6 @@ class ReviewUI {
   }
 
   _nextAll() {
-    // 一次性刷完全部剩余
     this.store.extendBatch(this.store.allDueCount - this.store.cursor);
     this._startBatch();
   }
@@ -457,23 +649,16 @@ class ReviewUI {
   // ── 卡片展示 ──
 
   _showCard() {
-    // 检查批次边界
     if (this.store.isBatchComplete || this.store.allDone) {
-      if (this.store.allDone) {
-        this._finishAll();
-      } else {
-        this._showBatchComplete();
-      }
+      if (this.store.allDone) { this._finishAll(); return; }
+      this._showBatchComplete();
       return;
     }
 
     const card = this.store.currentCard;
     if (!card) {
-      if (this.store.allDone) {
-        this._finishAll();
-      } else {
-        this._showBatchComplete();
-      }
+      if (this.store.allDone) { this._finishAll(); return; }
+      this._showBatchComplete();
       return;
     }
 
@@ -511,10 +696,12 @@ class ReviewUI {
     this.el.cardArea.style.display = 'none';
     this.el.summary.classList.remove('visible');
 
-    const stats = this.store.getBatchStats();
-    const globalStats = this.store.getAllStats();
+    // 持久化本次结果到 localStorage（跨设备/跨刷新的基础）
+    this.store.persistResults();
 
-    // 批次统计
+    const stats = this.store.getBatchStats();
+
+    // 统计
     this.el.batchStats.innerHTML = `
       <div class="stat-box">
         <div class="stat-value orange">${stats.total}</div>
@@ -535,31 +722,26 @@ class ReviewUI {
     this.el.batchDomainBreakdown.innerHTML = domains.map(([d, s]) => {
       const pct = s.forgotten > 0 ? `<span class="domain-forgotten">✗${s.forgotten}</span>` : '';
       return `<span class="domain-chip">${d} ${s.total}张 ${pct}</span>`;
-    }).join(' ');
+    }).join(' ') || '<span class="domain-chip" style="opacity:0.5;">暂无数据</span>';
 
-    // 智能推荐
+    // 推荐
     let recText;
-    if (stats.rate >= 90) {
-      recText = this.recommendations.great;
-    } else if (stats.rate >= 70) {
-      recText = this.recommendations.good;
-    } else if (stats.rate >= 50) {
-      recText = this.recommendations.meh;
-    } else {
-      recText = this.recommendations.poor;
-    }
+    if (stats.rate >= 90) recText = this.recommendations.great;
+    else if (stats.rate >= 70) recText = this.recommendations.good;
+    else if (stats.rate >= 50) recText = this.recommendations.meh;
+    else recText = this.recommendations.poor;
     this.el.batchRecommendation.textContent = recText;
 
-    // 按钮文案
+    // 按钮
     const remaining = this.store.allDueCount - this.store.totalDone;
     document.getElementById('next-batch-btn').innerHTML = `▶ 再来 ${Math.min(this.store.batchSize, remaining)} 张`;
-    if (remaining <= this.store.batchSize) {
-      document.getElementById('next-all-btn').textContent = `▶ 刷完剩余 ${remaining} 张`;
-    } else {
-      document.getElementById('next-all-btn').textContent = `▶ 刷完全部 (${remaining} 张)`;
-    }
+    document.getElementById('next-all-btn').textContent = remaining <= this.store.batchSize
+      ? `▶ 刷完剩余 ${remaining} 张`
+      : `▶ 刷完全部 (${remaining} 张)`;
 
-    // 更新进度
+    // 同步按钮
+    this._updateSyncStatus();
+
     this._showProgress();
     this.el.batchComplete.style.display = 'block';
   }
@@ -567,6 +749,8 @@ class ReviewUI {
   // ── 全部完成 ──
 
   _finishAll() {
+    this.store.persistResults();
+
     const results = this.store.exportResults();
     const total = results.totalReviewed;
     const forgotten = results.results.filter(r => r.rating < 3).length;
@@ -594,16 +778,16 @@ class ReviewUI {
 
     this.el.progressFill.style.width = '100%';
     this.el.progressCount.textContent = `${total} / ${total}`;
-    this.el.progressGlobal.textContent = `全部完成 🎉`;
+    this.el.progressGlobal.textContent = '全部完成 🎉';
     this.el.progressLabel.textContent = '今日复习完成';
 
-    // 保存历史
+    // 历史记录
     try {
       const today = new Date().toISOString().split('T')[0];
       const history = JSON.parse(localStorage.getItem(HIST_KEY) || '{}');
       history[today] = { total, remembered, forgotten, rate };
       localStorage.setItem(HIST_KEY, JSON.stringify(history));
-    } catch (e) { /* ignored */ }
+    } catch (e) {}
 
     this._showToast(`全部完成！正确率 ${rate}%`);
     this.store.clearCompletedSession();
@@ -616,25 +800,18 @@ class ReviewUI {
     const batchTotal = this.store.batchCount > 0 ? this.store.batchCount : 1;
     const pct = Math.round(batchDone / batchTotal * 100);
 
-    // 批进度
     this.el.progressFill.style.width = pct + '%';
-    if (this.store.isComplete || this.store.allDone) {
-      this.el.progressCount.textContent = `${this.store.totalDone} / ${this.store.totalDue}`;
-    } else {
-      this.el.progressCount.textContent = `${batchDone} / ${batchTotal}`;
-    }
+    this.el.progressCount.textContent = `${batchDone} / ${batchTotal}`;
 
-    // 全局进度
     const remaining = this.store.totalDue - this.store.totalDone;
     if (this.store.allDone || this.store.isComplete) {
-      this.el.progressGlobal.textContent = `全部完成`;
+      this.el.progressGlobal.textContent = '全部完成';
     } else if (remaining > 0) {
       this.el.progressGlobal.textContent = `已复习 ${this.store.totalDone} · 剩余 ${remaining}`;
     } else {
       this.el.progressGlobal.textContent = `今日共 ${this.store.totalDue} 张到期`;
     }
 
-    // 鼓励语
     if (this.store.isComplete) {
       this.el.progressLabel.textContent = '全部完成 🎉';
     } else if (pct < 50) {

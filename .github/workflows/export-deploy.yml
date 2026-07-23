@@ -11,6 +11,7 @@ on:
       - 'knowledge/**'
       - 'review/**'
       - 'scripts/review.py'
+      - 'scripts/apply-sync.py'
       - 'site/**'
       - 'references/**'
       - '.github/workflows/export-deploy.yml'
@@ -23,6 +24,9 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+
+      - name: Apply web sync results
+        run: python3 scripts/apply-sync.py
 
       - name: Export cards.json
         run: python3 scripts/review.py export

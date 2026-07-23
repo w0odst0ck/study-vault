@@ -114,6 +114,22 @@
         <button id="next-all-btn" class="btn btn-outline">▶ 刷完全部</button>
         <button id="stop-btn" class="btn btn-outline" style="border-color:var(--text-light);color:var(--text-light);">收工</button>
       </div>
+
+      <div id="pat-config" class="pat-config">
+        <div class="pat-header">🔑 跨设备同步设置</div>
+        <p class="pat-desc">创建 GitHub Token（<code>Settings → Developer settings → Personal access tokens → Fine-grained tokens</code>），权限只需 <strong>Contents: write</strong>，仓库选 <code>w0odst0ck/study-vault</code>。</p>
+        <div class="pat-input-row">
+          <input id="pat-input" type="password" class="pat-input" placeholder="github_pat_xxx..." spellcheck="false" autocomplete="off">
+          <button id="pat-save-btn" class="btn btn-primary" style="flex-shrink:0;">保存</button>
+        </div>
+      </div>
+
+      <div class="sync-section">
+        <button id="sync-btn" class="btn btn-outline" disabled>
+          ☁️ 同步到 GitHub
+        </button>
+        <span id="sync-status" class="sync-status"></span>
+      </div>
     </div>
 
     <!-- ════ 全部完成总结 ════ -->
