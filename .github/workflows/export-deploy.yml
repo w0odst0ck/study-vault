@@ -30,6 +30,9 @@ jobs:
       - name: Copy references for online browsing
         run: cp -r references site/references
 
+      - name: Copy knowledge docs for cross-linking
+        run: cp -r knowledge/* site/knowledge/
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
