@@ -73,6 +73,11 @@ body {
   margin-top: 0.3rem;
 }
 
+.progress-global {
+  color: var(--text-light);
+  font-size: 0.75rem;
+}
+
 /* Card */
 .card {
   background: var(--card-bg);
@@ -242,7 +247,91 @@ body {
   margin: 1.5rem 0;
 }
 
-/* Domain badge */
+/* ── Batch Config ── */
+
+.batch-config {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0.75rem;
+  flex-wrap: wrap;
+}
+
+.batch-label {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.batch-select {
+  padding: 0.3rem 0.6rem;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  background: var(--card-bg);
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+}
+
+.batch-select:focus {
+  border-color: var(--primary);
+}
+
+.batch-hint {
+  font-size: 0.7rem;
+  color: var(--text-light);
+  opacity: 0.7;
+}
+
+/* ── Batch Complete ── */
+
+.domain-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+  margin: 0.75rem 0;
+  padding: 0.5rem;
+}
+
+.domain-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  background: var(--bg);
+  font-size: 0.75rem;
+  color: var(--text);
+}
+
+.domain-forgotten {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.recommendation {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin: 0.5rem 0 0;
+  padding: 0.5rem;
+  font-style: italic;
+}
+
+.batch-actions {
+  flex-wrap: wrap;
+}
+
+.batch-actions .btn {
+  min-width: 100px;
+  justify-content: center;
+}
+
+/* ── Domain badge ── */
 .domain-badge {
   display: inline-block;
   padding: 0.15rem 0.5rem;
@@ -312,4 +401,6 @@ body {
   .rating-btn { width: 38px; height: 38px; font-size: 0.85rem; }
   .summary-stats { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
   .header h1 { font-size: 1.2rem; }
+  .batch-config { flex-direction: column; align-items: flex-start; }
+  .batch-hint { display: none; }
 }

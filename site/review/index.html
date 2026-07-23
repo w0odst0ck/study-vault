@@ -6,7 +6,6 @@
   <title>复习 · study-vault</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📇</text></svg>">
-  <!-- PWA -->
   <link rel="manifest" href="../manifest.json">
   <meta name="theme-color" content="#1B4D6C">
 </head>
@@ -16,7 +15,16 @@
   <!-- Header -->
   <div class="header">
     <h1>📇 复习</h1>
-    <div class="subtitle">SM-2 间隔重复 · 数据只在本地</div>
+    <div class="subtitle">分批复习 · 智能推荐 · 自动续接</div>
+  </div>
+
+  <!-- Batch selector -->
+  <div id="batch-config" class="batch-config">
+    <label class="batch-label">
+      每批
+      <select id="batch-selector" class="batch-select"></select>
+    </label>
+    <span class="batch-hint">（完成一批后可选「再来」续接）</span>
   </div>
 
   <!-- Progress -->
@@ -25,8 +33,11 @@
       <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
     </div>
     <div class="progress-text">
-      <span id="progress-count">0 / 0</span>
-      <span id="progress-label">准备中...</span>
+      <span>
+        <span id="progress-count">0 / 0</span>
+        <span id="progress-label" style="margin-left:0.5rem;">准备中...</span>
+      </span>
+      <span id="progress-global" class="progress-global"></span>
     </div>
   </div>
 
@@ -37,7 +48,7 @@
   </div>
 
   <!-- Error -->
-  <div id="error" class="empty-state" style="display:none; color: var(--red);"></div>
+  <div id="error" class="empty-state" style="display:none;"></div>
 
   <!-- Empty state -->
   <div id="empty-state" class="empty-state" style="display:none">
@@ -82,18 +93,40 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Summary -->
-  <div id="summary" class="summary">
-    <div class="card" style="text-align:center; min-height:auto;">
-      <h2 style="margin-bottom:0.5rem;">🎉 复习完成</h2>
-      <p style="color:var(--text-light); font-size:0.9rem;">SM-2 调度已更新，结果可导出同步到本地</p>
+    <!-- ════ 批次完成插页 ════ -->
+    <div id="batch-complete" class="summary" style="display:none">
+      <div class="card" style="text-align:center; min-height:auto;">
+        <h2 style="margin-bottom:0.5rem;">✅ 本批完成</h2>
+        <p style="color:var(--text-light); font-size:0.85rem;">
+          继续还是休息？按你的节奏来
+        </p>
+      </div>
+
+      <div id="batch-stats" class="summary-stats"></div>
+
+      <div id="batch-domain-breakdown" class="domain-breakdown"></div>
+
+      <p id="batch-recommendation" class="recommendation"></p>
+
+      <div class="summary-actions batch-actions">
+        <button id="next-batch-btn" class="btn btn-primary">▶ 再来 10 张</button>
+        <button id="next-all-btn" class="btn btn-outline">▶ 刷完全部</button>
+        <button id="stop-btn" class="btn btn-outline" style="border-color:var(--text-light);color:var(--text-light);">收工</button>
+      </div>
     </div>
-    <div id="summary-stats" class="summary-stats"></div>
-    <div id="summary-actions" class="summary-actions">
-      <button id="download-btn" class="btn btn-primary">📥 下载结果</button>
-      <button id="restart-btn" class="btn btn-outline">🔄 再来一次</button>
+
+    <!-- ════ 全部完成总结 ════ -->
+    <div id="summary" class="summary">
+      <div class="card" style="text-align:center; min-height:auto;">
+        <h2 style="margin-bottom:0.5rem;">🎉 今日全部搞定</h2>
+        <p style="color:var(--text-light); font-size:0.9rem;">SM-2 调度已更新，歇会眼睛吧</p>
+      </div>
+      <div id="summary-stats" class="summary-stats"></div>
+      <div class="summary-actions">
+        <button id="download-btn" class="btn btn-primary">📥 下载结果</button>
+        <button id="restart-btn" class="btn btn-outline">🔄 再来一次</button>
+      </div>
     </div>
   </div>
 </div>
@@ -102,6 +135,7 @@
 <div id="toast" class="toast"></div>
 
 <script src="app.js"></script>
+
 <!-- Bottom nav (mobile only) -->
 <nav class="bottom-nav">
   <a href="../"><span class="nav-icon">📊</span>仪表</a>
@@ -115,7 +149,7 @@
 .bottom-nav { display: none; }
 @media (max-width: 768px) {
   .container { padding-bottom: 4rem; }
-    .nav-links { display: none; }
+  .nav-links { display: none; }
   .bottom-nav {
     display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
     background: var(--card-bg); border-top: 1px solid var(--border);
