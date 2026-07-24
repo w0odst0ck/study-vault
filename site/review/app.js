@@ -9,23 +9,13 @@ const LS_KEY = 'study_…sion';
 const HIST_KEY = 'study_…tory';
 const PERSIST_KEY = 'study_…sted';
 const SCHEMA_VER = 2;
-// ── 同步配置 ──
-// token.js 由 GitHub Actions 在部署时注入（详见 .github/workflows/export-deploy.yml）
-// 浏览器运行时不硬编码任何 token
-const GITHUB_REPO = 'w0odst0ck/study-vault';
-const GITHUB_API = 'https://api.github.com';
 
-/** 获取 GitHub PAT（base64 解码 → localStorage 持久化） */
-function getGithubPat() {
-  try {
-    const b64 = window.__SV_TOKEN_B64 || '';
-    if (b64) {
-      const decoded = atob(b64);
-      localStorage.setItem('sv_pat', decoded);
-      return decoded;
-    }
-  } catch {}
-  try { return localStorage.getItem('sv_pat') || ''; } catch { return ''; }
+// ── 同步配置（替换为飞书群机器人的 webhook URL）──
+const FEISHU_WEBHOOK = 'https://open.feishu.cn/open-apis/bot/v2/hook/请替换';
+
+// ── 工具：复制文本到剪贴板 ──
+async function copyToClipboard(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch { return false; }
 }
 
 // ═══════════════════════════════════════════════
@@ -150,25 +140,7 @@ class CardStore {
       return c;
     });
 
-    // ═══ Step 2: 从 GitHub 拉取云端复习状态（跨设备合并） ═══
-    try {
-      const syncResult = await this.pullFromGithub();
-      if (syncResult.ok && syncResult.merged > 0) {
-        console.log(`📦 云端同步: 合并 ${syncResult.merged} 张卡片`);
-        // 重新应用云端数据到卡片
-        this.allCards.forEach(c => {
-          const p = this._persisted[c.id];
-          if (p) {
-            c.interval = p.interval;
-            c.ease = p.ease;
-            c.next_review = p.next_review;
-            c.last_reviewed = p.last_reviewed;
-          }
-        });
-      }
-    } catch (err) {
-      console.warn('⚠️ 云端同步失败（不影响本地复习）:', err.message);
-    }
+    // ═══ Step 2: 跨设备同步通过飞书 webhook 完成（点「同步」按钮即可） ═══
 
     const allIds = new Set(this.allCards.map(c => c.id));
     this._cleanupPersisted(allIds);
@@ -225,26 +197,7 @@ class CardStore {
     if (this.currentIndex >= this.batchCount && this.cursor + this.batchSize >= this.allDueCount) {
       this.isComplete = true;
     }
-    // 自动同步到云端（防抖：每评 3 张或分批完成时触发）
-    this._debouncedAutoSync();
     return result;
-  }
-
-  // ── 自动同步（防抖） ──
-  _debouncedAutoSync() {
-    clearTimeout(this._autoSyncTimer);
-    const count = Object.keys(this.results).length;
-    if (count >= 10 || this.isComplete) {
-      this.pushToGithub().then(r => {
-        if (r.ok) console.log(`📤 自动同步: ${r.count} 张`);
-      }).catch(() => {});
-      return;
-    }
-    this._autoSyncTimer = setTimeout(() => {
-      this.pushToGithub().then(r => {
-        if (r.ok) console.log(`📤 自动同步: ${r.count} 张`);
-      }).catch(() => {});
-    }, 5000);
   }
 
   extendBatch(overrideSize) {
@@ -267,57 +220,15 @@ class CardStore {
     } catch { return null; }
   }
 
-  // ── 从 GitHub 拉取云端复习状态（跨设备合并） ──
+  // ── 通过飞书 webhook 发送复习结果 ──
+  //     浏览器 POST 到飞书群机器人 → Agent 收到后自动处理
 
-  async pullFromGithub() {
-    const token = getGithubPat();
-    if (!token) return { ok: false, error: '未配置 token' };
-
-    try {
-      const resp = await fetch(
-        `${GITHUB_API}/repos/${GITHUB_REPO}/contents/review/sync-results.json`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      if (!resp.ok) {
-        if (resp.status === 404) return { ok: true, merged: 0, total: 0 };
-        return { ok: false, error: `GitHub API HTTP ${resp.status}` };
-      }
-      const data = await resp.json();
-      const decoded = JSON.parse(atob(data.content));
-      const remote = decoded.cards || {};
-
-      let merged = 0;
-      for (const [id, card] of Object.entries(remote)) {
-        const local = this._persisted[id];
-        if (!local || !local.last_reviewed || !card.last_reviewed ||
-            card.last_reviewed >= local.last_reviewed) {
-          this._persisted[id] = {
-            interval: card.interval,
-            ease: card.ease,
-            next_review: card.next_review,
-            last_reviewed: card.last_reviewed,
-          };
-          merged++;
-        }
-      }
-      if (merged > 0) this._savePersisted();
-      return { ok: true, merged, total: Object.keys(remote).length };
-    } catch (err) {
-      return { ok: false, error: err.message };
-    }
-  }
-
-  // ── 将本地结果推送到 GitHub ──
-
-  async pushToGithub() {
+  async syncToFeishu() {
     if (Object.keys(this.results).length === 0) return { ok: false, error: '没有需要同步的结果' };
 
-    const token = getGithubPat();
-    if (!token) return { ok: false, error: '未配置 token' };
-
-    // 组装内容
+    // 组装卡片数据
     const cards = {};
-    let latestTs = '';
+    let syncedAt = new Date().toISOString();
     for (const [id, r] of Object.entries(this.results)) {
       cards[id] = {
         interval: r.interval,
@@ -325,48 +236,56 @@ class CardStore {
         next_review: r.nextReview,
         last_reviewed: r.lastReviewed,
       };
-      if (r.lastReviewed > latestTs) latestTs = r.lastReviewed;
     }
 
-    const content = {
-      cards,
-      synced: new Date().toISOString(),
-    };
+    const payload = { cards, synced: syncedAt };
 
-    // 获取现有文件 SHA（更新时需要）
-    let sha = null;
+    // 发到飞书 webhook
     try {
-      const getResp = await fetch(
-        `${GITHUB_API}/repos/${GITHUB_REPO}/contents/review/sync-results.json`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      if (getResp.ok) sha = (await getResp.json()).sha;
-    } catch {}
-
-    const body = {
-      message: `sync: ${Object.keys(cards).length} 张卡片`,
-      content: base64Encode(JSON.stringify(content, null, 2)),
-      branch: 'main',
-    };
-    if (sha) body.sha = sha;
-
-    try {
-      const putResp = await fetch(
-        `${GITHUB_API}/repos/${GITHUB_REPO}/contents/review/sync-results.json`,
-        {
-          method: 'PUT',
-          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        }
-      );
-      if (!putResp.ok) {
-        const err = await putResp.json().catch(() => ({}));
-        return { ok: false, error: err.message || `HTTP ${putResp.status}` };
+      const resp = await fetch(FEISHU_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          msg_type: 'interactive',
+          card: {
+            header: {
+              title: { tag: 'plain_text', content: `📥 复习同步 · ${Object.keys(cards).length} 张` },
+            },
+            elements: [{
+              tag: 'markdown',
+              content: '```json\n' + JSON.stringify(payload, null, 2) + '\n```'
+            }]
+          }
+        }),
+      });
+      if (!resp.ok) {
+        const err = await resp.text().catch(() => '');
+        return { ok: false, error: `飞书 webhook HTTP ${resp.status}: ${err}` };
       }
       return { ok: true, count: Object.keys(cards).length };
     } catch (err) {
       return { ok: false, error: err.message };
     }
+  }
+
+  // ── 复制复习结果到剪贴板（备用，当 webhook 不可用时） ──
+
+  copyResultsToClipboard() {
+    if (Object.keys(this.results).length === 0) return '没有需要同步的结果';
+
+    const cards = {};
+    for (const [id, r] of Object.entries(this.results)) {
+      cards[id] = {
+        interval: r.interval,
+        ease: r.ease,
+        next_review: r.nextReview,
+        last_reviewed: r.lastReviewed,
+      };
+    }
+    const payload = { cards, synced: new Date().toISOString() };
+    const text = JSON.stringify(payload, null, 2);
+    copyToClipboard(text);
+    return `已复制 ${Object.keys(cards).length} 张卡片数据到剪贴板，粘贴到飞书发给我即可`;
   }
 
   getBatchStats() {
@@ -563,23 +482,35 @@ class ReviewUI {
     this.el.syncBtn.textContent = '⏳ 同步中...';
     this.el.syncBtn.disabled = true;
 
+    // 尝试飞书 webhook（首选）
+    let ok = false;
+    let msg = '';
     try {
-      const result = await this.store.pushToGithub();
+      const result = await this.store.syncToFeishu();
       if (result.ok) {
-        this._showToast(`✅ 已同步 ${result.count} 张卡片`);
+        ok = true;
+        msg = `✅ 已同步 ${result.count} 张`;
         this.el.syncStatus.textContent = `已同步: ${result.count} 张 · ${new Date().toLocaleTimeString()}`;
-        this.el.syncBtn.textContent = '✅ 已同步';
-        this.store.persistResults();
       } else {
-        this._showToast(`❌ 同步失败: ${result.error}`);
-        this.el.syncBtn.textContent = '☁️ 重试';
-        this.el.syncBtn.disabled = false;
+        msg = `❌ ${result.error}`;
       }
     } catch (err) {
-      this._showToast(`❌ 同步出错: ${err.message}`);
-      this.el.syncBtn.textContent = '☁️ 重试';
-      this.el.syncBtn.disabled = false;
+      msg = `❌ ${err.message}`;
     }
+
+    // webhook 失败时 fallback 到复制到剪贴板
+    if (!ok) {
+      const help = this.store.copyResultsToClipboard();
+      this._showToast(`⚠️ 飞书 webhook 失败，${help}`);
+      this.el.syncBtn.textContent = '📋 已复制到剪贴板';
+      this.el.syncStatus.textContent = msg;
+      this.el.syncBtn.disabled = false;
+    } else {
+      this._showToast(msg);
+      this.el.syncBtn.textContent = '✅ 已同步';
+      this.store.persistResults();
+    }
+
     this.isSyncing = false;
   }
 
