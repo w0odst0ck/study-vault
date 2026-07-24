@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>study-vault · 知识仪表盘</title>
+  <link rel="stylesheet" href="review/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+  <style>
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    .dashboard-grid .stat-box { padding: 1.25rem 0.75rem; }
+    .dashboard-grid .stat-value { font-size: 1.8rem; }
+    .domain-table { width:100%; border-collapse: collapse; margin:1rem 0; font-size:0.9rem; }
+    .domain-table th { text-align:left; padding:0.5rem; border-bottom:1px solid var(--border); color:var(--text-light); font-weight:600; font-size:0.8rem; }
+    .domain-table td { padding:0.5rem; border-bottom:1px solid var(--border); }
+    .domain-table tr:last-child td { border-bottom:none; }
+    .section-title { font-size:1rem; font-weight:600; color:var(--primary); margin:1.5rem 0 0.5rem; }
+    .quick-links { display:flex; gap:0.75rem; margin:1rem 0; flex-wrap:wrap; }
+    .last-updated { font-size:0.8rem; color:var(--text-light); text-align:center; margin-top:1.5rem; }
+    .repo-link { color: var(--primary-light); text-decoration: none; font-size:0.85rem; }
+    .repo-link:hover { text-decoration: underline; }
+    .streak-fire { display: inline-block; animation: pulse 1.5s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>📚 study-vault</h1>
+    <div class="subtitle">知识库 · 间隔复习 · 复盘沉淀</div>
+  </div>
+
+  <!-- Summary stats -->
+  <div id="stats-container">
+    <div class="loading" id="stats-loading">
+      <div class="spinner"></div>
+      <p>加载数据中...</p>
+    </div>
+    <div id="stats-content" style="display:none"></div>
+  </div>
+
+  <div class="last-updated">
+    <a class="repo-link" href="https://github.com/w0odst0ck/study-vault" target="_blank">w0odst0ck/study-vault</a>
+    ·
+    <span id="update-time">加载中...</span>
+  </div>
+</div>
+
+<script>
+(async function() {
+  try {
+    const resp = await fetch('data/cards.json');
+    const data = await resp.json();
+    const cards = data.cards || [];
+    const today = new Date().toISOString().split('T')[0];
+
+    // Compute stats
+    const total = data.totalCards || cards.length;
+    const due = cards.filter(c => (c.next_review || '1970-01-01') <= today).length;
+    const remembered = cards.filter(c => (c.last_reviewed || '') === today).length;
+
+    // Domain breakdown
+    const domains = {};
+    cards.forEach(c => {
+      const d = c.domain || '?';
+      if (!domains[d]) domains[d] = { total: 0, due: 0, reviewed: 0 };
+      domains[d].total++;
+      if ((c.next_review || '1970-01-01') <= today) domains[d].due++;
+      if ((c.last_reviewed || '') === today) domains[d].reviewed++;
+    });
+
+    // Streak from localStorage review history
+    let streak = 0;
+    try {
+      const history = JSON.parse(localStorage.getItem('study_vault_review_history') || '{}');
+      const check = new Date();
+      for (let i = 0; i < 365; i++) {
+        const key = check.toISOString().split('T')[0];
+        if (history[key]) { streak++; check.setDate(check.getDate() - 1); }
+        else break;
+      }
+    } catch(e) {}
+
+    // Render
+    const el = document.getElementById('stats-content');
+    const domainRows = Object.entries(domains).map(([d, info]) => `
+      <tr>
+        <td><span class="domain-badge domain-${d}">${d}</span></td>
+        <td>${info.total}</td>
+        <td style="color:${info.due > 0 ? 'var(--red)' : 'var(--green)'}">${info.due}</td>
+        <td>${info.reviewed}</td>
+      </tr>
+    `).join('');
+
+    el.innerHTML = `
+      <div class="dashboard-grid">
+        <div class="stat-box">
+          <div class="stat-value" style="color:var(--primary)">${total}</div>
+          <div class="stat-label">卡片池</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value ${due > 0 ? 'red' : 'green'}">${due}</div>
+          <div class="stat-label">今日到期</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value ${streak > 0 ? 'orange' : ''}">
+            ${streak > 0 ? '<span class="streak-fire">🔥</span> ' + streak : '—'}
+          </div>
+          <div class="stat-label">连续天数</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value green">${remembered}</div>
+          <div class="stat-label">今日已复习</div>
+        </div>
+      </div>
+
+      <div class="section-title">📂 各领域分布</div>
+      <table class="domain-table">
+        <tr>
+          <th>领域</th>
+          <th>总卡</th>
+          <th>到期</th>
+          <th>今日已复</th>
+        </tr>
+        ${domainRows}
+      </table>
+
+      <div class="section-title">🚀 快速入口</div>
+      <div class="quick-links">
+        <a href="review/" class="btn btn-accent">📇 复习</a>
+        <a href="knowledge/" class="btn btn-outline">📚 知识库</a>
+        <a href="glossary/" class="btn btn-outline">📖 术语</a>
+        <a href="references/" class="btn btn-outline">🔗 参考</a>
+      </div>
+    `;
+
+    document.getElementById('stats-loading').style.display = 'none';
+    el.style.display = 'block';
+    document.getElementById('update-time').textContent = '更新于 ' + (data.exported || today);
+
+  } catch(err) {
+    document.getElementById('stats-loading').innerHTML = `
+      <p style="color:var(--red);">加载失败：${err.message}</p>
+      <p style="margin-top:0.5rem; font-size:0.85rem;">确认已运行 <code>python3 scripts/review.py export</code></p>
+    `;
+  }
+})();
+</script>
+
+<!-- Bottom nav (mobile only) -->
+<nav class="bottom-nav">
+  <a href="" class="active"><span class="nav-icon">📊</span>仪表</a>
+  <a href="review/"><span class="nav-icon">📇</span>复习</a>
+  <a href="knowledge/"><span class="nav-icon">📚</span>知识</a>
+  <a href="glossary/"><span class="nav-icon">📖</span>术语</a>
+  <a href="references/"><span class="nav-icon">🔗</span>参考</a>
+</nav>
+
+<style>
+.bottom-nav {
+  display: none;
+}
+@media (max-width: 768px) {
+  .container { padding-bottom: 4rem; }
+  .bottom-nav {
+    display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
+    background: var(--card-bg); border-top: 1px solid var(--border);
+    padding: 0.35rem 0 env(safe-area-inset-bottom, 0);
+  }
+  .bottom-nav a {
+    flex: 1; text-align: center; padding: 0.3rem 0; text-decoration: none;
+    color: var(--text-light); font-size: 0.65rem; min-height: 44px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .bottom-nav a .nav-icon { font-size: 1.2rem; line-height: 1; }
+  .bottom-nav a.active { color: var(--primary); font-weight: 600; }
+}
+</style>
+</body>
+</html>

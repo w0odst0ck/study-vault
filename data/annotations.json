@@ -1,0 +1,249 @@
+{
+  "version": 1,
+  "annotations": {
+    "crawler/01-b2b-platforms-anti-crawl": [
+      {
+        "term": "滑块验证码",
+        "content": "网站的一种验证手段，需要用户拖动滑块到指定位置。\n1688 的滑块在特定页面触发（如搜索页），不是每次访问都弹。\n解法：Playwright 等待人工一次性通过 → 保存 state 文件 → 后续复用。"
+      },
+      {
+        "term": "`waf_nc_block`",
+        "content": "震坤行使用的阿里云 WAF 遮罩层元素 ID。\n原理：在页面上覆盖一层透明遮罩（`pointer-events: none`），看起来页面正常但所有点击事件都被拦截。\n解法：用 MutationObserver 在遮罩插入 DOM 前移除。"
+      },
+      {
+        "term": "`window.__INITIAL_DATA__`",
+        "content": "服务端渲染（SSR [[glossary/SSR]]）的标准做法——服务端把数据直接塞到 HTML 的 `<script>` 标签中。\n爬虫可以直接从页面源码提取 JSON，无需额外发 API 请求。\n见 [glossary/SSR](../glossary/SSR.md)。\n\n## L2 概念"
+      },
+      {
+        "term": "IP 冷却",
+        "content": "爬虫频率过高触发风控后，IP 被暂时封禁，需要等待一段时间才能恢复。\n各平台冷却时长不同：1688 1-3 天、震坤行 24h。\n冷却期间即使正常访问也会被拦，必须换 IP 或等待。"
+      },
+      {
+        "term": "上下文隔离（Session Isolation）",
+        "content": "见 cross-context 工程实践——不同平台用独立的 BrowserContext，\n避免 1688 的 Cookie 污染震坤行的登录态。\n\n## L3 架构解读"
+      },
+      {
+        "term": "指数退避（Exponential Backoff）",
+        "content": "失败重试策略：第 1 次失败等 1s，第 2 次等 2s，第 3 次等 4s...\n指数级增长等待时间，给服务器恢复时间 + 减少被风控概率。"
+      }
+    ],
+    "crawler/02-playwright-browser-manager": [
+      {
+        "term": "单例模式",
+        "content": "全局只有一个实例，所有代码共享同一个浏览器管理器。\n防止重复创建浏览器实例浪费资源。"
+      },
+      {
+        "term": "Stealth JS",
+        "content": "隐藏浏览器自动化痕迹的 JavaScript 注入脚本。\n网站可以通过 `navigator.webdriver` 等属性检测你是不是自动化工具。\nStealth JS 就是把这些检测点全部模拟成真人浏览器的样子。"
+      },
+      {
+        "term": "Context 隔离",
+        "content": "见 [glossary/Playwright](../glossary/Playwright.md)。\n每平台一个独立 BrowserContext，Cookie/Storage/LocalStorage 互不干扰。\n\n## L2 概念"
+      },
+      {
+        "term": "三种搜索策略",
+        "content": "为什么需要三种策略？因为不同平台的防御力度不同：\n\n| 策略 | 适用场景 | 原理 |\n|------|---------|------|\n| 渲染模式 | SSR 页面（直接在 HTML 里有数据） | 打开 → 等 DOM 渲染 → 取 HTML |\n| API 拦截 | SPA 页面（数据靠 API 加载） | 拦截 XHR 请求 → 直接拿 JSON |\n| 主页交互 | 首页无保护的平台（绕过 CF） | 从首页进，避免触发搜索页的保护 |"
+      },
+      {
+        "term": "networkidle vs load",
+        "content": "`waitUntil` 的两个模式：\n- `\"load\"`：页面的 HTML 和静态资源加载完就算完成（快，够用）\n- `\"networkidle\"`：页面所有网络请求都停了才算完成（严格，但长连接会卡死）\n\nWSL2 下 1688 页面有长轮询，`networkidle` 会一直等到超时。\n\n## L3 架构"
+      },
+      {
+        "term": "管理器模式",
+        "content": "不直接操作 Playwright API，而是包装成 `BrowserManager` 类。\n好处：跨平台切换（switch_platform）、自动注入 Stealth JS、统一管理登录态。"
+      }
+    ],
+    "crawler/03-national-standard-collection": [
+      {
+        "term": "采标",
+        "content": "中国国家标准采用国际标准（IEC/ISO/CIE 等）的做法。\n约 76% 的中国照明国标是采标——意味着这些标准的参数体系与国际一致。\n标准编号中带 `/T` 是推荐性标准，不带是强制性标准。"
+      },
+      {
+        "term": "适配器模式",
+        "content": "软件设计模式，通过统一接口包装不同数据源。\n每个平台写一个适配器（继承 BaseCollector），引擎通过配置开关切换。\n新增数据源只需要新写一个适配器文件，不需要改引擎代码。"
+      },
+      {
+        "term": "FTS5 [[glossary/FTS5]]",
+        "content": "见 [glossary/FTS5](../glossary/FTS5.md)。\n\n## L2 概念"
+      },
+      {
+        "term": "为什么免费 PDF 下载通道不可靠",
+        "content": "国家标准信息的公开是一个政治平衡：\n- 法律要求标准信息必须公开（SAMR 展示详情）\n- 但全文 PDF 下载影响出版社收益（纸质标准书很贵）\n- 所以 openstd 这种 PDF 下载通道随时可能被关\n\n## L3 架构"
+      },
+      {
+        "term": "配置驱动的设计取舍",
+        "content": "`standards_config.ini` 控制平台启停。好处：\n- 禁用失效数据源只需改配置，不改代码\n- 新数据源注册在配置里，不需要动 import 语句\n- 团队成员可独立维护自己的配置"
+      }
+    ],
+    "crawler/04-pdf-parameter-locator": [
+      {
+        "term": "PyMuPDF (fitz)",
+        "content": "Python 的 PDF 处理库，底层用 C 写的 MuPDF 引擎。\n提取文字性能极好：59 页 PDF 只需 0.12 秒。\n比 pdfplumber 快但提取结果更原始（没有表格结构）。"
+      },
+      {
+        "term": "pymupdf4llm",
+        "content": "基于 PyMuPDF，专门把 PDF 转 Markdown 格式。\n含表格识别（Pipe Table），但单元格内容有碎片（同一个格子的文字可能被拆分）。\n适合 LLM 读取，不适合精确参数提取。"
+      },
+      {
+        "term": "Tesseract [[glossary/Tesseract]]",
+        "content": "见 [glossary/Tesseract](../glossary/Tesseract.md)。"
+      },
+      {
+        "term": "EasyOCR",
+        "content": "纯 pip 安装的 OCR 库，底层带 PyTorch（~500MB）。\n优点是开箱即用（不需要系统安装），缺点是模型大、速度慢。\n\n## L2 概念"
+      },
+      {
+        "term": "为什么定位优于提取",
+        "content": "OCR 中文表格精度只有 60-70%，自动提取的数值不可靠。\n但是定位参数在哪几页（59 页 → 5 页）是非常可靠的任务（规则匹配）。\n**策略**：让机器做它擅长的事（定位），让人类做机器做不好的事（精确提取）。"
+      },
+      {
+        "term": "规则分级 P0/P1/P2",
+        "content": "三级规则的置信度不同：\n- P0：确定性极高（\"配光性能\"就是参数页），命中 1 个就够\n- P1：概率性高（\"照度\"可能出现在参数页也可能出现在参考页），要多命中几个\n- P2：辅助验证（\"最小值\"本身不是参数特征），需要跟 P1 配合\n\n## L3 架构"
+      },
+      {
+        "term": "两条路线 + 统一规则",
+        "content": "文字层和 OCR 路线共享同一套关键词规则。\n好处：规则维护一份，两条路线各自用自己的方式检测。\n如果路线专用规则，维护量翻倍且容易不一致。"
+      }
+    ],
+    "crawler/05-multi-source-intel-collection": [
+      {
+        "term": "RSS/Atom",
+        "content": "网站内容更新的标准订阅格式（XML 格式）。\n类似微信公众号的订阅机制——你订阅一个 RSS 源，有新内容自动推送。\n结构化、稳定、易解析，是爬虫最友好的数据源。"
+      },
+      {
+        "term": "MD5 去重",
+        "content": "对内容计算 MD5 哈希值（32 位十六进制字符串），存到文件里。\n下次采集时先算 MD5，跟历史记录比，相同就跳过。\n优点是计算快、占用小；缺点是内容微调（加个空格）会生成不同 Hash。\n\n## L2 概念"
+      },
+      {
+        "term": "数据源协议类型",
+        "content": "| 协议 | 稳定性 | 解析难度 | 建议 |\n|------|--------|---------|------|\n| 官方 API | 高 | 低 | 首选 |\n| RSS/Atom | 中 | 低 | 次选 |\n| HTML 解析 | 低 | 中 | 后备 |\n| JS 渲染 | 低 | 高 | 避免 |"
+      },
+      {
+        "term": "移除教训",
+        "content": "数据源不是越多越好。移除的 7 个源各有原因：\n- arXiv → 学术论文，不适用宏观科技资讯\n- GlobeNewswire → RSS 400 限制\n- 东方财富 → 418 反爬，JS 渲染\n- 央行 → connection reset（最隐蔽的错误）\n\n## L3 架构"
+      },
+      {
+        "term": "LLM 安全策略",
+        "content": "LLM 默认禁用 + `--llm` 按需启用 + 失败返回 None。\n这种设计体现了**功能降级**思想：核心功能不依赖外部服务。\n即使 LLM 挂了，规则分类仍然能保底产出。"
+      }
+    ],
+    "crawler/06-1688-factory-monitor": [
+      {
+        "term": "alias ID",
+        "content": "1688 工厂的 memberId 有两种格式：\n- 标准格式：`b2b-xxx` 开头\n- 别名格式：英文单词（如 `wellfinesilicone`）\n别名格式的工厂详情页无法通过标准 URL 模式访问，遍历时需要跳过。"
+      },
+      {
+        "term": "`data-btrack` 属性",
+        "content": "1688 自定义 HTML 属性，用于前端埋点追踪。\n因为 `<a>` 标签的 href 不可靠，改从 `data-*` 属性取数据。\n`data-btrack=\"pc-card-shop-gallery-btn\"` 是产品目录入口的标识。\n\n## L2 概念"
+      },
+      {
+        "term": "为什么 shopURL 不能直接当产品目录 URL",
+        "content": "shopURL 是工厂首页，产品目录页面是另一个 URL。\n两者没有固定换算规则，必须从名片页 DOM 中提取。\n这是 1688 的 SPA 路由设计——不同页面对应不同路由参数。"
+      },
+      {
+        "term": "UNIQUE 冲突 + 空字符串占位",
+        "content": "SQLite UNIQUE 约束把空字符串 `''` 当作一个合法值。\n多条记录的 shop_url 初始值都是 `''` → 第二条插入时 UNIQUE 冲突。\n解决方案：初始值用 `<主键>`（每家不同），或允许 NULL。\n这是数据库设计中最容易踩的坑之一。\n\n## L3 架构"
+      },
+      {
+        "term": "全链路流水线的设计思路",
+        "content": "5 个阶段逐级递进，每阶段产出是下阶段的输入：\n\n```\n搜索（找工厂）→ 名片（找目录页）→ 产品目录（找商品）→ 过滤（筛灯类）→ 预警（对比变化）\n```\n\n每阶段可独立验证、独立重跑。即使第 3 阶段挂了，第 1-2 阶段的数据不会丢失。"
+      },
+      {
+        "term": "验证驱动开发",
+        "content": "先写 verify.py 逐步骤验证 DOM 选择器 → 验证通过提取为正式脚本 → 保留 verify.py 作为选择器参考。\n网页 DOM 结构经常变，验证脚本相当于**活的 API 文档**。"
+      }
+    ],
+    "data-analysis/01-b2b-selection-and-price-monitor": [
+      {
+        "term": "移动平均",
+        "content": "一种平滑数据的方法，用过去 N 个时间点的平均值作为当前基准。\n价格监控中，用移动平均 vs 当前价做对比，比逐次比较更稳定（避免短期波动误报）。"
+      },
+      {
+        "term": "冷启动",
+        "content": "新商品上线初期，数据样本少（快照 < 3 次），此时计算的价格趋势不可靠。\n方案：不给足够的样本数不做预警，避免冷启动阶段的误报。\n\n## L2 概念"
+      },
+      {
+        "term": "四层选品模型",
+        "content": "| 层级 | 判定逻辑 | 动作 |\n|------|---------|------|\n| 🟢必上 | 强需求 + 高利润 | 立即上架 |\n| 🔵推荐 | 有潜力（需求/利润之一强） | 优先上架 |\n| 🟡暗马 | 长尾 + 竞品覆盖少 | 试探性上架少量 |\n| 🔘关注 | 趋势待观察 | 先不上架，继续监控 |\n\n本质是**风险收益权衡**：确定性高的重投入，不确定性高的轻投入。\n\n## L3 架构"
+      },
+      {
+        "term": "Streamlit → Flask 的技术路线转变",
+        "content": "Streamlit：快速原型工具，适合数据分析展示。\nFlask：全功能 Web 框架，适合做产品。\nStreamlit 做原型验证 → Flask 做正式产品，这是典型的数据产品开发路径。\n不是技术原因，而是产品化需求（权限/路由/扩展性）决定。"
+      },
+      {
+        "term": "品牌提取的\"双重解析\"策略",
+        "content": "品牌提取准确率从 0%→91%，关键在**融合两个弱信号**：\n- 标题中的品牌名（可能有，可能被截断）\n- 店铺名中的品牌（可能有，与标题互补）\n两者交叉验证，比单一来源可靠得多。"
+      }
+    ],
+    "programming/01-pydantic-v2-model-design": [
+      {
+        "term": "`model_validator`",
+        "content": "Pydantic v2 的新验证机制，在字段级别验证完成后执行。\n可以做跨字段校验——比如确保 `full_name == owner/name`。\n比 `@validator`（每个字段独立验证）更适合需要字段间一致性的场景。"
+      },
+      {
+        "term": "`field_serializer`",
+        "content": "控制字段的序列化输出格式。比如：\n- 时间对象 → ISO 字符串\n- 自定义类 → 特定格式\n- 敏感字段（如 token）→ 脱敏输出"
+      },
+      {
+        "term": "`min_length` / `max_length`",
+        "content": "Pydantic 的字段约束参数，定义字符串/列表的最小和最大长度。\n属于**防御式编程**：在数据进入系统时就校验，尽早失败。\n\n## L2 概念"
+      },
+      {
+        "term": "衍生值不应持久化",
+        "content": "设计中反复出现的模式：`average_confidence`、`orphans` 都是计算可得的值。\n存了会产生数据一致性问题——源数据变了，衍生值没更新。\n改为方法（`compute_orphans()`）每次调用时实时计算。"
+      },
+      {
+        "term": "三层搜索路径",
+        "content": "配置查找的优先级：\n```\n--config 参数 > ./star-vault.yaml > 内置默认值\n```\n最具体的（用户明确指定的）优先级最高，最泛用的（默认值）兜底。\n这是 Unix 哲学在配置管理中的体现。"
+      },
+      {
+        "term": "脱敏函数",
+        "content": "```\n\"ghp_abcdef12345678\" → \"ghp_abcdef****5678\"\n```\n不存 Token、不在日志中打印完整 Token、只显示首尾几位。\n安全的最小原则：只有必要的人才看到必要的信息。"
+      }
+    ],
+    "programming/02-phase-zero-project-startup": [
+      {
+        "term": "`starred_at`",
+        "content": "GitHub Star API 返回的字段，记录你是什么时候 star 这个仓库的。\n加上 `Accept: application/vnd.github.star+json` header 才会返回。\n没有这个 header 也能获取仓库列表，但不知道哪些是新增的。"
+      },
+      {
+        "term": "`sha` 对比",
+        "content": "Git 的哈希值，每次提交或文件变化都会生成。\n增量同步时，比较上次记录的 sha 和当前的 sha，相同则无需更新。"
+      },
+      {
+        "term": "原子写入",
+        "content": "先写到临时文件 → 用 `os.replace()` 重命名替换原文件。\n确保即使程序在写入中崩溃，原文件也不会损坏（要么全写，要么不写）。\n\n## L2 概念"
+      },
+      {
+        "term": "增量 vs 全量",
+        "content": "| 模式 | 做法 | 适用 |\n|------|------|------|\n| 全量 | 每次都拉所有数据 | 首次，或数据量小 |\n| 增量 | 只拉上次同步后的新增 | 日常维护，节省资源 |\n\n增量同步的核心是**识别变化**——要么通过时间戳（`starred_at`），要么通过内容 Hash（`sha`）。"
+      },
+      {
+        "term": "规则 vs AI 的分工",
+        "content": "规则：快、确定、零成本——适合明确的分类（语言、话题重叠）。\nAI：慢、不确定、有成本——适合语义理解（内容相关性、模糊匹配）。\n正确策略：**规则做 80% 的事，AI 兜底剩下的 20%**。\n\n## L3 架构"
+      },
+      {
+        "term": "设计文档先行的价值",
+        "content": "Phase 0 的核心不是写代码，是**想清楚再动手**。\n15 个 Task 分解、模型设计、同步策略——都是在没有代码运行时就必须确定的决策。\n写代码只是执行，真正的工程决策在设计阶段做。"
+      }
+    ],
+    "programming/03-project-integration-strategy": [
+      {
+        "term": "`.guard.md`",
+        "content": "项目目录的访问权限标注文件，标记哪些目录可以自由修改、哪些需要审核。\n本质是**沟通工具**：告诉团队（或 AI Agent）代码修改的边界在哪里。"
+      },
+      {
+        "term": "自由开发目录",
+        "content": "不需要审批即可修改的目录。对应\"需要审核\"的受控目录。\n适合独立子项目、工具脚本等低风险模块。\n与核心业务逻辑的受控目录形成分级管理。\n\n## L2 概念"
+      },
+      {
+        "term": "为什么两轮提交",
+        "content": "子项目整合涉及**隐私安全**和**功能变更**两类完全不同的变更：\n- 隐私安全：清理 Token、更新 .gitignore、删除 .venv\n- 功能变更：移动代码、更新文档\n\n混在一起会污染 git 历史，审计时难以追溯安全问题的修复。\n\n## L3 架构"
+      },
+      {
+        "term": "分层隔离的设计",
+        "content": "```\nPageHarvest/\n├── .guard.md        ← 权限标注层\n├── .gitignore       ← 安全边界层\n├── factory-monitor/ ← 子项目隔离层\n└── shared/          ← 公共模块层\n```\n\n每层解决一个问题：谁可以改、什么不能入库、各模块如何组织。\n没有严格的架构规则，但约定的目录结构本身就是约束。"
+      }
+    ]
+  }
+}
