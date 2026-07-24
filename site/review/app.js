@@ -10,8 +10,8 @@ const HIST_KEY = 'study_…tory';
 const PERSIST_KEY = 'study_…sted';
 const SCHEMA_VER = 2;
 
-// ── 同步配置（替换为飞书群机器人的 webhook URL）──
-const FEISHU_WEBHOOK = 'https://open.feishu.cn/open-apis/bot/v2/hook/请替换';
+// ── 同步配置（飞书群机器人 webhook）──
+const FEISHU_WEBHOOK = 'https://open.feishu.cn/open-apis/bot/v2/hook/a0842027-fba1-4e48-aa61-3f8fc4b3bb75';
 
 // ── 工具：复制文本到剪贴板 ──
 async function copyToClipboard(text) {
