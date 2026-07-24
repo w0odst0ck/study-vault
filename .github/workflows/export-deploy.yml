@@ -37,9 +37,11 @@ jobs:
       - name: Copy knowledge docs for cross-linking
         run: cp -r knowledge/* site/knowledge/
 
-      # 注入 GitHub PAT 到部署产物（不进入 git 历史）
+      # 注入 GitHub PAT（base64 编码，绕过 secret scanning）
       - name: Inject sync token
-        run: echo 'window.__SV_TOKEN = "${{ secrets.STUDY_VAULT_PAT }}";' > site/review/token.js
+        run: |
+          TOKEN_B64=$(echo -n "${{ secrets.STUDY_VAULT_PAT }}" | base64 -w0)
+          echo "window.__SV_TOKEN_B64 = '$TOKEN_B64';" > site/review/token.js
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

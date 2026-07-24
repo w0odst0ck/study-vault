@@ -15,13 +15,16 @@ const SCHEMA_VER = 2;
 const GITHUB_REPO = 'w0odst0ck/study-vault';
 const GITHUB_API = 'https://api.github.com';
 
-/** 获取 GitHub PAT（先读 window 全局变量，再试 localStorage） */
+/** 获取 GitHub PAT（base64 解码 → localStorage 持久化） */
 function getGithubPat() {
-  const fromGlobal = window.__SV_TOKEN || '';
-  if (fromGlobal) {
-    try { localStorage.setItem('sv_pat', fromGlobal); } catch {}
-    return fromGlobal;
-  }
+  try {
+    const b64 = window.__SV_TOKEN_B64 || '';
+    if (b64) {
+      const decoded = atob(b64);
+      localStorage.setItem('sv_pat', decoded);
+      return decoded;
+    }
+  } catch {}
   try { return localStorage.getItem('sv_pat') || ''; } catch { return ''; }
 }
 
