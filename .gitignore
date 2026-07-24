@@ -11,3 +11,8 @@ __pycache__/
 memory/
 plan/
 project-refs/
+
+# token 由 GitHub Actions 部署时注入，不入库
+site/review/token.js
+wrangler.toml
+scripts/sync-worker.js

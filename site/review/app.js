@@ -9,9 +9,21 @@ const LS_KEY = 'study_…sion';
 const HIST_KEY = 'study_…tory';
 const PERSIST_KEY = 'study_…sted';
 const SCHEMA_VER = 2;
+// ── 同步配置 ──
+// token.js 由 GitHub Actions 在部署时注入（详见 .github/workflows/export-deploy.yml）
+// 浏览器运行时不硬编码任何 token
 const GITHUB_REPO = 'w0odst0ck/study-vault';
 const GITHUB_API = 'https://api.github.com';
-const GITHUB_PAT = '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';
+
+/** 获取 GitHub PAT（先读 window 全局变量，再试 localStorage） */
+function getGithubPat() {
+  const fromGlobal = window.__SV_TOKEN || '';
+  if (fromGlobal) {
+    try { localStorage.setItem('sv_pat', fromGlobal); } catch {}
+    return fromGlobal;
+  }
+  try { return localStorage.getItem('sv_pat') || ''; } catch { return ''; }
+}
 
 // ═══════════════════════════════════════════════
 // SM-2 算法
@@ -121,6 +133,7 @@ class CardStore {
   // ── 加载 ──
 
   async load() {
+    // ═══ Step 1: 加载本地卡片 + 持久化状态 ═══
     const resp = await fetch('../data/cards.json');
     const data = await resp.json();
     this.allCards = (data.cards || []).map(c => {
@@ -134,12 +147,33 @@ class CardStore {
       return c;
     });
 
+    // ═══ Step 2: 从 GitHub 拉取云端复习状态（跨设备合并） ═══
+    try {
+      const syncResult = await this.pullFromGithub();
+      if (syncResult.ok && syncResult.merged > 0) {
+        console.log(`📦 云端同步: 合并 ${syncResult.merged} 张卡片`);
+        // 重新应用云端数据到卡片
+        this.allCards.forEach(c => {
+          const p = this._persisted[c.id];
+          if (p) {
+            c.interval = p.interval;
+            c.ease = p.ease;
+            c.next_review = p.next_review;
+            c.last_reviewed = p.last_reviewed;
+          }
+        });
+      }
+    } catch (err) {
+      console.warn('⚠️ 云端同步失败（不影响本地复习）:', err.message);
+    }
+
     const allIds = new Set(this.allCards.map(c => c.id));
     this._cleanupPersisted(allIds);
 
     this.dueCards = this._getSortedDue(this.allCards);
     this.allDueCount = this.dueCards.length;
 
+    // ═══ Step 3: 恢复本地 session ═══
     if (this._sid && this.currentIndex > 0) {
       const sessionIds = this._sessionIds || [];
       const currentIds = this.dueCards.map(c => c.id).sort().join(',');
@@ -188,7 +222,26 @@ class CardStore {
     if (this.currentIndex >= this.batchCount && this.cursor + this.batchSize >= this.allDueCount) {
       this.isComplete = true;
     }
+    // 自动同步到云端（防抖：每评 3 张或分批完成时触发）
+    this._debouncedAutoSync();
     return result;
+  }
+
+  // ── 自动同步（防抖） ──
+  _debouncedAutoSync() {
+    clearTimeout(this._autoSyncTimer);
+    const count = Object.keys(this.results).length;
+    if (count >= 10 || this.isComplete) {
+      this.pushToGithub().then(r => {
+        if (r.ok) console.log(`📤 自动同步: ${r.count} 张`);
+      }).catch(() => {});
+      return;
+    }
+    this._autoSyncTimer = setTimeout(() => {
+      this.pushToGithub().then(r => {
+        if (r.ok) console.log(`📤 自动同步: ${r.count} 张`);
+      }).catch(() => {});
+    }, 5000);
   }
 
   extendBatch(overrideSize) {
@@ -211,52 +264,106 @@ class CardStore {
     } catch { return null; }
   }
 
-  async syncToGithub() {
+  // ── 从 GitHub 拉取云端复习状态（跨设备合并） ──
+
+  async pullFromGithub() {
+    const token = getGithubPat();
+    if (!token) return { ok: false, error: '未配置 token' };
+
+    try {
+      const resp = await fetch(
+        `${GITHUB_API}/repos/${GITHUB_REPO}/contents/review/sync-results.json`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (!resp.ok) {
+        if (resp.status === 404) return { ok: true, merged: 0, total: 0 };
+        return { ok: false, error: `GitHub API HTTP ${resp.status}` };
+      }
+      const data = await resp.json();
+      const decoded = JSON.parse(atob(data.content));
+      const remote = decoded.cards || {};
+
+      let merged = 0;
+      for (const [id, card] of Object.entries(remote)) {
+        const local = this._persisted[id];
+        if (!local || !local.last_reviewed || !card.last_reviewed ||
+            card.last_reviewed >= local.last_reviewed) {
+          this._persisted[id] = {
+            interval: card.interval,
+            ease: card.ease,
+            next_review: card.next_review,
+            last_reviewed: card.last_reviewed,
+          };
+          merged++;
+        }
+      }
+      if (merged > 0) this._savePersisted();
+      return { ok: true, merged, total: Object.keys(remote).length };
+    } catch (err) {
+      return { ok: false, error: err.message };
+    }
+  }
+
+  // ── 将本地结果推送到 GitHub ──
+
+  async pushToGithub() {
     if (Object.keys(this.results).length === 0) return { ok: false, error: '没有需要同步的结果' };
 
-    const content = {
-      cards: {},
-      synced: new Date().toISOString(),
-    };
+    const token = getGithubPat();
+    if (!token) return { ok: false, error: '未配置 token' };
+
+    // 组装内容
+    const cards = {};
+    let latestTs = '';
     for (const [id, r] of Object.entries(this.results)) {
-      content.cards[id] = {
+      cards[id] = {
         interval: r.interval,
         ease: r.ease,
         next_review: r.nextReview,
         last_reviewed: r.lastReviewed,
       };
+      if (r.lastReviewed > latestTs) latestTs = r.lastReviewed;
     }
 
+    const content = {
+      cards,
+      synced: new Date().toISOString(),
+    };
+
+    // 获取现有文件 SHA（更新时需要）
     let sha = null;
     try {
       const getResp = await fetch(
-        `${GITHUB_API}/repos/${GITHUB_REPO}/contents/review/sync-results.json?ref=main`,
-        { headers: { Authorization: `Bearer ${GITHUB_PAT}` } }
+        `${GITHUB_API}/repos/${GITHUB_REPO}/contents/review/sync-results.json`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       if (getResp.ok) sha = (await getResp.json()).sha;
     } catch {}
 
     const body = {
-      message: `sync: ${Object.keys(content.cards).length} 张卡片`,
+      message: `sync: ${Object.keys(cards).length} 张卡片`,
       content: base64Encode(JSON.stringify(content, null, 2)),
       branch: 'main',
     };
     if (sha) body.sha = sha;
 
-    const putResp = await fetch(
-      `${GITHUB_API}/repos/${GITHUB_REPO}/contents/review/sync-results.json`,
-      {
-        method: 'PUT',
-        headers: { Authorization: `Bearer ${GITHUB_PAT}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+    try {
+      const putResp = await fetch(
+        `${GITHUB_API}/repos/${GITHUB_REPO}/contents/review/sync-results.json`,
+        {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        }
+      );
+      if (!putResp.ok) {
+        const err = await putResp.json().catch(() => ({}));
+        return { ok: false, error: err.message || `HTTP ${putResp.status}` };
       }
-    );
-
-    if (!putResp.ok) {
-      const err = await putResp.json().catch(() => ({}));
-      return { ok: false, error: err.message || `HTTP ${putResp.status}` };
+      return { ok: true, count: Object.keys(cards).length };
+    } catch (err) {
+      return { ok: false, error: err.message };
     }
-    return { ok: true, count: Object.keys(content.cards).length };
   }
 
   getBatchStats() {
@@ -452,8 +559,9 @@ class ReviewUI {
     this.isSyncing = true;
     this.el.syncBtn.textContent = '⏳ 同步中...';
     this.el.syncBtn.disabled = true;
+
     try {
-      const result = await this.store.syncToGithub();
+      const result = await this.store.pushToGithub();
       if (result.ok) {
         this._showToast(`✅ 已同步 ${result.count} 张卡片`);
         this.el.syncStatus.textContent = `已同步: ${result.count} 张 · ${new Date().toLocaleTimeString()}`;
@@ -461,12 +569,12 @@ class ReviewUI {
         this.store.persistResults();
       } else {
         this._showToast(`❌ 同步失败: ${result.error}`);
-        this.el.syncBtn.textContent = '☁️ 重试同步';
+        this.el.syncBtn.textContent = '☁️ 重试';
         this.el.syncBtn.disabled = false;
       }
     } catch (err) {
       this._showToast(`❌ 同步出错: ${err.message}`);
-      this.el.syncBtn.textContent = '☁️ 重试同步';
+      this.el.syncBtn.textContent = '☁️ 重试';
       this.el.syncBtn.disabled = false;
     }
     this.isSyncing = false;

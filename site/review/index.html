@@ -117,7 +117,7 @@
 
       <div class="sync-section">
         <button id="sync-btn" class="btn btn-outline" disabled>
-          ☁️ 同步到 GitHub
+          ☁️ 推送仓库
         </button>
         <span id="sync-status" class="sync-status"></span>
       </div>
@@ -141,6 +141,8 @@
 <!-- Toast -->
 <div id="toast" class="toast"></div>
 
+<!-- token.js 由 GitHub Actions 注入，不含敏感数据入库 -->
+<script src="token.js"></script>
 <script src="app.js"></script>
 
 <!-- Bottom nav (mobile only) -->
