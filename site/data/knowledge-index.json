@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exported": "2026-07-22",
+  "exported": "2026-07-24",
   "domains": {
     "crawler": [
       "crawler/01-b2b-platforms-anti-crawl",
@@ -11,6 +11,7 @@
       "crawler/06-1688-factory-monitor",
       "crawler/07-client-side-parser-architecture",
       "crawler/08-jd-parser-frontend",
+      "crawler/09-multi-source-collection-pipeline",
       "crawler/_index"
     ],
     "data-analysis": [
@@ -60,6 +61,7 @@
       "programming/05-python-oop",
       "programming/06-python-multitask",
       "programming/07-fastapi",
+      "programming/10-knowledge-base-project-startup",
       "programming/99-cross-language-comparison",
       "programming/_index"
     ]
@@ -145,6 +147,19 @@
       "path": "crawler/08-jd-parser-frontend.md",
       "tags": [],
       "created": ""
+    },
+    {
+      "id": "crawler/09-multi-source-collection-pipeline",
+      "title": "多源知识采集流水线架构",
+      "domain": "crawler",
+      "path": "crawler/09-multi-source-collection-pipeline.md",
+      "tags": [
+        "爬虫",
+        "采集架构",
+        "质量管理",
+        "数据源"
+      ],
+      "created": "2026-07-23"
     },
     {
       "id": "crawler/_index",
@@ -454,6 +469,19 @@
       "path": "programming/07-fastapi.md",
       "tags": [],
       "created": ""
+    },
+    {
+      "id": "programming/10-knowledge-base-project-startup",
+      "title": "知识库型项目启动方法论",
+      "domain": "programming",
+      "path": "programming/10-knowledge-base-project-startup.md",
+      "tags": [
+        "项目管理",
+        "项目启动",
+        "知识库",
+        "方案馆"
+      ],
+      "created": "2026-07-23"
     },
     {
       "id": "programming/99-cross-language-comparison",

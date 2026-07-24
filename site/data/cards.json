@@ -1,19 +1,19 @@
 {
   "version": 1,
-  "exported": "2026-07-22",
-  "totalCards": 191,
-  "dueToday": 181,
+  "exported": "2026-07-24",
+  "totalCards": 201,
+  "dueToday": 191,
   "cards": [
     {
       "id": "crawler-1688工厂搜索页的中-020",
       "domain": "crawler",
       "q": "1688 工厂搜索页的中文关键词编码方式是什么？",
       "a": "使用 GBK 编码[ⓘ]，非 UTF-8。需 `urllib.parse.quote(keyword, encoding='gbk')`。",
-      "interval": 1,
-      "ease": 2.36,
-      "next_review": "2026-07-23",
-      "last_reviewed": "2026-07-22",
-      "reviews": 1,
+      "interval": 6,
+      "ease": 2.46,
+      "next_review": "2026-07-30",
+      "last_reviewed": "2026-07-24",
+      "reviews": 2,
       "created": "2026-07-22"
     },
     {
@@ -23,9 +23,9 @@
       "a": "使用 Playwright 的 `wait_for_captcha_solve()` 等待用户手动通过滑块，一次性过滑块后保存浏览器 state 文件，后续复用避免重复弹出。",
       "interval": 1,
       "ease": 2.36,
-      "next_review": "2026-07-23",
-      "last_reviewed": "2026-07-22",
-      "reviews": 1,
+      "next_review": "2026-07-25",
+      "last_reviewed": "2026-07-24",
+      "reviews": 2,
       "created": "2026-07-22"
     },
     {
@@ -35,9 +35,9 @@
       "a": "约 1081 行，分为 search.js（搜索页）、detail.js（详情页）、shared.js、config.js、index.js 五个模块。",
       "interval": 1,
       "ease": 2.36,
-      "next_review": "2026-07-23",
-      "last_reviewed": "2026-07-22",
-      "reviews": 1,
+      "next_review": "2026-07-25",
+      "last_reviewed": "2026-07-24",
+      "reviews": 2,
       "created": "2026-07-22"
     },
     {
@@ -47,9 +47,9 @@
       "a": "页面长连接导致 `\"networkidle\"` 一直等待网络空闲，改为 `\"load\"` 或 `\"domcontentloaded\"`。",
       "interval": 1,
       "ease": 2.36,
-      "next_review": "2026-07-23",
-      "last_reviewed": "2026-07-22",
-      "reviews": 1,
+      "next_review": "2026-07-25",
+      "last_reviewed": "2026-07-24",
+      "reviews": 2,
       "created": "2026-07-22"
     },
     {
@@ -57,11 +57,11 @@
       "domain": "crawler",
       "q": "Intel 模块的领域分类体系有哪些？",
       "a": "finance（金融/资本）、self_driving（自动驾驶）、semiconductor（半导体，规划中）。`-d` 参数必选，支持按领域过滤和分组展示。",
-      "interval": 1,
-      "ease": 2.36,
-      "next_review": "2026-07-23",
-      "last_reviewed": "2026-07-22",
-      "reviews": 1,
+      "interval": 6,
+      "ease": 2.46,
+      "next_review": "2026-07-30",
+      "last_reviewed": "2026-07-24",
+      "reviews": 2,
       "created": "2026-07-22"
     },
     {
@@ -69,11 +69,11 @@
       "domain": "crawler",
       "q": "LLM 调用失败时的安全策略是什么？",
       "a": "LLM 默认禁用（`--llm` 按需启用），调用失败返回 `None` 不 `sys.exit(1)`，规则分类保底。",
-      "interval": 1,
-      "ease": 2.36,
-      "next_review": "2026-07-23",
-      "last_reviewed": "2026-07-22",
-      "reviews": 1,
+      "interval": 6,
+      "ease": 2.46,
+      "next_review": "2026-07-30",
+      "last_reviewed": "2026-07-24",
+      "reviews": 2,
       "created": "2026-07-22"
     },
     {
@@ -81,11 +81,11 @@
       "domain": "crawler",
       "q": "PDF 参数页定位器的核心定位策略是什么？",
       "a": "定位优先于提取——自动化定位参数在哪一页，人工确认精确数值，工作量从\"翻 59 页\"降到\"看 5 页\"。",
-      "interval": 1,
-      "ease": 2.36,
-      "next_review": "2026-07-23",
-      "last_reviewed": "2026-07-22",
-      "reviews": 1,
+      "interval": 6,
+      "ease": 2.46,
+      "next_review": "2026-07-30",
+      "last_reviewed": "2026-07-24",
+      "reviews": 2,
       "created": "2026-07-22"
     },
     {
@@ -95,9 +95,9 @@
       "a": "渲染模式（直接导航取 HTML，适用 SSR 页面）、API 拦截模式（拦截 XHR/Fetch 得 JSON，适用 SPA 页面）、主页交互模式（打开首页绕过 CF -> 输入搜索框 -> 点击按钮，适用首页无保护的平台）。",
       "interval": 1,
       "ease": 2.36,
-      "next_review": "2026-07-23",
-      "last_reviewed": "2026-07-22",
-      "reviews": 1,
+      "next_review": "2026-07-25",
+      "last_reviewed": "2026-07-24",
+      "reviews": 2,
       "created": "2026-07-22"
     },
     {
@@ -107,9 +107,9 @@
       "a": "`X-RateLimit-Remaining`（剩余配额）、`X-RateLimit-Burst-Capacity`（突发容量 200）、`X-RateLimit-Replenish-Rate`（补充速率 80）。",
       "interval": 1,
       "ease": 2.36,
-      "next_review": "2026-07-23",
-      "last_reviewed": "2026-07-22",
-      "reviews": 1,
+      "next_review": "2026-07-25",
+      "last_reviewed": "2026-07-24",
+      "reviews": 2,
       "created": "2026-07-22"
     },
     {
@@ -119,9 +119,9 @@
       "a": "修改 `navigator.webdriver=false`、模拟 `window.chrome` 对象、添加 plugins、覆盖 permissions query、修改 languages/hardwareConcurrency/deviceMemory 等指纹参数。",
       "interval": 1,
       "ease": 2.36,
-      "next_review": "2026-07-23",
-      "last_reviewed": "2026-07-22",
-      "reviews": 1,
+      "next_review": "2026-07-25",
+      "last_reviewed": "2026-07-24",
+      "reviews": 2,
       "created": "2026-07-22"
     },
     {
@@ -137,6 +137,18 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-manual机制的工作-038",
+      "domain": "crawler",
+      "q": "manual 机制的工作流程是什么？",
+      "a": "自动采集失败 → 标注 `manual:类型+URL+说明` → 统一写入 `refs/_manual_todo.md` → 手动收集完成后落地到对应 refs/ 目录。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-23",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-23"
+    },
+    {
       "id": "crawler-openstd的PD-015",
       "domain": "crawler",
       "q": "openstd 的 PDF 下载通道为什么不可用？",
@@ -147,6 +159,18 @@
       "last_reviewed": null,
       "reviews": 0,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-precheck预检命-039",
+      "domain": "crawler",
+      "q": "precheck 预检命令的结果类型有哪些？",
+      "a": "OK（可正常采集）、动态跳过（需 playwright 自动标 manual）、不可达（连接失败，标记原因）。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-23",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-23"
     },
     {
       "id": "crawler-quickScan的作-034",
@@ -233,6 +257,18 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-全量采集规范要求每来源产-037",
+      "domain": "crawler",
+      "q": "全量采集规范要求每来源产出哪 5 类文件？",
+      "a": "① 正文 md（知识素材）、② 原始 HTML（追溯用）、③ 图片（视觉参考）、④ PDF（原版文档）、⑤ 采集报告（状态与元数据）。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-23",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-23"
+    },
+    {
       "id": "crawler-前端解析器如何防止XS-033",
       "domain": "crawler",
       "q": "前端解析器如何防止 XSS？",
@@ -291,6 +327,18 @@
       "last_reviewed": null,
       "reviews": 0,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-多源采集流水线的三种采集-036",
+      "domain": "crawler",
+      "q": "多源采集流水线的三种采集器类型是什么？",
+      "a": "static_fetcher（requests+bs4 静态页面）、dynamic_fetcher（playwright JS 渲染）、pdf_fetcher（带 content-type 检测的 PDF 下载）。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-23",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-23"
     },
     {
       "id": "crawler-数据源协议选择的优先级顺-017",
@@ -387,6 +435,18 @@
       "last_reviewed": null,
       "reviews": 0,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-配置驱动原则的关键约束是-040",
+      "domain": "crawler",
+      "q": "配置驱动原则的关键约束是什么？",
+      "a": "config.toml 是唯一数据源配置，代码不做硬编码。新增源只改 toml + 写适配器（如有新协议），采集器 CLI 只读 config 不关心具体来源。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-23",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-23"
     },
     {
       "id": "crawler-震坤行搜索页的SSR-002",
@@ -2153,6 +2213,18 @@
       "created": "2026-07-22"
     },
     {
+      "id": "programming-一期和二期规划的核心区别-041",
+      "domain": "programming",
+      "q": "一期和二期规划的核心区别是什么？",
+      "a": "一期做纯场景方案库（产品+设计+标准，20 个场景），二期叠加控制系统层（DALI/KNX/Zigbee/EMC），在方案基础上做智能改造方案。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-23",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-23"
+    },
+    {
       "id": "programming-为什么wraps-017",
       "domain": "programming",
       "q": "为什么 `@wraps(func)` 很重要？",
@@ -2163,6 +2235,18 @@
       "last_reviewed": null,
       "reviews": 0,
       "created": "2026-07-22"
+    },
+    {
+      "id": "programming-为什么采用三轮递进而非一-043",
+      "domain": "programming",
+      "q": "为什么采用三轮递进而非一次性全量采集？",
+      "a": "降低初始复杂度，按场景优先级分轮推进：round1 核心 10 场景（P0），round2 扩展 10 场景（P1+P2），round3 交叉回填补充遗漏。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-23",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-23"
     },
     {
       "id": "programming-什么是鸭子类型-023",
@@ -2213,6 +2297,18 @@
       "created": "2026-07-22"
     },
     {
+      "id": "programming-数据源的国内外比例和角色-042",
+      "domain": "programming",
+      "q": "数据源的国内外比例和角色分工是什么？",
+      "a": "国内 42 个源（灯厂/集成商/IoT/控制厂商/论文/招标等），主动采集主力；国外 10 个源（Signify/Lutron 等），仅做参考不主动采集。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-23",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-23"
+    },
+    {
       "id": "programming-整合时gitigno-009",
       "domain": "programming",
       "q": "整合时 .gitignore 的维护原则是什么？",
@@ -2247,6 +2343,18 @@
       "last_reviewed": null,
       "reviews": 0,
       "created": "2026-07-22"
+    },
+    {
+      "id": "programming-知识库型项目的三层打包策-039",
+      "domain": "programming",
+      "q": "知识库型项目的三层打包策略是什么？",
+      "a": "产品选型 + 方案设计 + 案例参照，形成产品层、设计层、实证层的完整交付闭环。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-23",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-23"
     },
     {
       "id": "programming-类方法classme-020",
@@ -2295,6 +2403,18 @@
       "last_reviewed": null,
       "reviews": 0,
       "created": "2026-07-22"
+    },
+    {
+      "id": "programming-项目目录结构标准包含哪些-040",
+      "domain": "programming",
+      "q": "项目目录结构标准包含哪些核心目录？",
+      "a": "plan/（规划）、memory/（每日复盘）、collector/（采集工具）、refs/（素材）、solutions/（方案输出），加上 README.md、STATUS.md、.gitignore。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-23",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-23"
     }
   ]
 }

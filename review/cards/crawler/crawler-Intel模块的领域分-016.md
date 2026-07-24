@@ -6,11 +6,11 @@
   "q": "Intel 模块的领域分类体系有哪些？",
   "a": "finance（金融/资本）、self_driving（自动驾驶）、semiconductor（半导体，规划中）。`-d` 参数必选，支持按领域过滤和分组展示。",
   "created": "2026-07-22",
-  "last_reviewed": "2026-07-22",
-  "interval": 1,
-  "ease": 2.36,
-  "next_review": "2026-07-23",
-  "reviews": 1
+  "last_reviewed": "2026-07-24",
+  "interval": 6,
+  "ease": 2.46,
+  "next_review": "2026-07-30",
+  "reviews": 2
 }
 ---
 
