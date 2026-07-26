@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exported": "2026-07-25",
+  "exported": "2026-07-26",
   "domains": {
     "crawler": [
       "crawler/01-b2b-platforms-anti-crawl",
@@ -56,6 +56,13 @@
       "machine-learning/01-ml-core",
       "machine-learning/02-dl-crash",
       "machine-learning/_index"
+    ],
+    "misc": [
+      "misc/01-ielts-strategy",
+      "misc/02-ielts-writing",
+      "misc/03-ielts-speaking",
+      "misc/04-ielts-vocabulary",
+      "misc/_index"
     ],
     "programming": [
       "programming/01-pydantic-v2-model-design",
@@ -460,6 +467,46 @@
       "title": "机器学习知识文档索引",
       "domain": "machine-learning",
       "path": "machine-learning/_index.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "misc/01-ielts-strategy",
+      "title": "雅思全局策略",
+      "domain": "misc",
+      "path": "misc/01-ielts-strategy.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "misc/02-ielts-writing",
+      "title": "雅思写作",
+      "domain": "misc",
+      "path": "misc/02-ielts-writing.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "misc/03-ielts-speaking",
+      "title": "雅思口语",
+      "domain": "misc",
+      "path": "misc/03-ielts-speaking.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "misc/04-ielts-vocabulary",
+      "title": "雅思核心词汇",
+      "domain": "misc",
+      "path": "misc/04-ielts-vocabulary.md",
+      "tags": [],
+      "created": ""
+    },
+    {
+      "id": "misc/_index",
+      "title": "杂项",
+      "domain": "misc",
+      "path": "misc/_index.md",
       "tags": [],
       "created": ""
     },

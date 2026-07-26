@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exported": "2026-07-25",
+  "exported": "2026-07-26",
   "entries": [
     {
       "id": "crawler/01-b2b-platforms-anti-crawl",
@@ -259,6 +259,36 @@
       "title": "机器学习知识文档索引",
       "domain": "machine-learning",
       "text": "机器学习知识文档索引 ML 面试核心 / DL 面试速查 文档 核心内容 卡数 01 机器学习面试核心 01 ml core.md 模型对比/评估指标/特征工程 5 02 深度学习面试速查 02 dl crash.md 激活函数/优化器/Transformer 5"
+    },
+    {
+      "id": "misc/01-ielts-strategy",
+      "title": "雅思全局策略",
+      "domain": "misc",
+      "text": "雅思全局策略 雅思考试的核心机制、评分标准、时间分配与备考节奏。理解规则比刷题更重要。 回顾 <! cards: 导入后自动填充"
+    },
+    {
+      "id": "misc/02-ielts-writing",
+      "title": "雅思写作",
+      "domain": "misc",
+      "text": "雅思写作 Task 1 / Task 2 的框架、逻辑链与常见扣分点。 回顾 <! cards: 导入后自动填充"
+    },
+    {
+      "id": "misc/03-ielts-speaking",
+      "title": "雅思口语",
+      "domain": "misc",
+      "text": "雅思口语 Part 1 / Part 2 / Part 3 的技巧、高频话题与常见错误。 回顾 <! cards: 导入后自动填充"
+    },
+    {
+      "id": "misc/04-ielts-vocabulary",
+      "title": "雅思核心词汇",
+      "domain": "misc",
+      "text": "雅思核心词汇 只收录：真正高频的、容易用错的、在写作/口语中能直接提分的词汇。不列词表。 回顾 <! cards: 导入后自动填充"
+    },
+    {
+      "id": "misc/_index",
+      "title": "杂项",
+      "domain": "misc",
+      "text": "杂项 非主线领域的轻量知识沉淀。不追求全面，只收录经过验证的精华。 当前收录：雅思 IELTS 文档列表 文档 状态 01 雅思全局策略 01 ielts strategy.md 骨架 02 雅思写作 02 ielts writing.md 骨架 03 雅思口语 03 ielts speaking.md 骨架 04 雅思核心词汇 04 ielts vocabulary.md 骨架 原则 每篇 ≤5 张复习卡，杂项总卡数 ≤ 50 张（无卡数压力的领域不刷也无所谓） 常态维持在 10 篇以内"
     },
     {
       "id": "programming/01-pydantic-v2-model-design",
