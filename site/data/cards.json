@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exported": "2026-07-24",
-  "totalCards": 201,
-  "dueToday": 191,
+  "exported": "2026-07-25",
+  "totalCards": 221,
+  "dueToday": 217,
   "cards": [
     {
       "id": "crawler-1688工厂搜索页的中-020",
@@ -53,6 +53,42 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-503篇素材跨19-044",
+      "domain": "crawler",
+      "q": "503 篇素材跨 19 场景的目录结构中文件如何组织？",
+      "a": "文件按厂商存放（如 kingsun_detail/、ltech_detail/、fsl_detail/），场景通过 `refs/{scene}/_素材索引.md` 交叉引用。不物理移动文件，索引是跨厂商视图的唯一入口。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
+      "id": "crawler-BrowserManag-057",
+      "domain": "crawler",
+      "q": "BrowserManager 取代 setup_session 函数解决了什么问题？",
+      "a": "旧函数式散落难以复用，且 check_state_fresh 存在死代码（早期 return 跳过 Cookie 过期检查）。新方案用面向对象封装浏览器生命周期，创建 _check_session() 方法自动检测 Cookie 是否过期。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
+      "id": "crawler-CDPChromeD-053",
+      "domain": "crawler",
+      "q": "CDP（Chrome DevTools Protocol）连接 Windows 真机 Chrome 的架构？",
+      "a": "WSL2 Python 通过 CDP 协议连接 Windows 上已打开的真实 Chrome（需 `--remote-debugging-port=9222`），利用其真实浏览器指纹+已登录 Cookie，绕过 WAF 检测。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
       "id": "crawler-Intel模块的领域分-016",
       "domain": "crawler",
       "q": "Intel 模块的领域分类体系有哪些？",
@@ -89,6 +125,18 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-PROXY_URL配置-058",
+      "domain": "crawler",
+      "q": "PROXY_URL 配置模式的设计要点？",
+      "a": "config 文件中定义默认值，同时支持 HTTPS_PROXY 环境变量覆盖，PROXY_URL 为空时自动跳过代理。代理对浏览器所有请求（页面+API）生效，不影响无代理运行。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
       "id": "crawler-Playwright浏-009",
       "domain": "crawler",
       "q": "Playwright 浏览器管理器的三种搜索策略模式是什么？",
@@ -99,6 +147,18 @@
       "last_reviewed": "2026-07-24",
       "reviews": 2,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-Python爬虫中p-059",
+      "domain": "crawler",
+      "q": "Python 爬虫中 page.keyboard.select_all() 的错误原因和正确写法？",
+      "a": "Playwright 没有 `select_all()` 方法，应使用 `page.keyboard.press('Control+a')`（Windows）或 `page.keyboard.press('Meta+a')`（macOS）。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
     },
     {
       "id": "crawler-SAMR平台的速率限制-013",
@@ -125,6 +185,66 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-WAF移除脚本执行后为-060",
+      "domain": "crawler",
+      "q": "WAF 移除脚本执行后为什么需要额外处理 Ant Design 弹窗？",
+      "a": "WAF 移除脚本成功执行后，Ant Design Modal（弹窗）可能仍处于打开状态，阻挡后续操作。需要在脚本末尾增加 `document.querySelectorAll('.ant-modal-close').forEach(el => el.click())` 关闭所有弹窗。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
+      "id": "crawler-WSL2下headl-052",
+      "domain": "crawler",
+      "q": "WSL2 下 headless Chrome 被 WAF 检测到的原因是什么？",
+      "a": "特征包括：user-agent 含 \"HeadlessChrome\"、navigator.webdriver 为 True（即使配置 stealth）、缺少真实 GPU 渲染特征、IP 来源为 WSL2 NAT 网络。WAF 综合判断后对搜索功能拦截。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
+      "id": "crawler-ZKH使用的阿里云W-051",
+      "domain": "crawler",
+      "q": "ZKH 使用的阿里云 WAF 防御体系包括哪些组件？",
+      "a": "AliWAF（Web 应用防火墙）、aliyun-captcha（滑块验证码）、浏览器指纹检测（Headless 模式），三层叠加。页面浏览可通过，搜索功能触发验证码阻断。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
+      "id": "crawler-ZKH搜索API路-055",
+      "domain": "crawler",
+      "q": "ZKH 搜索 API 路径探测的策略和结果？",
+      "a": "探测到 `/servezkhApi/product/search` 返回 401（存在但需认证），其他路径返回 404。真实搜索 API 需通过 Playwright 请求拦截捕获（在 Windows 桌面环境运行 probe_api_v2.py），跑通后记录参数格式，迁移回 WSL 模拟调用。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
+      "id": "crawler-acw_tcCooki-054",
+      "domain": "crawler",
+      "q": "acw_tc Cookie 的提取和使用策略是什么？",
+      "a": "从 Windows Chrome DevTools → Application → Cookies 手动提取，保存到 cookies/cookies_zkh.json。有效期为约 7 天，过期需重新提取。启动时通过 load_cookies() 加载到浏览器上下文。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
       "id": "crawler-chromiumla-021",
       "domain": "crawler",
       "q": "`chromium.launch()` 之后缺少什么关键步骤？",
@@ -135,6 +255,30 @@
       "last_reviewed": null,
       "reviews": 0,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-clean_text全-042",
+      "domain": "crawler",
+      "q": "clean_text 全量清洗的执行流程和典型规模？",
+      "a": "运行 `python3 clean_text.py --all`，283 文件输入 → 277 OK，6 跳过。关键处理包括：移除 HTML 导航/页脚区块（正则匹配）、保留图片外链、html2text 转换（Python 3.13 需额外安装）。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
+      "id": "crawler-generate_ind-043",
+      "domain": "crawler",
+      "q": "generate_index 产出的 _素材索引.md 包含哪些字段？",
+      "a": "标题、来源（厂商目录）、字数、图片数、摘要。注意：摘要当前从原始 markdown 头提取（非清洗后正文），需后续改进。字数含图片 alt 文本，在可接受范围内。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
     },
     {
       "id": "crawler-manual机制的工作-038",
@@ -197,6 +341,18 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-三大厂商采集实战的数据对-050",
+      "domain": "crawler",
+      "q": "三大厂商采集实战的数据对比？",
+      "a": "kingsun — 2+44=46篇，~309K字，~2,111图（全下载 ✓）；ltech — 73篇，~1,016K字，1,453图（manual）；fsl — 34篇，~85K字，845图（manual）。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
       "id": "crawler-中国照明国标中约多少比例-014",
       "domain": "crawler",
       "q": "中国照明国标中约多少比例是采标？主要来源是什么？",
@@ -257,6 +413,18 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-价格监控项目瘦身的核心策-056",
+      "domain": "crawler",
+      "q": "价格监控项目瘦身的核心策略是什么？",
+      "a": "① 确定 ZKH 为核心路径，移除 alibaba_1688/_template/测试文件；② 测试文件只保留核心；③ 模板不带到正式代码；④ 配置文件只保留 ZKH 相关。共 26 文件变更，-2276 行/+670 行。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
       "id": "crawler-全量采集规范要求每来源产-037",
       "domain": "crawler",
       "q": "全量采集规范要求每来源产出哪 5 类文件？",
@@ -293,6 +461,30 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-动态JS网站评估不通-048",
+      "domain": "crawler",
+      "q": "动态 JS 网站评估不通过时的降级策略是什么？",
+      "a": "尝试 playwright → 失败则降级为 catalog：只保存页面的 HTML/CSS 资源快照，不做深度详情解析。典型例子：欧普照明（JS SPA 无独立 URL）、雷士照明（无案例详情页）。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
+      "id": "crawler-厂商采集评估的四个维度是-046",
+      "domain": "crawler",
+      "q": "厂商采集评估的四个维度是什么？",
+      "a": "① 页面结构 — 静态/动态/SPA；② 详情页可发现性 — 独立URL/分组/仅目录；③ 反爬强度 — robots/频率/验证码；④ 内容质量 — 方案详情/产品参数/品牌介绍。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
       "id": "crawler-反爬安全策略配置中ra-004",
       "domain": "crawler",
       "q": "反爬安全策略配置中 rate_limit 的典型值是多少？",
@@ -303,6 +495,18 @@
       "last_reviewed": null,
       "reviews": 0,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-发现隐藏在集合页col-047",
+      "domain": "crawler",
+      "q": "发现隐藏在集合页（collection page）背后的独立详情页有什么技巧？",
+      "a": "不要只看列表上的集合页数量。爬取集合页 HTML 后，检查其中是否有指向独立详情页的 URL link（通常每段案例摘要会链向完整页面）。ltech 就是通过此方法从 10 个集合页扩展到 73 个独立详情页。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
     },
     {
       "id": "crawler-图片提取有哪4级降级-027",
@@ -341,6 +545,30 @@
       "created": "2026-07-23"
     },
     {
+      "id": "crawler-大规模图片标注manu-045",
+      "domain": "crawler",
+      "q": "大规模图片标注 manual 的处理策略是什么？",
+      "a": "不自阻塞流程（清洗/索引/展示照常）→ 索引中标注 manual 图片数 → 保留原始 URL（在线可查看）→ 后续可通过浏览器插件或代理批量下载。典型场景：ltech 1,453 张、fsl 845 张因防盗链自动失败。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
+      "id": "crawler-大规模批量采集时如何处理-049",
+      "domain": "crawler",
+      "q": "大规模批量采集时如何处理 stdout 缓冲问题？",
+      "a": "使用 `python -u` 运行脚本（-u 强制 stdout/stderr 无缓冲），或用交互式 Python 脚本模式（直接调用内部函数）替代 CLI 运行，实现实时进度输出和动态参数调整。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
+    },
+    {
       "id": "crawler-数据源协议选择的优先级顺-017",
       "domain": "crawler",
       "q": "数据源协议选择的优先级顺序是什么？",
@@ -375,6 +603,18 @@
       "last_reviewed": null,
       "reviews": 0,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-索引驱动素材组织的核心原-041",
+      "domain": "crawler",
+      "q": "索引驱动素材组织的核心原则是什么？",
+      "a": "① 文件按源（厂商）存放，不物理移动；② 场景归属通过索引定义；③ 索引是唯一视图，清洗/展示/引用都通过索引；④ 新增场景 = 新增索引，不需改目录结构。",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-07-25",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-07-25"
     },
     {
       "id": "crawler-纯前端解析与后端采集的分-026",

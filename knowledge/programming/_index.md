@@ -15,4 +15,5 @@
 | 05 | [Python 面向对象编程](05-python-oop.md) | 三大特性/魔术方法/类方法 vs 静态方法 | 5 |
 | 06 | [Python 多任务编程](06-python-multitask.md) | 进程/线程/协程/GIL/asyncio | 5 |
 | 07 | [FastAPI 实战入门](07-fastapi.md) | 路由/依赖注入/异步/项目结构 | 5 |
+| 10 | [知识库项目启动方法论](10-knowledge-base-project-startup.md) | 三层打包/双期规划/采集技术栈/多源策略 | 待抽取 |
 | 99 | [三语对比总结](99-cross-language-comparison.md) | C/C++/Python 跨语言差异 | 5 |

@@ -6,9 +6,9 @@
 
 | 指标 | 数值 |
 |------|------|
-| 知识文档 | **42 篇** |
-| 复习卡片 | **191 张** |
-| 覆盖领域 | 7 个（爬虫 / 数据分析 / 数据工程 / 独立站 / DSA / 机器学习 / 编程） |
+| 知识文档 | **50 篇**（4 篇骨架待填充） |
+| 复习卡片 | **221 张** |
+| 覆盖领域 | 8 个（爬虫 / 数据结构与算法 / 数据分析 / 数据工程 / 独立站 / 机器学习 / 编程 / 杂项） |
 
 | 入口 | 链接 |
 |------|------|
@@ -42,7 +42,7 @@
 | 13 | [解题思维方法论](knowledge/dsa/13-dsa-solve-methodology.md) | 5 |
 | — | 多语参考 + LeetCode 课程 | [`references/dsa/_index.md`](references/dsa/_index.md) |
 
-### 爬虫（8 篇 · 35 张卡）
+### 爬虫（13 篇 · 55 张卡）
 
 | # | 文档 | 卡数 |
 |---|------|------|
@@ -54,6 +54,11 @@
 | 06 | [1688 工厂监控流水线](knowledge/crawler/06-1688-factory-monitor.md) | 6 |
 | 07 | [纯前端 JS 解析器架构](knowledge/crawler/07-client-side-parser-architecture.md) | 4 |
 | 08 | [京东前端解析器](knowledge/crawler/08-jd-parser-frontend.md) | 6 |
+| 09 | [多源采集流水线架构](knowledge/crawler/09-multi-source-collection-pipeline.md) | 5 |
+| 10 | [索引驱动的素材管理体系](knowledge/crawler/10-index-driven-material-mgmt.md) | 5 |
+| 11 | [多厂商采集策略评估](knowledge/crawler/11-vendor-crawl-evaluation.md) | 5 |
+| 12 | [ZKH 阿里云 WAF 绕过实战](knowledge/crawler/12-zkh-waf-bypass.md) | 5 |
+| 13 | [价格监控项目瘦身与重构](knowledge/crawler/13-project-streamlining-strategy.md) | 5 |
 
 ### 独立站（4 篇 · 20 张卡）
 
@@ -75,6 +80,7 @@
 | 05 | [Python 面向对象编程](knowledge/programming/05-python-oop.md) | 5 |
 | 06 | [Python 多任务编程](knowledge/programming/06-python-multitask.md) | 5 |
 | 07 | [FastAPI 实战入门](knowledge/programming/07-fastapi.md) | 5 |
+| 10 | [知识库项目启动方法论](knowledge/programming/10-knowledge-base-project-startup.md) | 5 |
 | 99 | [三语对比总结](knowledge/programming/99-cross-language-comparison.md) | 5 |
 
 ### 数据分析（2 篇 · 8 张卡）
@@ -99,6 +105,17 @@
 | 01 | [机器学习面试核心](knowledge/machine-learning/01-ml-core.md) | 5 |
 | 02 | [深度学习面试速查](knowledge/machine-learning/02-dl-crash.md) | 5 |
 
+### 杂项（4 篇 · 骨架）
+
+| # | 文档 | 状态 |
+|---|------|------|
+| 01 | [雅思全局策略](knowledge/misc/01-ielts-strategy.md) | 骨架 |
+| 02 | [雅思写作](knowledge/misc/02-ielts-writing.md) | 骨架 |
+| 03 | [雅思口语](knowledge/misc/03-ielts-speaking.md) | 骨架 |
+| 04 | [雅思核心词汇](knowledge/misc/04-ielts-vocabulary.md) | 骨架 |
+
+> 杂项为非主线领域的轻量知识，当前为雅思备考精华。内容待填充。
+
 ---
 
 ## 工作流
@@ -117,10 +134,10 @@ python3 scripts/serve.py                  # http://localhost:8080
 ```
 study-vault/
 ├── index.md           ← 本文件（知识库总索引）
-├── knowledge/         ← 知识文档（42 篇，7 个域）
+├── knowledge/         ← 知识文档（50 篇，8 个域）
 ├── references/        ← 参考资源（dsa 三语手册 + leetcode）
-├── plan/              ← 学习规划（13 个领域）
-├── review/            ← 复习卡片（191 张）
+├── plan/              ← 学习规划（14 个领域）
+├── review/            ← 复习卡片（221 张）
 ├── memory/            ← 每日复盘
 ├── scripts/           ← 辅助脚本（review.py / serve.py）
 ├── site/              ← 前端页面（复习页 / 仪表盘）

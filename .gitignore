@@ -18,3 +18,4 @@ wrangler.toml
 scripts/sync-worker.js
 SYNC_SETUP.md
 scripts/feishu-config.json
+.wrangler/

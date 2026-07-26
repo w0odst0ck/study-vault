@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-17",
-  "updated": "2026-07-22",
+  "updated": "2026-07-25",
   "tags": [
     "编程",
     "项目管理",
@@ -143,6 +143,9 @@ TEMPLATE_DIR = Path(__file__).parent.parent / "templates"
 6. **砍掉 RepoRelations** — `GlobalGraph.relations_for()` 替代
 
 ## 回顾
+<!-- cards: programming-C和Python-012, programming-GitHubAPI同-006, programming-Phase0阶段的四-004, programming-关系引擎中规则和AI-005 -->
+<!-- cards: programming-C和Python-012, programming-GitHubAPI同-006, programming-Phase0阶段的四-004, programming-关系引擎中规则和AI-005 -->
+<!-- cards: programming-C和Python-012, programming-GitHubAPI同-006, programming-Phase0阶段的四-004, programming-关系引擎中规则和AI-005 -->
 <!-- cards: programming-C和Python-012, programming-GitHubAPI同-006, programming-Phase0阶段的四-004, programming-关系引擎中规则和AI-005 -->
 <!-- cards: programming-C和Python-012, programming-GitHubAPI同-006, programming-Phase0阶段的四-004, programming-关系引擎中规则和AI-005 -->
 <!-- cards: programming-GitHubAPI同-006, programming-Phase0阶段的四-004, programming-关系引擎中规则和AI-005 -->

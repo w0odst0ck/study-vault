@@ -1,14 +1,14 @@
 {
-  "totalCards": 191,
-  "dueToday": 181,
-  "streak": 1,
-  "lastReview": "2026-07-22",
-  "retentionRate": 5.2,
-  "lastUpdated": "2026-07-22",
+  "totalCards": 221,
+  "dueToday": 217,
+  "streak": 0,
+  "lastReview": "2026-07-25",
+  "retentionRate": 4.5,
+  "lastUpdated": "2026-07-25",
   "perDomain": {
     "crawler": {
-      "total": 35,
-      "due": 25
+      "total": 60,
+      "due": 56
     },
     "data-analysis": {
       "total": 8,
@@ -31,8 +31,8 @@
       "due": 10
     },
     "programming": {
-      "total": 38,
-      "due": 38
+      "total": 43,
+      "due": 43
     }
   }
 }
