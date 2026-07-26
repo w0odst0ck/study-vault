@@ -2,7 +2,7 @@
   "version": 1,
   "exported": "2026-07-26",
   "totalCards": 221,
-  "dueToday": 217,
+  "dueToday": 207,
   "cards": [
     {
       "id": "crawler-1688工厂搜索页的中-020",
@@ -23,9 +23,9 @@
       "a": "使用 Playwright 的 `wait_for_captcha_solve()` 等待用户手动通过滑块，一次性过滑块后保存浏览器 state 文件，后续复用避免重复弹出。",
       "interval": 1,
       "ease": 2.36,
-      "next_review": "2026-07-25",
-      "last_reviewed": "2026-07-24",
-      "reviews": 2,
+      "next_review": "2026-07-27",
+      "last_reviewed": "2026-07-26",
+      "reviews": 3,
       "created": "2026-07-22"
     },
     {
@@ -35,9 +35,9 @@
       "a": "约 1081 行，分为 search.js（搜索页）、detail.js（详情页）、shared.js、config.js、index.js 五个模块。",
       "interval": 1,
       "ease": 2.36,
-      "next_review": "2026-07-25",
-      "last_reviewed": "2026-07-24",
-      "reviews": 2,
+      "next_review": "2026-07-27",
+      "last_reviewed": "2026-07-26",
+      "reviews": 3,
       "created": "2026-07-22"
     },
     {
@@ -47,9 +47,9 @@
       "a": "页面长连接导致 `\"networkidle\"` 一直等待网络空闲，改为 `\"load\"` 或 `\"domcontentloaded\"`。",
       "interval": 1,
       "ease": 2.36,
-      "next_review": "2026-07-25",
-      "last_reviewed": "2026-07-24",
-      "reviews": 2,
+      "next_review": "2026-07-27",
+      "last_reviewed": "2026-07-26",
+      "reviews": 3,
       "created": "2026-07-22"
     },
     {
@@ -143,9 +143,9 @@
       "a": "渲染模式（直接导航取 HTML，适用 SSR 页面）、API 拦截模式（拦截 XHR/Fetch 得 JSON，适用 SPA 页面）、主页交互模式（打开首页绕过 CF -> 输入搜索框 -> 点击按钮，适用首页无保护的平台）。",
       "interval": 1,
       "ease": 2.36,
-      "next_review": "2026-07-25",
-      "last_reviewed": "2026-07-24",
-      "reviews": 2,
+      "next_review": "2026-07-27",
+      "last_reviewed": "2026-07-26",
+      "reviews": 3,
       "created": "2026-07-22"
     },
     {
@@ -167,9 +167,9 @@
       "a": "`X-RateLimit-Remaining`（剩余配额）、`X-RateLimit-Burst-Capacity`（突发容量 200）、`X-RateLimit-Replenish-Rate`（补充速率 80）。",
       "interval": 1,
       "ease": 2.36,
-      "next_review": "2026-07-25",
-      "last_reviewed": "2026-07-24",
-      "reviews": 2,
+      "next_review": "2026-07-27",
+      "last_reviewed": "2026-07-26",
+      "reviews": 3,
       "created": "2026-07-22"
     },
     {
@@ -179,9 +179,9 @@
       "a": "修改 `navigator.webdriver=false`、模拟 `window.chrome` 对象、添加 plugins、覆盖 permissions query、修改 languages/hardwareConcurrency/deviceMemory 等指纹参数。",
       "interval": 1,
       "ease": 2.36,
-      "next_review": "2026-07-25",
-      "last_reviewed": "2026-07-24",
-      "reviews": 2,
+      "next_review": "2026-07-27",
+      "last_reviewed": "2026-07-26",
+      "reviews": 3,
       "created": "2026-07-22"
     },
     {
@@ -249,11 +249,11 @@
       "domain": "crawler",
       "q": "`chromium.launch()` 之后缺少什么关键步骤？",
       "a": "不会自动创建浏览器上下文，需显式调用 `browser.new_context()` 再 `context.new_page()`。",
-      "interval": 0,
+      "interval": 1,
       "ease": 2.5,
-      "next_review": "2026-07-22",
-      "last_reviewed": null,
-      "reviews": 0,
+      "next_review": "2026-07-27",
+      "last_reviewed": "2026-07-26",
+      "reviews": 1,
       "created": "2026-07-22"
     },
     {
@@ -297,11 +297,11 @@
       "domain": "crawler",
       "q": "openstd 的 PDF 下载通道为什么不可用？",
       "a": "showGb 端点返回 404、viewGb 空响应，API 变动或权限变更导致曾经有效的 3 步 Session 流程全部失效。",
-      "interval": 0,
-      "ease": 2.5,
-      "next_review": "2026-07-22",
-      "last_reviewed": null,
-      "reviews": 0,
+      "interval": 1,
+      "ease": 2.36,
+      "next_review": "2026-07-27",
+      "last_reviewed": "2026-07-26",
+      "reviews": 1,
       "created": "2026-07-22"
     },
     {
@@ -321,11 +321,11 @@
       "domain": "crawler",
       "q": "quickScan 的作用是什么？",
       "a": "快速扫描前 20% HTML 即可判定平台类型和版本，无需全量加载，让用户 20% 进度时获得识别反馈",
-      "interval": 0,
-      "ease": 2.5,
-      "next_review": "2026-07-22",
-      "last_reviewed": null,
-      "reviews": 0,
+      "interval": 1,
+      "ease": 2.6,
+      "next_review": "2026-07-27",
+      "last_reviewed": "2026-07-26",
+      "reviews": 1,
       "created": "2026-07-22"
     },
     {
@@ -333,11 +333,11 @@
       "domain": "crawler",
       "q": "shop_url UNIQUE 约束导致空字符串覆盖问题的解决方案是什么？",
       "a": "初始 `shop_url=card_url`（每家不同）+ 新增专用 `catalog_url` 字段，避免空占位符冲突。",
-      "interval": 0,
+      "interval": 1,
       "ease": 2.5,
-      "next_review": "2026-07-22",
-      "last_reviewed": null,
-      "reviews": 0,
+      "next_review": "2026-07-27",
+      "last_reviewed": "2026-07-26",
+      "reviews": 1,
       "created": "2026-07-22"
     },
     {

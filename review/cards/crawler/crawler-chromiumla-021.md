@@ -6,11 +6,11 @@
   "q": "`chromium.launch()` 之后缺少什么关键步骤？",
   "a": "不会自动创建浏览器上下文，需显式调用 `browser.new_context()` 再 `context.new_page()`。",
   "created": "2026-07-22",
-  "last_reviewed": null,
-  "interval": 0,
+  "last_reviewed": "2026-07-26",
+  "interval": 1,
   "ease": 2.5,
-  "next_review": "2026-07-22",
-  "reviews": 0
+  "next_review": "2026-07-27",
+  "reviews": 1
 }
 ---
 
