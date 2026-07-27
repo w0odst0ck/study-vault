@@ -127,8 +127,24 @@ class CardStore {
 
   async load() {
     // ═══ Step 1: 加载本地卡片 + 持久化状态 ═══
-    const resp = await fetch('../data/cards.json');
-    const data = await resp.json();
+    let resp;
+    try {
+      resp = await fetch('../data/cards.json');
+    } catch (e) {
+      this._showError('无法连接到数据文件，请确认项目已构建 (site/data/cards.json)');
+      return;
+    }
+    if (!resp.ok) {
+      this._showError(`加载数据失败 (HTTP ${resp.status})`);
+      return;
+    }
+    let data;
+    try {
+      data = await resp.json();
+    } catch (e) {
+      this._showError('数据文件格式错误，请重新构建');
+      return;
+    }
     this.allCards = (data.cards || []).map(c => {
       const p = this._persisted[c.id];
       if (p) {

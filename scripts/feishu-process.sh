@@ -9,6 +9,12 @@ set -euo pipefail
 BASE="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$BASE"
 
+# 清理：任何时候退出都删除 sync 文件
+cleanup() {
+    rm -f review/sync-results.json
+}
+trap cleanup EXIT
+
 echo "📡 从飞书群提取同步数据..."
 python3 scripts/feishu-extract.py
 
@@ -30,7 +36,6 @@ echo "  3/4 git commit..."
 git add review/cards/ site/data/
 if git diff --cached --quiet; then
     echo "📭 无变更，跳过提交"
-    rm -f review/sync-results.json
     exit 0
 fi
 git commit -m "sync: $CARD_COUNT 张卡片 via Feishu"
@@ -39,4 +44,3 @@ echo "  4/4 git push..."
 git push origin main
 
 echo "✅ 同步完成，已推送部署"
-rm -f review/sync-results.json

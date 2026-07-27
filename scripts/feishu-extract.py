@@ -11,6 +11,9 @@ BASE = pathlib.Path(__file__).resolve().parent.parent
 
 
 def get_token():
+    if not APP_SECRET:
+        print("❌ FEISHU_APP_SECRET 未设置", file=sys.stderr)
+        sys.exit(1)
     req = urllib.request.Request(
         "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal",
         data=json.dumps({"app_id": APP_ID, "app_secret": APP_SECRET}).encode(),
@@ -18,7 +21,11 @@ def get_token():
         method="POST",
     )
     with urllib.request.urlopen(req) as resp:
-        return json.loads(resp.read())["tenant_access_token"]
+        body = json.loads(resp.read())
+    if body.get("code") != 0:
+        print(f"❌ 获取 token 失败: {body.get('msg', 'unknown error')}", file=sys.stderr)
+        sys.exit(1)
+    return body["tenant_access_token"]
 
 
 def get_latest_messages(token, limit=10):
@@ -99,6 +106,7 @@ def main():
     print(f"提取到 {count} 张卡片, 发送者: {sender}", file=sys.stderr)
 
     sync_file = BASE / "review" / "sync-results.json"
+    sync_file.parent.mkdir(parents=True, exist_ok=True)
     sync_file.write_text(json.dumps(data, ensure_ascii=False, indent=2))
     print(f"已写入 {sync_file}", file=sys.stderr)
 
