@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>复习 · study-vault</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📇</text></svg>">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#1B4D6C">
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1>📇 复习</h1>
+    <div class="subtitle">分批复习 · 智能推荐 · 自动续接</div>
+  </div>
+
+  <!-- Batch selector -->
+  <div id="batch-config" class="batch-config">
+    <label class="batch-label">
+      每批
+      <select id="batch-selector" class="batch-select"></select>
+    </label>
+    <span class="batch-hint">（完成一批后可选「再来」续接）</span>
+  </div>
+
+  <!-- Progress -->
+  <div id="progress" class="progress-container">
+    <div class="progress-bar">
+      <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+    </div>
+    <div class="progress-text">
+      <span>
+        <span id="progress-count">0 / 0</span>
+        <span id="progress-label" style="margin-left:0.5rem;">准备中...</span>
+      </span>
+      <span id="progress-global" class="progress-global"></span>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    <p>加载卡片中...</p>
+  </div>
+
+  <!-- Error -->
+  <div id="error" class="empty-state" style="display:none;"></div>
+
+  <!-- Empty state -->
+  <div id="empty-state" class="empty-state" style="display:none">
+    <div class="emoji">🎉</div>
+    <h3>今天没有到期卡片</h3>
+    <p style="margin-top:0.5rem; font-size:0.9rem;">去学点新知识吧</p>
+  </div>
+
+  <!-- Card -->
+  <div id="card-container" style="display:none">
+    <div id="card-area">
+      <div class="card">
+        <div class="card-domain">
+          <span id="domain-badge" class="domain-badge"></span>
+          <span id="domain"></span>
+        </div>
+        <div class="card-question" id="question"></div>
+        <div class="card-answer" id="answer"></div>
+      </div>
+
+      <!-- Reveal -->
+      <div id="reveal-section" class="reveal-section">
+        <button id="reveal-btn" class="btn btn-accent">
+          显示答案
+          <span style="font-size:0.75rem; opacity:0.7;">(空格/回车)</span>
+        </button>
+      </div>
+
+      <!-- Rating -->
+      <div id="rating-section" class="rating-section">
+        <div class="rating-label">你答对了吗？</div>
+        <div class="rating-buttons">
+          <button class="rating-btn" data-rating="0">0</button>
+          <button class="rating-btn" data-rating="1">1</button>
+          <button class="rating-btn" data-rating="2">2</button>
+          <button class="rating-btn" data-rating="3">3</button>
+          <button class="rating-btn" data-rating="4">4</button>
+          <button class="rating-btn" data-rating="5">5</button>
+        </div>
+        <div style="margin-top:0.5rem; font-size:0.75rem; color:var(--text-light);">
+          0-2: ❌ 遗忘 &nbsp;|&nbsp; 3: 🤔 勉强 &nbsp;|&nbsp; 4-5: ✅ 记住
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ 批次完成插页 ════ -->
+    <div id="batch-complete" class="summary" style="display:none">
+      <div class="card" style="text-align:center; min-height:auto;">
+        <h2 style="margin-bottom:0.5rem;">✅ 本批完成</h2>
+        <p style="color:var(--text-light); font-size:0.85rem;">
+          继续还是休息？按你的节奏来
+        </p>
+      </div>
+
+      <div id="batch-stats" class="summary-stats"></div>
+
+      <div id="batch-domain-breakdown" class="domain-breakdown"></div>
+
+      <p id="batch-recommendation" class="recommendation"></p>
+
+      <div class="summary-actions batch-actions">
+        <button id="next-batch-btn" class="btn btn-primary">▶ 再来 10 张</button>
+        <button id="next-all-btn" class="btn btn-outline">▶ 刷完全部</button>
+        <button id="stop-btn" class="btn btn-outline" style="border-color:var(--text-light);color:var(--text-light);">收工</button>
+      </div>
+
+      <div class="sync-section">
+        <button id="sync-btn" class="btn btn-outline" disabled>
+          ✈️ 同步到飞书
+        </button>
+        <span id="sync-status" class="sync-status"></span>
+      </div>
+    </div>
+
+    <!-- ════ 全部完成总结 ════ -->
+    <div id="summary" class="summary">
+      <div class="card" style="text-align:center; min-height:auto;">
+        <h2 style="margin-bottom:0.5rem;">🎉 今日全部搞定</h2>
+        <p style="color:var(--text-light); font-size:0.9rem;">SM-2 调度已更新，歇会眼睛吧</p>
+      </div>
+      <div id="summary-stats" class="summary-stats"></div>
+      <div class="summary-actions">
+        <button id="download-btn" class="btn btn-primary">📥 下载结果</button>
+        <button id="restart-btn" class="btn btn-outline">🔄 再来一次</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<script src="app.js"></script>
+
+<!-- Bottom nav (mobile only) -->
+<nav class="bottom-nav">
+  <a href="../"><span class="nav-icon">📊</span>仪表</a>
+  <a href="../review/" class="active"><span class="nav-icon">📇</span>复习</a>
+  <a href="../knowledge/"><span class="nav-icon">📚</span>知识</a>
+  <a href="../glossary/"><span class="nav-icon">📖</span>术语</a>
+  <a href="../references/"><span class="nav-icon">🔗</span>参考</a>
+</nav>
+
+<style>
+.bottom-nav { display: none; }
+@media (max-width: 768px) {
+  .container { padding-bottom: 4rem; }
+  .nav-links { display: none; }
+  .bottom-nav {
+    display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
+    background: var(--card-bg); border-top: 1px solid var(--border);
+    padding: 0.35rem 0 env(safe-area-inset-bottom, 0);
+  }
+  .bottom-nav a {
+    flex: 1; text-align: center; padding: 0.3rem 0; text-decoration: none;
+    color: var(--text-light); font-size: 0.65rem; min-height: 44px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .bottom-nav a .nav-icon { font-size: 1.2rem; line-height: 1; }
+  .bottom-nav a.active { color: var(--primary); font-weight: 600; }
+}
+</style>
+
+</body>
+</html>
