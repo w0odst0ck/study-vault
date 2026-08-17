@@ -6,11 +6,11 @@
   "q": "京东新版属性表如何提取？",
   "a": "`<div class=attrs>` 存在于渲染 DOM。新版通过 unquoted attrs 正则匹配提取，非旧版 CSS class 匹配",
   "created": "2026-07-22",
-  "last_reviewed": null,
-  "interval": 0,
+  "last_reviewed": "2026-08-17",
+  "interval": 1,
   "ease": 2.5,
-  "next_review": "2026-07-22",
-  "reviews": 0
+  "next_review": "2026-08-18",
+  "reviews": 1
 }
 ---
 

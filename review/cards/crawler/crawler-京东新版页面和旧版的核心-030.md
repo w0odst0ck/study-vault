@@ -6,11 +6,11 @@
   "q": "京东新版页面和旧版的核心区别是什么？",
   "a": "新版 React 2025+ 渲染，CSS 类名压缩混淆。关键结构 `class=price/value/attrs/item/top-name` 未被混淆，属性表仍存在于渲染 DOM",
   "created": "2026-07-22",
-  "last_reviewed": null,
-  "interval": 0,
+  "last_reviewed": "2026-08-17",
+  "interval": 1,
   "ease": 2.5,
-  "next_review": "2026-07-22",
-  "reviews": 0
+  "next_review": "2026-08-18",
+  "reviews": 1
 }
 ---
 

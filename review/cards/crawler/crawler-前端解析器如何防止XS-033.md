@@ -6,11 +6,11 @@
   "q": "前端解析器如何防止 XSS？",
   "a": "图片用 `document.createElement('img')` DOM API 构建，禁止 `innerHTML` 拼接商品数据",
   "created": "2026-07-22",
-  "last_reviewed": null,
-  "interval": 0,
+  "last_reviewed": "2026-08-17",
+  "interval": 1,
   "ease": 2.5,
-  "next_review": "2026-07-22",
-  "reviews": 0
+  "next_review": "2026-08-18",
+  "reviews": 1
 }
 ---
 
