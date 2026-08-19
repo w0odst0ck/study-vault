@@ -6,11 +6,11 @@
   "q": "Stealth JS 注入的核心原理是什么？",
   "a": "修改 `navigator.webdriver=false`、模拟 `window.chrome` 对象、添加 plugins、覆盖 permissions query、修改 languages/hardwareConcurrency/deviceMemory 等指纹参数。",
   "created": "2026-07-22",
-  "last_reviewed": "2026-08-17",
-  "interval": 1,
-  "ease": 2.36,
-  "next_review": "2026-08-18",
-  "reviews": 4
+  "last_reviewed": "2026-08-19",
+  "interval": 6,
+  "ease": 2.22,
+  "next_review": "2026-08-25",
+  "reviews": 5
 }
 ---
 

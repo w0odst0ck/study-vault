@@ -6,11 +6,11 @@
   "q": "跨平台 Context 隔离的设计目的是什么？",
   "a": "每个平台独立 browser context，通过 `switch_platform()` 切换，避免 Cookie/Storage 串用导致跨平台风控。",
   "created": "2026-07-22",
-  "last_reviewed": null,
-  "interval": 0,
+  "last_reviewed": "2026-08-19",
+  "interval": 1,
   "ease": 2.5,
-  "next_review": "2026-07-22",
-  "reviews": 0
+  "next_review": "2026-08-20",
+  "reviews": 1
 }
 ---
 

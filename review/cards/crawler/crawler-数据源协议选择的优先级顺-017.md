@@ -6,11 +6,11 @@
   "q": "数据源协议选择的优先级顺序是什么？",
   "a": "官方 API（有限流但稳定）> RSS/Atom Feed（标准稳定）> HTML 解析（灵活但页面结构变则代码变）> 避免 JS 渲染页面。",
   "created": "2026-07-22",
-  "last_reviewed": null,
-  "interval": 0,
-  "ease": 2.5,
-  "next_review": "2026-07-22",
-  "reviews": 0
+  "last_reviewed": "2026-08-19",
+  "interval": 1,
+  "ease": 2.6,
+  "next_review": "2026-08-20",
+  "reviews": 1
 }
 ---
 
