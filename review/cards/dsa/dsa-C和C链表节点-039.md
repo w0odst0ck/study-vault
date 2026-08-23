@@ -6,11 +6,11 @@
   "q": "C 和 C++ 链表节点定义有什么区别？",
   "a": "C 用 `struct ListNode { int val; struct ListNode* next; }` + typedef；C++ 用 template 泛型，构造函数初始化，可选智能指针",
   "created": "2026-07-22",
-  "last_reviewed": null,
-  "interval": 0,
-  "ease": 2.5,
-  "next_review": "2026-07-22",
-  "reviews": 0
+  "last_reviewed": "2026-08-23",
+  "interval": 1,
+  "ease": 2.36,
+  "next_review": "2026-08-24",
+  "reviews": 1
 }
 ---
 
