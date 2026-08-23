@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# ⚠️ 已弃用（2026-08-24）：请改用 scripts/sync-cards.sh
+#   原因：旧版 EXIT trap 无条件删 sync-results.json，失败现场被清，重跑会重复 apply；
+#   新版 sync-cards.sh 幂等 + message_id 去重 + 成功才清理 + 群回执。
 # study-vault 飞书同步处理器
 # 从飞书群获取最新的同步 JSON → 处理 → git push
 #

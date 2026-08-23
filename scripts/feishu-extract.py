@@ -2,7 +2,7 @@
 """
 从飞书群获取最新同步消息并提取 JSON 数据
 """
-import json, sys, os, pathlib, urllib.request, html
+import json, sys, os, pathlib, urllib.request, html, datetime
 
 CHAT_ID = "oc_0c5546a611fd44d8d0930cd5ea0bacd1"
 APP_ID = "cli_aac181b732781bb6"
@@ -85,18 +85,18 @@ def extract_json(data):
         try:
             parsed = json.loads(json_str)
             if "cards" in parsed:
-                return parsed, msg.get("sender", {}).get("id", "")
+                return parsed, msg.get("sender", {}).get("id", ""), msg.get("message_id", "")
         except json.JSONDecodeError as e:
             print(f"JSON 解析失败: {e}", file=sys.stderr)
             continue
 
-    return None, None
+    return None, None, None
 
 
 def main():
     token = get_token()
     msgs = get_latest_messages(token)
-    data, sender = extract_json(msgs)
+    data, sender, msg_id = extract_json(msgs)
 
     if not data:
         print("未找到同步数据", file=sys.stderr)
@@ -109,6 +109,12 @@ def main():
     sync_file.parent.mkdir(parents=True, exist_ok=True)
     sync_file.write_text(json.dumps(data, ensure_ascii=False, indent=2))
     print(f"已写入 {sync_file}", file=sys.stderr)
+
+    # 记录本次提取的 message_id（供 sync-cards.sh 去重）
+    meta = {"message_id": msg_id, "count": count,
+            "extracted_at": datetime.datetime.now(datetime.timezone.utc).isoformat()}
+    (BASE / "review" / ".last-extract.json").write_text(
+        json.dumps(meta, ensure_ascii=False), encoding="utf-8")
 
     # 输出 JSON 到 stdout 供管道使用
     print(json.dumps(data))

@@ -19,3 +19,8 @@ scripts/sync-worker.js
 SYNC_SETUP.md
 scripts/feishu-config.json
 .wrangler/
+
+# 同步本地状态（不进 git）
+review/sync-results.json
+review/.last-extract.json
+review/.processed-ids.json
