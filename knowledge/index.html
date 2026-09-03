@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>知识库 · study-vault</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <style>
+    :root {
+      --primary: #1B4D6C; --primary-light: #2a7ba0; --accent: #F47920;
+      --bg: #f5f7fa; --card-bg: #fff; --text: #1a1a2e; --text-light: #6b7280;
+      --border: #e5e7eb; --green: #10b981; --red: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); }
+    .layout { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
+    @media (min-width: 769px) {
+      .layout { overflow: hidden; }
+      .main { overflow: hidden; }
+      .main-wrap { overflow: hidden; }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--card-bg); border-right: 1px solid var(--border);
+      padding: 1rem; overflow-y: auto;
+    }
+    .sidebar-header { font-size: 0.8rem; color: var(--text-light); margin-bottom: 0.75rem; font-weight: 600; }
+    .domain-group { margin-bottom: 0.75rem; }
+    .domain-title {
+      font-size: 0.75rem; font-weight: 700; color: var(--primary); text-transform: uppercase;
+      letter-spacing: 0.5px; padding: 0.3rem 0.5rem; cursor: pointer; border-radius: 4px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .domain-title:hover { background: var(--bg); }
+    .domain-count { font-size: 0.7rem; color: var(--text-light); font-weight: 400; }
+    .doc-list { list-style: none; }
+    .doc-item {
+      padding: 0.35rem 0.5rem 0.35rem 1rem; font-size: 0.83rem; cursor: pointer;
+      border-radius: 4px; color: var(--text); white-space: nowrap; overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .doc-item:hover { background: #eef2ff; color: var(--primary); }
+    .doc-item.active { background: #dbeafe; color: var(--primary); font-weight: 600; }
+
+    /* Main */
+    .main { display: grid; grid-template-rows: auto 1fr; }
+
+
+    /* Top bar */
+    .topbar {
+      display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem;
+      background: var(--card-bg); border-bottom: 1px solid var(--border);
+    }
+    .topbar .nav-links { display: flex; gap: 0.5rem; font-size: 0.8rem; }
+    .topbar .nav-links a { color: var(--text-light); text-decoration: none; padding: 0.3rem 0.5rem; border-radius: 4px; }
+    .topbar .nav-links a:hover { color: var(--primary); background: var(--bg); }
+    .topbar .nav-links a.active { color: var(--primary); font-weight: 600; background: #dbeafe; }
+    .topbar .spacer { flex: 1; }
+    .search-box {
+      display: flex; align-items: center; border: 1px solid var(--border); border-radius: 6px;
+      padding: 0.3rem 0.75rem; background: var(--bg);
+    }
+    .search-box input { border: none; background: transparent; outline: none; font-size: 0.83rem; width: 200px; }
+    .search-box .icon { color: var(--text-light); font-size: 0.85rem; }
+    .search-box:focus-within { border-color: var(--primary-light); background: #fff; }
+    .search-results {
+      position: absolute; top: 100%; left: 0; right: 0; background: var(--card-bg);
+      border: 1px solid var(--border); border-radius: 0 0 8px 8px; max-height: 300px;
+      overflow-y: auto; display: none; z-index: 10;
+    }
+    .search-results.visible { display: block; }
+    .search-result-item {
+      padding: 0.5rem 0.75rem; cursor: pointer; border-bottom: 1px solid var(--border); font-size: 0.83rem;
+    }
+    .search-result-item:hover { background: var(--bg); }
+    .search-result-item .sr-domain { font-size: 0.7rem; color: var(--primary-light); }
+    .search-result-item .sr-preview { font-size: 0.75rem; color: var(--text-light); margin-top: 0.15rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .search-wrap { position: relative; }
+    .btn-anno {
+      background: none; border: 1px solid var(--border); border-radius: 6px;
+      padding: 0.3rem 0.5rem; cursor: pointer; font-size: 1rem; line-height: 1;
+      transition: all 0.15s ease;
+    }
+    .btn-anno:hover { background: #dbeafe; border-color: var(--primary); }
+    .btn-anno.active { background: #dbeafe; border-color: var(--primary); }
+
+    /* Content */
+    .content {
+      padding: 1.5rem 2rem; overflow-y: auto;
+      max-width: 800px; width: 100%; margin: 0 auto;
+    }
+
+    /* Doc header */
+    .doc-header { margin-bottom: 1.5rem; }
+    .doc-header h1 { font-size: 1.4rem; color: var(--primary); margin-bottom: 0.5rem; }
+    .doc-meta { font-size: 0.78rem; color: var(--text-light); display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+    .tag {
+      display: inline-block; padding: 0.1rem 0.45rem; border-radius: 3px;
+      font-size: 0.7rem; background: #eef2ff; color: var(--primary);
+    }
+
+    /* Markdown rendered */
+    .markdown h1 { font-size: 1.5rem; color: var(--primary); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .markdown h2 { font-size: 1.2rem; color: var(--primary); margin: 1.5rem 0 0.75rem; }
+    .markdown h3 { font-size: 1.05rem; color: var(--text); margin: 1.25rem 0 0.5rem; }
+    .markdown p { line-height: 1.7; margin-bottom: 1rem; }
+    .markdown ul, .markdown ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+    .markdown li { line-height: 1.6; margin-bottom: 0.3rem; }
+    .markdown code {
+      background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85em;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+    .markdown pre {
+      background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 8px;
+      overflow-x: auto; margin-bottom: 1rem; font-size: 0.85rem; line-height: 1.5;
+    }
+    .markdown pre code { background: none; padding: 0; font-size: 1em; }
+    .markdown blockquote {
+      border-left: 3px solid var(--accent); padding: 0.5rem 1rem; margin-bottom: 1rem;
+      background: #fffbeb; border-radius: 0 6px 6px 0; color: #92400e;
+    }
+    .markdown table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.85rem; }
+    .markdown th, .markdown td { padding: 0.5rem; border: 1px solid var(--border); text-align: left; }
+    .markdown th { background: var(--bg); font-weight: 600; }
+    .markdown hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+    .markdown a { color: var(--primary-light); }
+
+    /* ⓘ annotation marker */
+    .anno-marker {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 1.1em; height: 1.1em; font-size: 0.65em; line-height: 1;
+      background: #dbeafe; color: var(--primary); border-radius: 50%;
+      cursor: pointer; vertical-align: super; margin: 0 0.1em;
+      transition: all 0.15s ease; user-select: none;
+    }
+    .anno-marker:hover { background: var(--primary); color: #fff; transform: scale(1.15); }
+
+    /* Annotation side panel */
+    .main-wrap { display: grid; }
+    .anno-panel {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 25;
+      width: 0; overflow: hidden;
+      background: var(--card-bg); border-left: 1px solid var(--border);
+      transition: width 0.2s ease;
+      display: flex; flex-direction: column;
+    }
+    .anno-panel.open { width: 340px; }
+    .anno-panel-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);
+      font-size: 0.85rem; font-weight: 600; color: var(--primary); flex-shrink: 0;
+    }
+    .anno-panel-close {
+      background: none; border: none; font-size: 1.1rem; cursor: pointer;
+      color: var(--text-light); padding: 0.2rem;
+    }
+    .anno-panel-close:hover { color: var(--text); }
+    .anno-panel-body {
+      flex: 1; overflow-y: auto; padding: 0.75rem 1rem;
+    }
+    .anno-section { margin-bottom: 1.25rem; }
+    .anno-section-title {
+      font-size: 0.75rem; font-weight: 700; color: var(--text-light);
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;
+    }
+    .anno-item {
+      padding: 0.6rem 0.75rem; border-radius: 6px; margin-bottom: 0.4rem;
+      border-left: 3px solid transparent; cursor: default;
+      transition: all 0.15s ease;
+    }
+    .anno-item:hover { background: var(--bg); }
+    .anno-item.highlight {
+      background: #dbeafe; border-left-color: var(--primary);
+    }
+    .anno-item-term { font-weight: 600; font-size: 0.83rem; color: var(--primary); margin-bottom: 0.2rem; }
+    .anno-item-content { font-size: 0.8rem; line-height: 1.5; color: var(--text); }
+    .anno-item-content code { background: #f3f4f6; padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.85em; }
+    .anno-item-content a { color: var(--primary-light); }
+    .anno-empty { font-size: 0.83rem; color: var(--text-light); text-align: center; padding: 2rem; }
+
+    /* Panel backdrop (mobile) */
+    .anno-panel-backdrop {
+      position: fixed; inset: 0; z-index: 24; display: none;
+    }
+    .anno-panel-backdrop.visible { display: block; }
+
+    /* Loading */
+    #loading { text-align: center; padding: 3rem; color: var(--text-light); }
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 0.75rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Bottom sheet (mobile doc selector) */
+    .mobile-bar {
+      display: none;
+    }
+    .bottom-sheet {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+      background: var(--card-bg); border-radius: 16px 16px 0 0;
+      max-height: 60vh; overflow-y: auto;
+      transform: translateY(100%); transition: transform 0.25s ease;
+      padding: 1rem 1.25rem 2rem;
+    }
+    .bottom-sheet.open { transform: translateY(0); }
+    .bottom-sheet-handle {
+      width: 36px; height: 4px; background: var(--border);
+      border-radius: 2px; margin: 0 auto 0.75rem;
+    }
+    .bottom-sheet-title { font-size: 0.85rem; font-weight: 600; color: var(--text-light); margin-bottom: 0.75rem; }
+    .bottom-sheet .doc-item { padding: 0.5rem 0.75rem; font-size: 0.9rem; }
+    .bottom-sheet .domain-title { font-size: 0.8rem; }
+    .bs-backdrop {
+      position: fixed; inset: 0; z-index: 39; background: rgba(0,0,0,0.3);
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    }
+    .bs-backdrop.visible { opacity: 1; pointer-events: auto; }
+
+    /* Bottom nav (mobile only) */
+    .bottom-nav {
+      display: none;
+    }
+
+    .sidebar-toggle { display: none; background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 0.25rem; }
+    @media (max-width: 768px) {
+      .layout { height: auto; overflow: visible; }
+      .main-wrap { overflow: visible; }
+      .sidebar { display: none; }
+      .anno-panel.open { width: 85vw; max-width: 340px; }
+      .sidebar-toggle { display: none; }
+      .nav-links { display: none; }
+      .search-box input { width: 100px; }
+      .content { padding: 0.75rem 1rem 5rem; }
+      .topbar { padding: 0.4rem 0.5rem; gap: 0.4rem; }
+
+      .mobile-bar {
+        display: flex; align-items: center; gap: 0.4rem;
+        flex: 1; min-width: 0; cursor: pointer;
+        background: var(--bg); border-radius: 6px; padding: 0.35rem 0.6rem;
+      }
+      .mobile-bar:active { background: #e5e7eb; }
+      .mobile-bar-title {
+        font-size: 0.85rem; white-space: nowrap; overflow: hidden;
+        text-overflow: ellipsis; flex: 1;
+      }
+      .mobile-bar-arrow { font-size: 0.7rem; color: var(--text-light); flex-shrink: 0; }
+
+      .bottom-nav {
+        display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
+        background: var(--card-bg); border-top: 1px solid var(--border);
+        padding: 0.35rem 0 env(safe-area-inset-bottom, 0);
+      }
+      .bottom-nav a {
+        flex: 1; text-align: center; padding: 0.3rem 0; text-decoration: none;
+        color: var(--text-light); font-size: 0.65rem; min-height: 44px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+      }
+      .bottom-nav a .nav-icon { font-size: 1.2rem; line-height: 1; }
+      .bottom-nav a.active { color: var(--primary); font-weight: 600; }
+      .bottom-nav a.active .nav-icon { transform: scale(1.1); }
+
+      .layout { height: 100dvh; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">📂 知识目录</div>
+    <div id="tree"></div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Top bar -->
+    <div class="topbar">
+      <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+      <div class="mobile-bar" id="mobile-bar" onclick="openBottomSheet()">
+        <span class="mobile-bar-title" id="mobile-bar-title">加载中…</span>
+        <span class="mobile-bar-arrow">▾</span>
+      </div>
+      <div class="nav-links">
+        <a href="../">📊 仪表盘</a>
+        <a href="../review/">📇 复习</a>
+        <a href="" class="active">📚 知识库</a>
+        <a href="../glossary/">📖 术语</a>
+        <a href="../references/">🔗 参考</a>
+      </div>
+      <div class="spacer"></div>
+      <div class="search-wrap">
+        <div class="search-box">
+          <span class="icon">🔍</span>
+          <input type="text" id="search-input" placeholder="搜索文档…" oninput="doSearch(this.value)">
+        </div>
+        <div class="search-results" id="search-results"></div>
+      </div>
+      <button class="btn-anno" onclick="togglePanel()" title="注释侧栏 (Ctrl+/)">📌</button>
+    </div>
+
+    <div class="main-wrap">
+      <!-- Content -->
+      <div class="content" id="content">
+        <div id="loading"><div class="spinner"></div><p>加载知识库…</p></div>
+      </div>
+
+      <!-- Annotation side panel -->
+      <div class="anno-panel" id="anno-panel">
+        <div class="anno-panel-header">
+          <span>📌 注释</span>
+          <button class="anno-panel-close" onclick="closePanel()">✕</button>
+        </div>
+        <div class="anno-panel-body" id="anno-panel-body"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<aside style="display:none" id="overlay" onclick="closeSidebar()"></aside>
+<div class="anno-panel-backdrop" id="anno-backdrop" onclick="closePanel()"></div>
+
+<!-- Bottom sheet (mobile doc selector) -->
+<div class="bs-backdrop" id="bs-backdrop" onclick="closeBottomSheet()"></div>
+<div class="bottom-sheet" id="bottom-sheet">
+  <div class="bottom-sheet-handle"></div>
+  <div class="bottom-sheet-title">📂 选择文档</div>
+  <div id="bs-tree"></div>
+</div>
+
+<!-- Bottom nav (mobile only) -->
+<nav class="bottom-nav">
+  <a href="../"><span class="nav-icon">📊</span>仪表</a>
+  <a href="../review/"><span class="nav-icon">📇</span>复习</a>
+  <a href="" class="active"><span class="nav-icon">📚</span>知识</a>
+  <a href="../glossary/"><span class="nav-icon">📖</span>术语</a>
+  <a href="../references/"><span class="nav-icon">🔗</span>参考</a>
+</nav>
+
+<script>
+// ── State ──
+let index = null;
+let searchIndex = null;
+let annotations = {};
+
+// ── Init ──
+async function init() {
+  const [idxResp, searchResp, annoResp] = await Promise.all([
+    fetch('../data/knowledge-index.json'),
+    fetch('../data/search-index.json'),
+    fetch('../data/annotations.json'),
+  ]);
+  index = await idxResp.json();
+  searchIndex = await searchResp.json();
+  try { annotations = (await annoResp.json()).annotations || {}; } catch(e) { annotations = {}; }
+  renderTree();
+  initCache();
+  // Load doc from hash or first doc
+  const hash = location.hash.slice(1);
+  if (hash && index.docs.find(d => d.id === hash)) {
+    loadDoc(hash);
+  } else if (index.docs.length > 0) {
+    loadDoc(index.docs[0].id);
+  } else {
+    document.getElementById('content').innerHTML = '<div class="empty-state"><p>暂无知识文档</p></div>';
+    document.getElementById('loading').style.display = 'none';
+  }
+}
+
+// ── Tree ──
+function renderTree() {
+  const tree = document.getElementById('tree');
+  const domains = index.domains;
+  const docs = index.docs;
+  let html = '';
+  for (const [domain, ids] of Object.entries(domains)) {
+    html += `<div class="domain-group"><div class="domain-title" onclick="toggleDomain(this)">${domain} <span class="domain-count">${ids.length}</span></div><ul class="doc-list">`;
+    for (const id of ids) {
+      const doc = docs.find(d => d.id === id);
+      if (!doc) continue;
+      html += `<li class="doc-item" data-id="${id}" onclick="loadDoc('${id}')">${doc.title}</li>`;
+    }
+    html += '</ul></div>';
+  }
+  tree.innerHTML = html;
+}
+
+function toggleDomain(el) {
+  const list = el.nextElementSibling;
+  list.style.display = list.style.display === 'none' ? '' : 'none';
+}
+
+let _currentDocId = null;
+const CACHE_PREFIX = 'sv_knowledge_';
+
+// ── Load doc ──
+async function loadDoc(id) {
+  const doc = index.docs.find(d => d.id === id);
+  if (!doc) return;
+  _currentDocId = id;
+  // Update mobile doc title
+  const titleEl = document.getElementById('mobile-bar-title');
+  if (titleEl) titleEl.textContent = doc.title;
+  location.hash = id;
+  // Active state
+  document.querySelectorAll('.doc-item').forEach(el => el.classList.remove('active'));
+  const item = document.querySelector(`.doc-item[data-id="${id}"]`);
+  if (item) item.classList.add('active');
+
+  const content = document.getElementById('content');
+  content.innerHTML = '<div id="loading"><div class="spinner"></div><p>加载中…</p></div>';
+
+  // Build doc header (tags, date, card count)
+  const tags = (doc.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+  const headerHtml = `<div class="doc-header">
+    <h1>${doc.title}</h1>
+    <div class="doc-meta">
+      ${doc.created ? `<span>⏱ ${doc.created}</span>` : ''}
+      ${tags ? `<span>🏷 ${tags}</span>` : ''}
+    </div>
+  </div>`;
+
+  // Try cache first
+  const cacheKey = CACHE_PREFIX + id;
+  const cached = localStorage.getItem(cacheKey);
+  if (cached) {
+    content.innerHTML = headerHtml + `<div class="markdown">${cached}</div>`;
+    wireAnnotations(id);
+    closeSidebar();
+    return;
+  }
+
+  // Fetch raw markdown from GitHub
+  const url = `https://raw.githubusercontent.com/w0odst0ck/study-vault/main/knowledge/${doc.path}`;
+  try {
+    const resp = await fetch(url);
+    const md = await resp.text();
+    const html = renderMarkdown(md, doc.id);
+    content.innerHTML = headerHtml + `<div class="markdown">${html}</div>`;
+    // Cache for future
+    try { localStorage.setItem(cacheKey, html); } catch(e) {}
+    wireAnnotations(id);
+    // 始终写入当前文档注释（面板开/关都不影响，打开时直接展示）
+    renderPanel(id);
+  } catch(e) {
+    content.innerHTML = `<div class="empty-state"><p>加载失败：${e.message}</p></div>`;
+  }
+  // Close sidebar on mobile
+  closeSidebar();
+}
+
+function wireAnnotations(docId) {
+  const docAnnos = annotations[docId] || [];
+  const content = document.getElementById('content');
+  content.querySelectorAll('.anno-marker').forEach(el => {
+    const idx = parseInt(el.dataset.idx);
+    const anno = docAnnos[idx];
+    if (!anno) return;
+    el.onclick = (e) => { e.preventDefault(); openPanel(_currentDocId, idx); };
+  });
+}
+
+// Clear knowledge cache when version changes
+function initCache() {
+  const verKey = 'sv_knowledge_ver';
+  const ver = localStorage.getItem(verKey);
+  // Simple version based on exported date in knowledge-index.json
+  if (index && index.exported) {
+    if (ver !== index.exported) {
+      // Clear all cached docs
+      for (let i = localStorage.length - 1; i >= 0; i--) {
+        const key = localStorage.key(i);
+        if (key.startsWith(CACHE_PREFIX)) localStorage.removeItem(key);
+      }
+      localStorage.setItem(verKey, index.exported);
+    }
+  }
+}
+
+// ── Annotation panel ──
+function togglePanel() {
+  const panel = document.getElementById('anno-panel');
+  if (panel.classList.contains('open')) { closePanel(); }
+  else { openPanel(_currentDocId); }
+}
+
+function openPanel(docId, scrollToIdx) {
+  const panel = document.getElementById('anno-panel');
+  const backdrop = document.getElementById('anno-backdrop');
+  panel.classList.add('open');
+  if (window.innerWidth <= 768) backdrop.classList.add('visible');
+  document.querySelector('.btn-anno').classList.add('active');
+  renderPanel(docId || _currentDocId, scrollToIdx);
+}
+
+function closePanel() {
+  document.getElementById('anno-panel').classList.remove('open');
+  document.getElementById('anno-backdrop').classList.remove('visible');
+  document.querySelector('.btn-anno').classList.remove('active');
+}
+
+function renderPanel(docId, scrollToIdx) {
+  const body = document.getElementById('anno-panel-body');
+  const docAnnos = (annotations[docId] || []);
+  if (docAnnos.length === 0) {
+    body.innerHTML = '<div class="anno-empty">本文档暂无注释</div>';
+    return;
+  }
+  let html = '';
+  docAnnos.forEach((a, i) => {
+    const contentHtml = a.content
+      .replace(/\[\[glossary\/([^\]]+)\]\]/g, '<a href="../glossary/" target="_blank">$1</a>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\n/g, '<br>');
+    html += `<div class="anno-item" data-idx="${i}">
+      <div class="anno-item-term">${a.term}</div>
+      <div class="anno-item-content">${contentHtml}</div>
+    </div>`;
+  });
+  body.innerHTML = html;
+
+  // Scroll to highlight
+  if (scrollToIdx !== undefined && scrollToIdx !== null) {
+    const target = body.querySelector(`.anno-item[data-idx="${scrollToIdx}"]`);
+    if (target) {
+      target.classList.add('highlight');
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => target.classList.remove('highlight'), 2000);
+    }
+  }
+}
+
+// ── Markdown renderer ──
+function renderMarkdown(md, docId) {
+  // Remove front matter
+  md = md.replace(/^---[\s\S]*?---\n*/, '');
+  // Replace [ⓘ] with numbered markers before marked processes it
+  let annoIdx = 0;
+  md = md.replace(/\[ⓘ\]/g, () => `<sup class="anno-marker" data-idx="${annoIdx++}">ⓘ</sup>`);
+  // Parse with marked
+  const html = marked.parse(md, { breaks: true, gfm: true });
+  // Highlight code blocks after render
+  setTimeout(() => {
+    document.querySelectorAll('.markdown pre code').forEach(block => {
+      hljs.highlightElement(block);
+    });
+  }, 0);
+  return html;
+}
+
+// ── Search ──
+function doSearch(q) {
+  const results = document.getElementById('search-results');
+  if (!q.trim()) { results.classList.remove('visible'); return; }
+  q = q.toLowerCase();
+  const hits = searchIndex.entries
+    .filter(e => e.title.toLowerCase().includes(q) || e.text.toLowerCase().includes(q))
+    .slice(0, 10);
+  if (hits.length === 0) { results.classList.remove('visible'); return; }
+  results.innerHTML = hits.map(h => `
+    <div class="search-result-item" onclick="loadDoc('${h.id}')">
+      <div><span class="sr-domain">${h.domain}</span> ${h.title}</div>
+      <div class="sr-preview">${h.text.slice(0, 80)}…</div>
+    </div>
+  `).join('');
+  results.classList.add('visible');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrap')) document.getElementById('search-results').classList.remove('visible');
+});
+
+// ── Sidebar toggle (mobile) ──
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').style.display = document.getElementById('sidebar').classList.contains('open') ? 'block' : 'none';
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').style.display = 'none';
+}
+
+// ── Bottom sheet (mobile) ──
+function openBottomSheet() {
+  const sheet = document.getElementById('bottom-sheet');
+  const backdrop = document.getElementById('bs-backdrop');
+  // Render tree into bottom sheet if not already there
+  const bsTree = document.getElementById('bs-tree');
+  if (!bsTree.hasChildNodes()) {
+    renderBottomSheetTree();
+  }
+  sheet.classList.add('open');
+  backdrop.classList.add('visible');
+}
+
+function closeBottomSheet() {
+  document.getElementById('bottom-sheet').classList.remove('open');
+  document.getElementById('bs-backdrop').classList.remove('visible');
+}
+
+function renderBottomSheetTree() {
+  const tree = document.getElementById('bs-tree');
+  const domains = index.domains;
+  const docs = index.docs;
+  let html = '';
+  for (const [domain, ids] of Object.entries(domains)) {
+    html += `<div class="domain-group"><div class="domain-title">${domain} <span class="domain-count">${ids.length}</span></div><ul class="doc-list">`;
+    for (const id of ids) {
+      const doc = docs.find(d => d.id === id);
+      if (!doc) continue;
+      html += `<li class="doc-item" onclick="selectMobileDoc('${id}')">${doc.title}</li>`;
+    }
+    html += '</ul></div>';
+  }
+  tree.innerHTML = html;
+}
+
+function selectMobileDoc(id) {
+  closeBottomSheet();
+  loadDoc(id);
+}
+
+// ── Keyboard ──
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('search-input').focus();
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+    e.preventDefault();
+    togglePanel();
+  }
+});
+
+init();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.min.js"></script>
+</body>
+</html>
