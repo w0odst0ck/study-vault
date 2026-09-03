@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-23",
-  "updated": "2026-07-25",
+  "updated": "2026-09-03",
   "tags": [
     "项目管理",
     "项目启动",
@@ -105,6 +105,8 @@ python collector.py status  # 进度看板
 5. **自动+手动混合** — 自动采集优先，自动失败标注 manual 统一收集
 
 ## 回顾
+<!-- cards: programming-一期和二期规划的核心区别-041, programming-为什么采用三轮递进而非一-043, programming-数据源的国内外比例和角色-042, programming-知识库型项目的三层打包策-039, programming-项目目录结构标准包含哪些-040 -->
+<!-- cards: programming-一期和二期规划的核心区别-041, programming-为什么采用三轮递进而非一-043, programming-数据源的国内外比例和角色-042, programming-知识库型项目的三层打包策-039, programming-项目目录结构标准包含哪些-040 -->
 <!-- cards: programming-一期和二期规划的核心区别-041, programming-为什么采用三轮递进而非一-043, programming-数据源的国内外比例和角色-042, programming-知识库型项目的三层打包策-039, programming-项目目录结构标准包含哪些-040 -->
 <!-- cards: programming-一期和二期规划的核心区别-041, programming-为什么采用三轮递进而非一-043, programming-数据源的国内外比例和角色-042, programming-知识库型项目的三层打包策-039, programming-项目目录结构标准包含哪些-040 -->
 <!-- cards: programming-一期和二期规划的核心区别-041, programming-为什么采用三轮递进而非一-043, programming-数据源的国内外比例和角色-042, programming-知识库型项目的三层打包策-039, programming-项目目录结构标准包含哪些-040 -->

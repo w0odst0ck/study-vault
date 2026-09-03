@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-23",
-  "updated": "2026-07-25",
+  "updated": "2026-09-03",
   "tags": [
     "爬虫",
     "采集架构",
@@ -135,6 +135,8 @@ scenario = "general"
 - 采集器 CLI 只读 config，不关心具体来源
 
 ## 回顾
+<!-- cards: crawler-manual机制的工作-038, crawler-precheck预检命-039, crawler-全量采集规范要求每来源产-037, crawler-多源采集流水线的三种采集-036, crawler-配置驱动原则的关键约束是-040 -->
+<!-- cards: crawler-manual机制的工作-038, crawler-precheck预检命-039, crawler-全量采集规范要求每来源产-037, crawler-多源采集流水线的三种采集-036, crawler-配置驱动原则的关键约束是-040 -->
 <!-- cards: crawler-manual机制的工作-038, crawler-precheck预检命-039, crawler-全量采集规范要求每来源产-037, crawler-多源采集流水线的三种采集-036, crawler-配置驱动原则的关键约束是-040 -->
 <!-- cards: crawler-manual机制的工作-038, crawler-precheck预检命-039, crawler-全量采集规范要求每来源产-037, crawler-多源采集流水线的三种采集-036, crawler-配置驱动原则的关键约束是-040 -->
 <!-- cards: crawler-manual机制的工作-038, crawler-precheck预检命-039, crawler-全量采集规范要求每来源产-037, crawler-多源采集流水线的三种采集-036, crawler-配置驱动原则的关键约束是-040 -->

@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exported": "2026-08-24",
-  "totalCards": 221,
-  "dueToday": 208,
+  "exported": "2026-09-03",
+  "totalCards": 297,
+  "dueToday": 291,
   "cards": [
     {
       "id": "crawler-1688工厂搜索页的中-020",
@@ -41,6 +41,18 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-1688重登撞上滑块-115",
+      "domain": "crawler",
+      "q": "1688 重登撞上滑块，按什么顺序尝试（绕/打码/轨迹/PW 四档）？每档属于反爬哪一层？为什么打码治标不治本？",
+      "a": "- 顺序（便宜→贵）：① 绕（降频/换 IP/换会话 = 换战场，先退让）→ ② 打码（付费 API，内容层硬刚）→ ③ 轨迹模拟（免费但调参）→ ④ PW（特征层+行为层全维）→ 逆向不推荐（灰色违法）\n  - 层归属：绕=请求层 / 打码=内容层 / 轨迹=行为层 / **PW=特征层+行为层**（换整个身份去考试，不是\"蒙混\"）\n  - 打码治标不治本：**重登=高频敏感行为=风控导火索**，打码只解这一次、下次还撞；绕=不玩对手的游戏，打码=在对手游戏里花钱硬刚",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-1688页面使用-022",
       "domain": "crawler",
       "q": "1688 页面使用 `\"networkidle\"` 等待策略时为什么会超时？",
@@ -51,6 +63,66 @@
       "last_reviewed": "2026-08-19",
       "reviews": 5,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-185412-091",
+      "domain": "crawler",
+      "q": "`?` / `+` / `(?:...)?` 分别是什么意思？`class=\"?top-name` 的 `\"?` 是什么？",
+      "a": "- `?` = 前一个字符/组出现 **0 或 1 次**（可有可无）→ `\"?` 匹配带引号和不带引号两种\n  - `+` = **1 次以上**；`(?:...)` = **非捕获组**，可整体加量词",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-301302与30-070",
+      "domain": "crawler",
+      "q": "301/302 与 307/308 对 POST 的处理差异？requests 与 httpx 默认跟随行为？",
+      "a": "- 301/302：允许 POST→GET（丢 body，RFC 9110 §15.4）；307/308：**强制保留方法+body**\n  - **requests 默认跟重定向（POST 被 302 转 GET 丢 body）；httpx 默认不跟（follow_redirects=False）——两库相反**",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-304为什么没有bo-061",
+      "domain": "crawler",
+      "q": "304 为什么没有 body？客户端靠什么拿到内容？304 是重定向吗？",
+      "a": "- 304 = \"没变\"信号（3xx 无 body 无 Location，RFC 9110 §15.4.5）；服务端不发 body = 内容没变客户端已有，发了浪费带宽\n  - 客户端靠**本地缓存**（上次 200 存的 body）+ 验证器（ETag/Last-Modified）确认后直接使用\n  - **301 = 指路牌（搬家带 Location）；304 = 盖章（没变照用）**；304 对应增量抓取 = 跳过解析用旧快照",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-403429时pa-082",
+      "domain": "crawler",
+      "q": "403/429 时 page.goto() 会报错吗？之后会在哪个页面找商品？404 呢？",
+      "a": "- 403/404/429 对浏览器都是\"加载成功\"，**错误页照样渲染**——码错了内容必错；Playwright 只等加载事件\n  - 403/429/404 症状相同（错误页静默跳过）含义不同：404=下架（永久）/ 403=被拉黑（换身份）/ 429=太快（退避）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-429后看哪个头决定等-064",
+      "domain": "crawler",
+      "q": "429 后看哪个头决定等多久？429 和 503 的处理差异？",
+      "a": "- 429 第一优先读 **Retry-After**（秒数/HTTP-date），没有才退避；`time.sleep(int(retry_after))` 前 try/except（服务端可能给坏值）\n  - 语义层：**429 = 服务器没问题（客户端频率问题，冷却即可）vs 503 = 服务端过载（退避试探）**",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
     },
     {
       "id": "crawler-503篇素材跨19-044",
@@ -87,6 +159,90 @@
       "last_reviewed": null,
       "reviews": 0,
       "created": "2026-07-25"
+    },
+    {
+      "id": "crawler-CSS阻塞什么JS-101",
+      "domain": "crawler",
+      "q": "CSS 阻塞什么、JS 阻塞什么、卡在哪一步？defer 和 async 区别？为什么 JS 放 body 底部加快首屏？",
+      "a": "- **CSS 阻塞渲染树构建（③）；JS 阻塞 DOM 解析（①）**（遇到 `<script>` 阻塞下载执行）\n  - defer = 解析完按文档顺序执行；async = 下载完立即执行不保序；共同点 = 下载都不阻塞解析\n  - JS 放 body 尾 → HTML 先解析完首屏先出；放 head 阻塞 body 解析 → 白屏久",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-CSV契约解决什么问题-096",
+      "domain": "crawler",
+      "q": "CSV 契约解决什么问题？为什么 utf-8-sig？\"价格面议\"怎么处理？",
+      "a": "- 契约 = 生成方与消费方的接口约定（字段名/顺序/编码统一），保证\"写什么读什么\"一致，双方独立演进前提\n  - utf-8-sig = 带 BOM：Excel 按本地编码（中文系统=GBK）猜无 BOM 文件 → 乱码；BOM 显式声明 UTF-8\n  - **price_low 必填**：空值/非法 = **坏行跳过不入库**（不是\"空值入库\"）；填 0 污染价格基线触发假波动——**宁可丢一行，不脏一片**",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-Cookie回传的条件-077",
+      "domain": "crawler",
+      "q": "Cookie 回传的条件是什么？（什么时候带、什么时候不带）",
+      "a": "- 四要素：① **Domain** 匹配（含子域，`domain=.example.com` 覆盖 www）② **Path** 前缀命中（`/cart` 的 cookie 不回传给 `/`）③ **Secure** 仅 HTTPS ④ **未过期**（Expires/Max-Age；`Max-Age=0` 主动注销）\n  - 爬虫坑：重定向链跨域丢 cookie",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-Date头是什么时区-072",
+      "domain": "crawler",
+      "q": "Date 头是什么时区？爬虫时间解析的坑？",
+      "a": "UTC（RFC 9110 §5.6.7，比北京慢 8h）；**存储统一 UTC 不转本地，展示才转**（转来转去引入夏令时/时区混乱）；解析用 `email.utils.parsedate_to_datetime()` 别手切字符串",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-ETag和Last-074",
+      "domain": "crawler",
+      "q": "ETag 和 Last-Modified 哪个强？同时存在时带哪个头？",
+      "a": "ETag = 内容指纹强验证器（不能撒谎）；Last-Modified = 秒级精度弱验证器（能撒谎）；同时给时只带 **If-None-Match**（服务器 MUST 忽略 If-Modified-Since）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-HTML文本和DOM-087",
+      "domain": "crawler",
+      "q": "HTML 文本和 DOM 树分别是什么？一个文档几棵树？画 `<div><p>苹果</p><p>香蕉</p></div>` 的 DOM 树，几个节点？",
+      "a": "- HTML 文本 = 一维字符流（raw）；DOM 树 = 解析后的树形结构，**一个文档一棵**（根 = document；iframe 是多个文档的特例）\n  - **文本也是节点**（TextNode）——树里没有裸字符串；例图 5 节点 = 3 元素（div/p/p）+ 2 文本（苹果/香蕉）；两个 p 是兄弟，共同挂 div 下",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-HTTP10和1-068",
+      "domain": "crawler",
+      "q": "HTTP/1.0 和 1.1 对 keep-alive 的默认行为差异？",
+      "a": "1.0 默认短连接（`Connection: keep-alive` 才长）；1.1 默认长连接（`Connection: close` 才短）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
     },
     {
       "id": "crawler-Intel模块的领域分-016",
@@ -137,6 +293,18 @@
       "created": "2026-07-25"
     },
     {
+      "id": "crawler-Playwrightc-085",
+      "domain": "crawler",
+      "q": "Playwright cookie 持久化闭环缺哪步？探测接口怎么选？探测失败自动重登还是手动？",
+      "a": "- 5 步闭环：登录 → 持久化存盘 → 加载还原 → **探测验证** → 失效重登（factory-monitor 只有前 3 步）\n  - 验证不能只看状态码：**阴险形态 200+登录页 HTML**（码和内容分开看）\n  - 探测接口判据 = **露馅性**（没登录就露馅）；判定三板斧：URL 跳 login=失效 / 200 但登录框特征=失效 / 正常列表=有效\n  - 探测失败：先重试 1-2 次（指数退避）→ 仍失败=确认失效 → **不能自动重登**（卡验证码+触发风控）→ 标记 COOKIE_EXPIRED + 通知人工（有头）→ save_cookies 覆盖",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-Playwright浏-009",
       "domain": "crawler",
       "q": "Playwright 浏览器管理器的三种搜索策略模式是什么？",
@@ -161,6 +329,30 @@
       "created": "2026-07-25"
     },
     {
+      "id": "crawler-React商品页re-105",
+      "domain": "crawler",
+      "q": "React 商品页 requests 拿到空壳，完整采集流程怎么走？",
+      "a": "看响应体 → 数据不在 → 找 XHR/fetch 接口（DevTools Network）→ JSON 直拿 → 接口有防护 → Playwright：等 wait_for_selector/networkidle，page.evaluate 取 DOM 或 page.route 拦截响应 JSON，懒加载滚动循环",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-React页面查看源代-093",
+      "domain": "crawler",
+      "q": "React 页面查看源代码为什么看不到商品数据？PH 油猴为什么能拿到渲染后 DOM？",
+      "a": "- CSR 响应体 = **空壳 + JS bundle**，数据根本不在响应体里（不是\"数据等 JS 跑\"）；浏览器执行 JS 后才请求 API、生成 DOM\n  - 油猴跑在页面内（与页面 JS 共享 DOM）→ 渲染完成 → `document.documentElement.outerHTML` 序列化；requests 只拿响应体（JS 未执行）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-SAMR平台的速率限制-013",
       "domain": "crawler",
       "q": "SAMR 平台的速率限制参数有哪些？",
@@ -173,6 +365,18 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-SameSiteLax-078",
+      "domain": "crawler",
+      "q": "SameSite=Lax 对爬虫意味着什么？坑在哪？",
+      "a": "- SameSite=Lax = 跨站请求不发 cookie（顶级导航 GET 例外）\n  - 对爬虫：requests/httpx 不执行浏览器同源策略 → 基本无感；**坑在 Playwright**（跨站子资源请求被拦 cookie）+ 重定向链跨域作用域丢失",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-StealthJS注-010",
       "domain": "crawler",
       "q": "Stealth JS 注入的核心原理是什么？",
@@ -183,6 +387,30 @@
       "last_reviewed": "2026-08-19",
       "reviews": 5,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-URL到商品卡片显示-106",
+      "domain": "crawler",
+      "q": "URL 到商品卡片显示，按顺序说每一步？JS/CSS 分别在哪个环节介入？",
+      "a": "- 完整 10 步：下载 HTML → 解析①遇 `<script>` 阻塞下载执行 JS（React 跑起来）→ JS 用 XHR/fetch 请求商品数据 → 改 DOM → ②CSSOM → ③渲染树 → ④布局 → ⑤绘制合成 → 卡片显示\n  - **JS 卡①（DOM 解析）；CSS 卡③（渲染树构建）**——别搞混",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-WAF和四层检测体系是-117",
+      "domain": "crawler",
+      "q": "WAF 和四层检测体系是什么关系？Cloudflare 质询页算哪一层？为什么 requests 过不去？",
+      "a": "- WAF 不是独立层：横跨请求层（速率/UA 规则）+ 内容层（JS 质询/验证码）\n  - **JS 质询 = 内容层主动挑战（\"考\"），非特征层**：特征层是\"看\"（被动观察指纹），内容层是\"考\"（要执行 JS 算 token）\n  - requests 不执行 JS → 拿不到 token → 永远 403",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
     },
     {
       "id": "crawler-WAF移除脚本执行后为-060",
@@ -257,6 +485,18 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-chunked何时出现-065",
+      "domain": "crawler",
+      "q": "chunked 何时出现？块格式长什么样？结尾标志？库怎么处理？",
+      "a": "- 出现时机：**响应长度未知**（动态生成/流式输出）；长度已知的大文件反而用 Content-Length；两者互斥（RFC 9112）\n  - 块格式：`<hex长度>\\r\\n<数据>\\r\\n` 重复，**`0\\r\\n\\r\\n` 结尾**\n  - requests **默认透明解码**拼回完整 body；stream=True 才逐块",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-clean_text全-042",
       "domain": "crawler",
       "q": "clean_text 全量清洗的执行流程和典型规模？",
@@ -267,6 +507,54 @@
       "last_reviewed": null,
       "reviews": 0,
       "created": "2026-07-25"
+    },
+    {
+      "id": "crawler-cookie失效至少有-122",
+      "domain": "crawler",
+      "q": "cookie 失效至少有 5 种原因，分别是什么？判断场景：cookie 的 Expires 明明没过期，但长时间没活动后请求突然跳登录页——这是哪种失效？",
+      "a": "- ① 过期（Expires/Max-Age 到点）② 服务端注销（踢下线）③ 会话滑动过期（idle 超时作废——看着没过期其实已死）④ 风控吊销 ⑤ 环境绑定变化（UA/IP/设备变更）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-curlv输出分哪-066",
+      "domain": "crawler",
+      "q": "curl -v 输出分哪四层？为什么 HTTPS 站点看不到 HTTP/1.1 明文？",
+      "a": "- 四层 = **输出层次**：① 连接建立（TCP/代理 CONNECT）② TLS 握手 ③ 发送的请求头（`>`）④ 收到的响应头（`<`）——不是报文结构！\n  - 看不到明文 = TLS 加密应用层数据 **+** HTTP/2 二进制帧（连 HTTP/1.1 文本格式都不存在）——**双保险**，不是单纯\"加密了\"",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-divclass-089",
+      "domain": "crawler",
+      "q": "`<div class=abc>你好</div>` 浏览器会解析失败扔掉吗？",
+      "a": "- **不会**——属性无引号本就是合法 HTML 语法（WHATWG 树构建容错），照常构建 DOM\n  - 容错针对未闭合/错嵌套（如 `<p>a<p>b`），是解析器**规范行为**，不是\"正则兜底\"（浏览器解析与正则无关）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-factorymoni-123",
+      "domain": "crawler",
+      "q": "factory-monitor 现在是被动检测（等 403/登录页才发现 cookie 挂了 → 标记 → 人工重登）。按 S3 四件套设计蓝图（检测/刷新/轮换/降级），先补哪一件最值？为什么主动探活优于被动发现？",
+      "a": "- 四件套：检测 / 刷新 / 轮换 / 降级\n  - 检测=**主动探活**：定时发轻量请求（需登录态的轻接口）看响应特征判断死活；刷新分级=自动重登→半自动（扫码/打码）→人工介入；轮换=cookie 池多凭证；降级=失效降频\n  - **主动探活理由 = 时间差**：cookie 一死立刻发现（业务请求未发、损失为零）；被动=业务请求整批 403 才反应 → 损失整批 + 重登撞验证码连锁。**不是\"像真人\"**——被动才是打草惊蛇\n  - 安全标准：连续 N 次探活正常（无 403/无验证码）→ 逐步恢复频率",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
     },
     {
       "id": "crawler-generate_ind-043",
@@ -281,6 +569,30 @@
       "created": "2026-07-25"
     },
     {
+      "id": "crawler-headless无头浏-112",
+      "domain": "crawler",
+      "q": "headless（无头浏览器）默认露馅点有哪些？",
+      "a": "navigator.webdriver=true / 无 GPU→Canvas/WebGL 渲染差异 / 字体列表异常 / UA 与 platform 不匹配 / 时区默认 UTC / 语言 en-US / 屏幕默认",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-keepalive情-063",
+      "domain": "crawler",
+      "q": "keep-alive 情况下服务端关闭连接的理由？哪个是服务器\"明说\"？爬虫要手动处理吗？",
+      "a": "- 记忆锚「**旧/说/晾/挤**」：① 协议旧（HTTP/1.0 默认短连接）② 明说（`Connection: close` 头）③ 空闲超时（晾着不说话）④ 满员（连接数上限关最老）\n  - 爬虫无感：**透明重连**（连接池自动重建），不用手动处理",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-manual机制的工作-038",
       "domain": "crawler",
       "q": "manual 机制的工作流程是什么？",
@@ -293,6 +605,30 @@
       "created": "2026-07-23"
     },
     {
+      "id": "crawler-monitor在PH-129",
+      "domain": "crawler",
+      "q": "monitor 在 PH 里的定位？完整数据链路？",
+      "a": "- 定位三词诀：**自动下游 · 静默 · 波动才提醒**；消费离线解析产物，纯分析无爬虫；PH 一级功能（与 api/web/cli 平级）\n  - 链路：PH 解析产物（CSV）→ 定时扫描导入（增量）→ 跨批次比价 → 波动检测 → 明显波动写 alerts → 心跳播报；**无常驻进程**（cron 触发）；数据本地不上传",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-nostoren-073",
+      "domain": "crawler",
+      "q": "no-store / no-cache / 无指令 三者的缓存行为差异？",
+      "a": "- 递进：**存都不存（no-store）/ 存了每次验（no-cache）/ 存了放心用旧的（无指令=启发式缓存）**\n  - no-cache = 可存储但每次使用前必须回源验证（RFC 9111 §5.2.1.4）——不是\"不缓存\"也不是\"保持默认\"",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-openstd的PD-015",
       "domain": "crawler",
       "q": "openstd 的 PDF 下载通道为什么不可用？",
@@ -303,6 +639,18 @@
       "last_reviewed": "2026-08-23",
       "reviews": 3,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-originform-067",
+      "domain": "crawler",
+      "q": "origin-form 和 absolute-form 的区别？分别发给谁？",
+      "a": "origin-form `GET / HTTP/1.1` → 源服务器；absolute-form `GET http://host/path HTTP/1.1` → 正向代理（RFC 9112 §3.2.2/3.2.3）；同一 curl 两种形态取决于发给谁",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
     },
     {
       "id": "crawler-precheck预检命-039",
@@ -329,6 +677,30 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-requests200-094",
+      "domain": "crawler",
+      "q": "requests 200 + HTML 完整但提取不到商品，两种原因？排查第一步看什么？请求层 vs 解析层怎么分？",
+      "a": "- **排查第一步 = 看响应体原文归类**（requests 没有 DOM！）：登录页/错误页 → 请求层；空壳 JS 未跑 / script JSON 未抠（__NEXT_DATA__）/ 懒加载未触发 → 解析层\n  - 分层：请求层 = 页面不对（状态码/重定向/登录页）；解析层 = 页面对但没数据（空壳/JSON/懒加载）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-requests打-108",
+      "domain": "crawler",
+      "q": "requests / 打接口 / Playwright 三方案快稳轻与风控对比？接口防护和浏览器指纹是同一套体系吗？被接口拦换 PW 有用吗？",
+      "a": "- requests 直接抓：最快最轻，仅静态页，易被 UA/频率检测；打接口：快/结构化稳/轻，风控看接口防护（签名/加密）；**Playwright：最慢最重，最易被识别**（headless 指纹 + 注入特征）\n  - **两套体系**：接口签名/加密防护 ≠ 浏览器指纹；接口打不动 ≠ PW 打不动，PW 被识别 ≠ 接口会被拦\n  - 被接口拦换 PW **有用**：接口防护拦裸请求/无签名，PW 走真实浏览器 + 执行 JS，可绕过纯签名防护",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-shop_urlUNI-024",
       "domain": "crawler",
       "q": "shop_url UNIQUE 约束导致空字符串覆盖问题的解决方案是什么？",
@@ -339,6 +711,30 @@
       "last_reviewed": "2026-07-26",
       "reviews": 1,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-①探活与业务采集为什么-135",
+      "domain": "crawler",
+      "q": "① 探活与业务采集为什么要解耦？耦合的后果是什么？② DEAD 状态为什么需要“暂停采集”这个闸？③ 刷新成功后的恢复条件是什么？",
+      "a": "- 解耦：探活=观察者（独立定时器只判生死），业务=执行者（只消费状态）——耦合=用业务请求当探活，探活失败=业务失败，且探活会干扰业务节奏\n  - DEAD 暂停闸：DEAD 后继续请求 = 整批撞墙（403+滑块连锁）；暂停 = 止损 + 给刷新留时间窗\n  - 恢复条件：新凭证通过校验 + **连续 N 次探活正常才回全速**（刚重登就全速 = 重登+高频双风控信号）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-①探活被风控盯上三层-136",
+      "domain": "crawler",
+      "q": "① 探活被风控盯上，三层破解是什么？为什么“降频抖动”只是治标？② 轮换策略为什么用“LRU + 健康度筛选”而不是纯健康度排序？闲置凭证有什么风险？③ 给 factory-monitor 设计探活：选哪条通道（1688 场景）？间隔多少？怎么防被盯？",
+      "a": "- H1 三层（递进：模糊→消除→稀释）：降频+抖动（模糊信号，没消除）/ 换通道（消除信号，轻接口与业务特征分道） / 多凭证分摊（稀释信号）\n  - H2：LRU 管“用谁”（均衡、治闲置风险） + 健康度管“排除谁”（筛选器非排序器）；闲置凭证长期不用 = 行为异常\n  - H3：探活间隔必须 < 业务采集间隔（才能提前发现）；factory-monitor 业务 09:30/21:30 间隔 ~12h → 4h 折中合理；防被盯选换通道（用户主页轻接口）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
     },
     {
       "id": "crawler-三大厂商采集实战的数据对-050",
@@ -365,6 +761,18 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-为什么S1fetch-084",
+      "domain": "crawler",
+      "q": "为什么 S1 fetcher 必须用 Session？chunked 何时见原始块？",
+      "a": "- Session 两理由：① **连接复用省握手**（500 次请求不开 500 次连接）② **cookie 自动回传维持登录态**（不是\"防封\"）\n  - chunked：stream=True 才见原始块（默认透明拼回）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-为什么京东解析器要复用-031",
       "domain": "crawler",
       "q": "为什么京东解析器要复用 DOMParser？",
@@ -375,6 +783,54 @@
       "last_reviewed": "2026-08-17",
       "reviews": 1,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-为什么商品ID用正则-092",
+      "domain": "crawler",
+      "q": "为什么商品 ID 用正则而不是 DOM？价格清洗步骤？",
+      "a": "- **分层串联**：DOM 负责定位（哪个 a、哪个 href），正则负责精提取（从 href 抠 `(\\d+)`）——不是二选一\n  - 价格清洗顺序：**先去千分位逗号**（`1,234.50` 的 `\\d+` 只能匹配 \"1\"）→ 再 match 数字 → parseFloat",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-为什么正则回答不了哪个-088",
+      "domain": "crawler",
+      "q": "为什么正则回答不了\"哪个 p 在 div 里\"这种层级问题？",
+      "a": "匹配层级关系需要记忆**嵌套深度（栈）**；正则 = 有限状态自动机，**无栈** → 理论不可表达；树结构解析必须交给 DOM 解析器",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-为什么用divdat-095",
+      "domain": "crawler",
+      "q": "为什么用 div[data-sku] 锚定而不是类名？data-sku 改版成 data-skuid 怎么改？",
+      "a": "- 数据锚点 vs 视觉类名：**数据必须真实**（无 ID 商品无法标识/下单），视觉可随便改 → data-sku 比类名稳\n  - 结构不可控 → 放弃结构定位，转**文本级正则扫兜底**（价格扫整卡）\n  - 改版应对三件套：① 改**锚定选择器字符串**（不是函数参数）② **检测特征同步**（isJDProductPage）③ **双锚定降级** `div[data-sku], div[data-skuid]`（新旧混存都中）+ 终极防线：抠 script JSON 不依赖属性名",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-主动探活三要素为什么探-132",
+      "domain": "crawler",
+      "q": "主动探活三要素？为什么探活请求必须\"轻\"且\"低频\"？",
+      "a": "- 三要素：发什么（轻量请求：需登录态的轻接口，绝不用业务请求当探活）/ 多久发（低频定时，比采集频率低一个量级）/ 怎么判（响应特征：跳登录页/未登录 JSON/验证码页；连续 N 次异常才判死、N 次正常才回 ACTIVE——双边防抖）\n  - 必须轻+低频：探活本身不能成为风控信号——量≈业务量 = 给自己加一个\"定时打卡\"信号，等着被封",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
     },
     {
       "id": "crawler-产品目录页URL能直-023",
@@ -413,6 +869,18 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-价格明明没变为什么可能-127",
+      "domain": "crawler",
+      "q": "价格明明没变，为什么可能持续报黄？窗口边界怎么改？",
+      "a": "- 黄色 = 距低点 ≤10% + 斜率 <0；根因 = **窗口起点仍卡在历史下跌段内**（如 [10,8,8,8] 含 10→8）→ 窗口内斜率恒负 → 平稳期误报\n  - 修复：低点/斜率取**滑动窗口内**并截断，与低点窗口对齐",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-价格监控项目瘦身的核心策-056",
       "domain": "crawler",
       "q": "价格监控项目瘦身的核心策略是什么？",
@@ -435,6 +903,54 @@
       "last_reviewed": null,
       "reviews": 0,
       "created": "2026-07-23"
+    },
+    {
+      "id": "crawler-冷却幂等键含价格档位为-126",
+      "domain": "crawler",
+      "q": "冷却幂等键含价格档位，为什么会导致\"一周 5 次提醒\"？拐点报告是什么？",
+      "a": "- 价格每次变 → 幂等键每次新 → 冷却失效（这就是反复提醒根因）\n  - 修复：冷却键改**商品维度**（同商品窗口内只报一次）+ **拐点报告**（趋势开始报\"开始跌\"、反转报\"到位\"，**中间静默**）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-凭证从生到死经历哪几个阶-121",
+      "domain": "crawler",
+      "q": "凭证从生到死经历哪几个阶段？RFC 6265 的哪四个要素决定\"什么时候回传、什么时候失效\"？",
+      "a": "- 四阶段闭环：颁发 → 存储 → 使用 → 失效 → 刷新重获\n  - RFC 6265 四要素（决定何时回传/何时失效）：Domain / Path / Secure / 过期\n  - 类比：凭证=公司工牌（有有效期/会吊销/重办走流程/多张卡=轮换池）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-凭证状态机5个状态分-131",
+      "domain": "crawler",
+      "q": "凭证状态机 5 个状态分别是什么？为什么不能用\"活/死\"布尔值代替？",
+      "a": "- 5 态：ACTIVE 有效 → SUSPECT 濒死 → DEAD 失效 → RENEWING 重登中 → ABANDON 放弃；ACTIVE↔SUSPECT 由连续 N 次探活结果驱动\n  - 布尔只有\"活/死\"，丢**中间态 SUSPECT**——它最值钱：濒死就降频半速（提前止损），避免\"突然死\"的整批损失；每个状态绑定\"该做什么\"（动作），而不是\"死了再说\"",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-前端容错vs入库防线-097",
+      "domain": "crawler",
+      "q": "前端容错 vs 入库防线，分别是什么？",
+      "a": "- 前端（采集侧）= **默认值 / 降级链 / null 兜底**（不是\"多抓\"——那是采集策略）\n  - 入库 = 契约校验 / 类型校验 / **坏行隔离**（严、宁缺毋滥）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
     },
     {
       "id": "crawler-前端解析器如何防止XS-033",
@@ -497,6 +1013,18 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-反爬检测体系分几层各层-109",
+      "domain": "crawler",
+      "q": "反爬检测体系分几层？各层看什么特征？层与层怎么配合？",
+      "a": "- 四层：请求层（UA/Header/频率/IP）→ 特征层（浏览器指纹）→ 行为层（轨迹/速度/交互）→ 内容层（主动挑战：验证码/WAF/签名）\n  - **漏斗逻辑**：成本从低到高逐层升级、便宜的先用来贵的兜底；99% 真人被廉价层放行（别烦真人 = 用户体验维度）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-发现隐藏在集合页col-047",
       "domain": "crawler",
       "q": "发现隐藏在集合页（collection page）背后的独立详情页有什么技巧？",
@@ -509,6 +1037,54 @@
       "created": "2026-07-25"
     },
     {
+      "id": "crawler-合法采集怎么设计对抗策略-120",
+      "domain": "crawler",
+      "q": "合法采集怎么设计对抗策略（不触发风控）？",
+      "a": "- 请求分布稀疏不集中（别高频集中）\n  - 特征伪造与真实浏览器一致\n  - 攻击性降低不高频（别重试别加速——脚本思维是风控最喜欢的信号）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-商品数据存在于哪里re-107",
+      "domain": "crawler",
+      "q": "商品数据存在于哪里？requests 拿 HTML 能拿到吗？",
+      "a": "数据存在于**接口 JSON**（XHR/fetch 响应）；HTML 只有 `<div id=\"root\">` 挂载点；requests 不执行 JS → 拿不到（除非数据内联进 HTML）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-商品链接ID变了监-128",
+      "domain": "crawler",
+      "q": "商品链接（ID）变了，监控为什么静默？怎么安全合并新旧商品？",
+      "a": "- ID 变 = 新商品（新 products 行）→ 无历史基线 → **永远卡学习期** → 静默\n  - 修复三步链：title 归一化 **detect**（小写/去空白/去全角/去首尾标点）→ **只报告不自动合并**（防误并串基线）→ 人工确认合并（多维度匹配：platform+title+店铺名，标注来历可追溯）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-四件套在状态机里各是什么-134",
+      "domain": "crawler",
+      "q": "四件套在状态机里各是什么角色？轮换 vs 刷新的关系？缺轮换/缺降级分别什么后果？",
+      "a": "- 角色：检测=观察者（只报告不救火：判死/判活、触发状态转移；不亲自执行刷新/轮换/降级）；刷新/轮换/降级=执行者\n  - 轮换 vs 刷新：轮换=换池中下一个 ACTIVE 凭证（无缝，采集不中断）；刷新=重新登录换新凭证（死马当活马医）。**轮换优先，池子空了才刷新**\n  - 缺轮换：单凭证死→无备用可切→采集停摆（人工介入期间全停）\n  - 缺降级：无 SUSPECT 降频半速→濒死期仍全速→业务请求撞墙才发现→整批 403 + 重登撞滑块连锁（1688 案例）\n  - ⚠️ 降级=止损（不是隐蔽）；隐蔽性是探活的设计目标（悄悄试探不惊风控）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-图片提取有哪4级降级-027",
       "domain": "crawler",
       "q": "图片提取有哪 4 级降级策略？",
@@ -519,6 +1095,42 @@
       "last_reviewed": "2026-08-17",
       "reviews": 1,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-场景题PW抓京东2-113",
+      "domain": "crawler",
+      "q": "场景题：PW 抓京东 200 商品后弹滑块。先怎么鉴别？怎么修？修完怎么确认？",
+      "a": "- **鉴别先行**：200 商品后才弹滑块 → 先分**指纹 vs 频率**（固定页数后弹更像频率；体检全绿还弹 → 降频/换 IP）\n  - 验证：过检测页（bot.sannysoft.com 类）体检——webdriver / UA-platform / Canvas 噪声 / WebGL 渲染器 / 字体数 / 时区语言 / 屏幕\n  - 修复：全维度伪装 ① 覆盖 navigator.webdriver（CDP 注入/stealth）② 修 Canvas/WebGL 噪声与渲染器 ③ 字体补全 ④ 时区/语言/屏幕与 UA 一致 → **复检闭环：红了再修直到全绿**",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-场景题requests-110",
+      "domain": "crawler",
+      "q": "场景题：requests 抓 1688，50 页后 429，重试几次后弹验证码。哪两层在拦？怎么应对？",
+      "a": "- 429=请求层 / 验证码=内容层\n  - 应对链：**立即停手（重试=升级导火索，脚本才会死磕）** → 看 Retry-After → 降频加随机间隔 → 换 IP/补 UA → 仍不行才上 PW；退让才能让风控降级",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-场景题探活发现coo-133",
+      "domain": "crawler",
+      "q": "场景题：探活发现 cookie 死了，采集任务正在跑——接下来按什么顺序处理？降级怎么设计才能避免整批请求撞墙？",
+      "a": "- 完整链路：① **暂停采集**（DEAD 止损，你答了）→ ② **有轮换池先切备用凭证**（无缝切换，采集不中断；没池子才走重登）→ ③ **刷新分级**：自动重登（有账号密码）→ 半自动（扫码/打码）→ 人工介入（factory-monitor 现状）→ ④ **恢复条件**：新凭证通过校验 + **连续 N 次探活正常才回全速**（刚重登就全速 = 重登+高频双风控信号）→ ⑤ 失败超时 → ABANDON 通知人工\n  - 降级两档：**SUSPECT 降频半速（提前）+ DEAD 暂停（止损）**——不是一锤子",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
     },
     {
       "id": "crawler-多SKU京东页面的价-032",
@@ -569,6 +1181,30 @@
       "created": "2026-07-25"
     },
     {
+      "id": "crawler-工厂监控脚本被Clou-118",
+      "domain": "crawler",
+      "q": "工厂监控脚本被 Cloudflare 质询页挡了（403），requests 过不去。按什么顺序处理？",
+      "a": "- ① 鉴别：先确认是否真质询（403/503 + challenge 特征页）；也可能是 UA 被拦/速率限制 = 请求层\n  - ② 请求层问题先降频/换 UA（便宜步骤先走，别急着上最贵的）\n  - ③ 真质询才上 PW（真实指纹）/ curl_cffi\n  - ④ 改道兜底：仍不行 → 打接口 / 其他数据源 / 官方 API\n  - 记忆点：**鉴别 → 分层 → 改道**",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-怎么选中acla-090",
+      "domain": "crawler",
+      "q": "怎么选中 `<a class=\"offer-title\" href=\"/offer/12345\">`？`.offer-price-row, .price, [class*=\"price\"]` 链怎么工作？",
+      "a": "- 组合语法：**标签.类名 + [属性*=值]** → `a.offer-title[href*=\"/offer/\"]`；类名从真实 HTML 抄，**选择器只描述结构，字段映射是提取之后的事**\n  - `.xxx class` 语法不存在（class 是属性名不是标签）\n  - 多选器链 = 备选地址列表（逗号=或），精确优先、模糊兜底；`[class*=\"title\"]` 模糊 vs `.title` 精确；hash 类名不能写死（每次构建会变）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-数据源协议选择的优先级顺-017",
       "domain": "crawler",
       "q": "数据源协议选择的优先级顺序是什么？",
@@ -593,6 +1229,114 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-无头浏览器vsreq-103",
+      "domain": "crawler",
+      "q": "无头浏览器 vs requests 本质差别？CDP 是什么？Playwright 通过它干什么？为什么拦截网络请求拿 JSON 更好？",
+      "a": "- 无头浏览器 = 完整浏览器（执行 JS + 全渲染管线）；requests 只读 HTML（第①步产物）\n  - **CDP = Chrome 调试协议**（DevTools 同款通信方式，DevTools 是工具不是协议）；Playwright 启动真 Chromium → CDP 连接 → 操作翻译成 CDP 命令**驱动**浏览器（不是\"模拟\"——本质是真 Chrome）\n  - 拦截 JSON 三优势：① **数据源头**（结构化 JSON，不用从 DOM 抠）② **稳**（不受懒加载/重排/元素变动影响）③ 快（少渲染步骤）；找到接口 requests 都能直接打",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-服务器不给ETag时-076",
+      "domain": "crawler",
+      "q": "服务器不给 ETag 时增量抓取怎么退路？",
+      "a": "① Last-Modified/If-Modified-Since（弱验证，凑合用）② 都没有 → **全量抓取 + 比对内容哈希**（最笨但永远有效）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-本地http_prox-069",
+      "domain": "crawler",
+      "q": "本地 http_proxy 劫持怎么破？requests 对应什么？",
+      "a": "- 坑源 = **环境变量 http_proxy**（requests 默认 trust_env=True 信任它），不是 VPN\n  - 破法：curl `--noproxy '*'` / requests `trust_env=False` 或显式 `proxies={}`",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-条件请求四步闭环200-075",
+      "domain": "crawler",
+      "q": "条件请求四步闭环（200+ETag → 304 → 变化 → 200+新ETag）对应增量抓取的什么？",
+      "a": "- 四步：① 首次 200 + body + ETag → **存** ② 轮询带 `If-None-Match: <旧ETag>` ③a 没变 → 304 → 用旧快照跳过解析 ③b 变了 → 200 + 新 body + **新 ETag** ④ **更新存储的 ETag**\n  - 不更新 → 永远 304（错过新内容）或永远 200（白请求）——S1 fetcher 核心",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-浏览器指纹由什么组成为-111",
+      "domain": "crawler",
+      "q": "浏览器指纹由什么组成？为什么能唯一标识？",
+      "a": "- 组成四类：Canvas / WebGL / 字体列表 / 系统参数\n  - 唯一性：信息极其丰富、熵高难复制\n  - **一致性**：UA 与所有特征互相匹配（时区/语言/屏幕与 UA 一致），风控专抓不一致",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-渲染树vsDOM树-099",
+      "domain": "crawler",
+      "q": "渲染树 vs DOM 树？display:none 在哪？",
+      "a": "DOM = 全量结构（含隐藏元素）；渲染树 = 只含**可见**元素（display:none 在 DOM 但不在渲染树，不占布局）；head 内容也不在渲染树",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-渲染管线五步每步产物-098",
+      "domain": "crawler",
+      "q": "渲染管线五步？每步产物？",
+      "a": "① 解析 HTML → DOM 树 ② 解析 CSS → CSSOM 树 ③ 合并 → 渲染树（只含可见元素）④ 布局 → 几何信息（位置/尺寸）⑤ 绘制+合成 → 像素",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-滑块验证码校验哪两点为-114",
+      "domain": "crawler",
+      "q": "滑块验证码校验哪两点？为什么脚本\"匀速直线拖动\"必死？自己写脚本过滑块，轨迹要模拟成什么样才像人（至少 3 个特征）？",
+      "a": "- 校验两点：几何位置（停靠缺口）+ 轨迹行为\n  - 人类轨迹链：加速段 → 减速段 → 接近缺口微调 → 停顿瞄准 → 落下；特征=不规则（随机/抖动）、节奏（快慢变速）、超调、y 方向曲线浮动\n  - 匀速直线 = 机器专属动作，必死",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-爬虫对2xx3xx-071",
+      "domain": "crawler",
+      "q": "爬虫对 2xx/3xx/4xx/5xx 的通用处理策略？（拿到码后干什么）",
+      "a": "- 口诀：**2 成了（解析 body）/ 3 搬家（跟随限跳数，304 例外用缓存）/ 4 你的错（403 换身份、404 下架不重试、429 听 Retry-After）/ 5 它的错（指数退避）**\n  - 404 = 服务器明确答复\"没有\"（永久下架），重试完全浪费；网络错误（-1）才是暂时故障",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-爬虫架构中新增一个数据源-012",
       "domain": "crawler",
       "q": "爬虫架构中新增一个数据源需要改哪些代码？",
@@ -603,6 +1347,42 @@
       "last_reviewed": "2026-08-23",
       "reviews": 2,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-用渲染管线解释Reac-100",
+      "domain": "crawler",
+      "q": "用渲染管线解释：React 页面 requests 拿到空壳？",
+      "a": "requests 只经历解析 HTML（第①步），拿到挂载点空壳；②③④⑤ 全在浏览器发生，且 JS 要先执行（阻塞解析后改 DOM）才生成商品卡片——数据在浏览器里才存在",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-监控抓取断断续续时-080",
+      "domain": "crawler",
+      "q": "监控抓取\"断断续续\"（时好时坏），诊断根因？",
+      "a": "- 主因：**429 频繁（间歇性限流）** + IP 封控冷却\n  - 排除：404 = 永久下架（持续缺失，不产生断续）；\"数据储存被刷新\"与断续无关（概念串）\n  - 网络波动要说清是\"网络错误\"（连接层）非 404",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-监控跑一周后三现象A-125",
+      "domain": "crawler",
+      "q": "监控跑一周后三现象：A 商品\"价格既是最低又是最高\"还持续报；B 降价后处理了还反复提醒；C 商品链接换了监控静默。诊断根因分别是什么？",
+      "a": "- A：距低点 0% + **窗口混入历史下跌段 → 斜率恒负 → 持续报黄**（黄色=距低点≤10% + 斜率<0）\n  - B：**冷却幂等键含价格档位 → 价格每次变 → 键每次新 → 冷却失效** + yellow 无幅度门槛\n  - C：**ID 变 = 新商品 → 无历史基线 → 永远卡学习期 → 静默**（不是还在监控里）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
     },
     {
       "id": "crawler-索引驱动素材组织的核心原-041",
@@ -653,6 +1433,66 @@
       "created": "2026-07-22"
     },
     {
+      "id": "crawler-让服务器告知变没变-083",
+      "domain": "crawler",
+      "q": "让服务器告知\"变没变\"（不下载全量）怎么做？时间戳方案有什么漏洞？为什么 ETag 补上？",
+      "a": "- 时间戳方案 = **Last-Modified/If-Modified-Since 的真实机制**（文无独立设计出协议，神预判）\n  - 漏洞：时间戳是服务器\"声称\"，能撒谎；秒级精度同秒双改漏判；缓存服务器/时钟不准漏更\n  - **ETag = 内容指纹，内容变指纹必变，没法撒谎**——强验证器本质",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-设计500个选品的价-124",
+      "domain": "crawler",
+      "q": "设计 500 个选品的价格监控系统：数据从哪来？怎么判断波动？怎么防重复提醒？商品 ID 变了怎么办？提醒怎么出去？整体架构定位？",
+      "a": "- 6 考察点：① 数据入口（增量扫描 .monitor_scan_state，只处理新增/变化）② 波动判定（price_low 主口径 + 阈值 ±5% 可配置 + 静默学习期 <3 条不报）③ 防重复（冷却 3 天 + 幂等键 + notified 标记）④ ID 漂移（title 归一化 detect **只报告不自动合并**）⑤ 出口（alerts 表 + 心跳播报 + cron 无常驻）⑥ 架构（自动下游·静默·波动才提醒）\n  - 亮点（答辩自创）：截尾均值窗口区间（去最高去最低取平均 ±区间）——抗噪优于固定阈值",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-设计500商品价格监-079",
+      "domain": "crawler",
+      "q": "设计 500 商品价格监控轮询器：用什么客户端？状态码怎么处理？ETag 怎么用？限速怎么做？",
+      "a": "- 客户端：requests/httpx + Session（连接复用+cookie 仓库）；Playwright 留给重反爬站点（500 商品开浏览器太重）\n  - 状态码：200 解析 / 304 跳过解析用旧快照 / 301-308 跟随限跳数 / 403 换身份 / 404 标记下架 / 429 读 Retry-After / 5xx 指数退避+抖动\n  - **ETag 条件请求 = monitor 命根子**（存 products 表 etag 列）\n  - 限速：每商品时间戳 + 自适应（429 后按 Retry-After 拉长）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-请求响应报文哪几部分对-081",
+      "domain": "crawler",
+      "q": "请求/响应报文哪几部分对称？空行起什么作用？你的 IP 在报文里吗？",
+      "a": "- 四段对称：**首行 + 头 + 空行 + body**（请求首行=请求行，响应首行=状态行）\n  - **空行 = 分界线**（头部到此结束，后面是 body）——不是占位\n  - IP 不在 HTTP 报文里，在 TCP/IP 层（curl `*` 行=连接层，`>`/`<`=报文）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-请求头最小集合是哪几个-062",
+      "domain": "crawler",
+      "q": "请求头最小集合是哪几个？只留一个留哪个？Host 起什么作用？",
+      "a": "- **Host = HTTP/1.1 唯一必须请求头**（RFC 9112 §3.2）——虚拟主机路由：一个 IP 挂多域名，服务器靠 Host 区分；**IP 是 TCP 层的事**，不在报文里\n  - 爬虫最小实用三件套：Host + UA（礼貌+反爬）+ If-None-Match（增量前提）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-跨天去重用什么方法清理-019",
       "domain": "crawler",
       "q": "跨天去重用什么方法？清理策略是什么？",
@@ -689,6 +1529,42 @@
       "created": "2026-07-23"
     },
     {
+      "id": "crawler-采集决策三步口诀为什么-104",
+      "domain": "crawler",
+      "q": "采集决策三步口诀？为什么接口优先？为什么不用固定 sleep？懒加载页面怎么抓全、怎么知道到底？",
+      "a": "- 口诀：**先 HTML → 再接口 → 最后浏览器**；接口优先 = 稳定可靠 + 浏览器慢/被识别\n  - sleep = **猜时间**（固定时长，网络波动下白等/抓空）；用 wait_for_selector / wait_for_load_state('networkidle') 等\"产物出现\"\n  - 懒加载：**滚动 → 等新元素 → 抓取 → 循环**；结束条件 = 滚动后新元素不再出现（或\"没有更多\"标记）→ 停止",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-重排vs重绘col-102",
+      "domain": "crawler",
+      "q": "重排 vs 重绘？color/width 触发哪个？为什么读 offsetWidth 是性能坑？只动 transform/opacity 为什么不触发？",
+      "a": "- 重绘 = 改像素（便宜）；重排 = 改尺寸/位置（贵）；color→重绘 / width→重排\n  - 读几何（offsetWidth）→ 此前攒着的样式改动被迫生效 → **强制同步布局**（forced reflow）；先读后写避免反复强迫\n  - transform/opacity：**跳过④布局⑤绘制，直接走合成**（GPU 图层），成本最低",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-防首报假警的机制是什么-130",
+      "domain": "crawler",
+      "q": "防首报假警的机制是什么？和冷却器是一回事吗？",
+      "a": "- **两机制各管一道闸门**：防首报 = 静默学习期（快照 <3 条不报，基线建立后对比，首报须相对稳定基线）；防重复报 = 冷却幂等（3 天 + 商品维度键，窗口内同商品只报一次）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
       "id": "crawler-震坤行搜索页的SSR-002",
       "domain": "crawler",
       "q": "震坤行搜索页的 SSR 数据提取关键字段映射是什么？",
@@ -711,6 +1587,42 @@
       "last_reviewed": "2026-08-19",
       "reviews": 1,
       "created": "2026-07-22"
+    },
+    {
+      "id": "crawler-静态UA为什么危险-086",
+      "domain": "crawler",
+      "q": "静态 UA 为什么危险？\"指纹不配套\"指什么？429 前怎么自动降速？",
+      "a": "- 静态 UA 危险机制：**UA 声称版本 vs JS 实测环境对不上**（UA 说 Chrome 150，JS 一测渲染引擎/Canvas/字体列表对不上 → 穿帮）——反爬不信你说的话，信它自己测的\n  - 403 查身份（浏览器头真实性）/ 429 查行为（限速）+ 位置（IP 段）\n  - 429 前降速（预防而非补救）：每商品独立时间戳最小间隔 + **渐进加速**（低频试探→缓加速）+ **恢复缓慢**（连续 N 次成功才减一点，防骤增再触发）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-风控系统按什么流程决定-119",
+      "domain": "crawler",
+      "q": "风控系统按什么流程决定\"封不封你\"？被\"观察\"（灰名单）了该做什么、不该做什么？",
+      "a": "- 链路五步：采集（日志/埋点/指纹/行为）→ 特征计算 → 规则引擎+模型打分 → 决策 → 动作；四维=IP/设备指纹/账号/会话；名单=黑/白/灰；动作分级=放行→观察计分→弹验证码→429限速→封IP→封账号\n  - 灰名单应对：该做=退让降频（随机间隔、降并发）、换干净 IP/会话、等待冷却让分数回落（指数退避+定时探活）；不该做=别加速别重试（记分飙升）、别硬刚验证码\n  - 记忆点：灰名单=记分制，唯一出路是让分数降下来；跨模块：与 S1 monitor 冷却器同构（冷却防重复动作 vs 灰名单冷却防风控升级）",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler-验证码为什么存在滑块-116",
+      "domain": "crawler",
+      "q": "验证码为什么存在？滑块/点选验证码的工作原理？",
+      "a": "- 存在理由：人机区分——人类低成本/机器高成本的经济学本质（人机对抗最后一道工序）\n  - 滑块：几何位置+轨迹行为；点选：图片语义识别（选指定物体）+ 点击坐标与行为\n  - 记忆点：滑块考两点——落点对不对 + 怎么滑过来的",
+      "interval": 0,
+      "ease": 2.5,
+      "next_review": "2026-09-03",
+      "last_reviewed": null,
+      "reviews": 0,
+      "created": "2026-09-03"
     },
     {
       "id": "crawler-验证驱动开发的模式是怎样-025",

@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-25",
-  "updated": "2026-07-25",
+  "updated": "2026-09-03",
   "tags": [
     "爬虫",
     "WAF",
@@ -156,6 +156,8 @@ def setup_session():
 ```
 
 ## 回顾
+<!-- cards: crawler-CDPChromeD-053, crawler-WSL2下headl-052, crawler-ZKH使用的阿里云W-051, crawler-ZKH搜索API路-055, crawler-acw_tcCooki-054 -->
+<!-- cards: crawler-CDPChromeD-053, crawler-WSL2下headl-052, crawler-ZKH使用的阿里云W-051, crawler-ZKH搜索API路-055, crawler-acw_tcCooki-054 -->
 <!-- cards: crawler-CDPChromeD-053, crawler-WSL2下headl-052, crawler-ZKH使用的阿里云W-051, crawler-ZKH搜索API路-055, crawler-acw_tcCooki-054 -->
 <!-- cards: crawler-ZKH使用AliWAF滑块验证码的检-051, crawler-WSL2headlessChrome被WAF检测-052, crawler-CDP连接Windows真机Chrome-053, crawler-acw_tcCookie生命周期约7天-054, crawler-ZKH搜索API路径探测策略-055 -->
 - Q: ZKH 使用的阿里云 WAF 防御体系包括哪些组件？

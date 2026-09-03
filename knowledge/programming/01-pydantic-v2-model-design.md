@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-17",
-  "updated": "2026-07-25",
+  "updated": "2026-09-03",
   "tags": [
     "编程",
     "Pydantic",
@@ -144,6 +144,8 @@ class StateManager:
 6. **MinLength/MaxLength 防御式编程** — 尽早失败，不要等内存爆炸
 
 ## 回顾
+<!-- cards: programming-Pydanticv2-001, programming-Pydantic中-003, programming-PythonPydan-011, programming-配置管理的三层搜索路径优-002 -->
+<!-- cards: programming-Pydanticv2-001, programming-Pydantic中-003, programming-PythonPydan-011, programming-配置管理的三层搜索路径优-002 -->
 <!-- cards: programming-Pydanticv2-001, programming-Pydantic中-003, programming-PythonPydan-011, programming-配置管理的三层搜索路径优-002 -->
 <!-- cards: programming-Pydanticv2-001, programming-Pydantic中-003, programming-PythonPydan-011, programming-配置管理的三层搜索路径优-002 -->
 <!-- cards: programming-Pydanticv2-001, programming-Pydantic中-003, programming-PythonPydan-011, programming-配置管理的三层搜索路径优-002 -->

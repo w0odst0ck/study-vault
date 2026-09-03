@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exported": "2026-08-24",
+  "exported": "2026-09-03",
   "domains": {
     "crawler": [
       "crawler/01-b2b-platforms-anti-crawl",
@@ -16,6 +16,12 @@
       "crawler/11-vendor-crawl-evaluation",
       "crawler/12-zkh-waf-bypass",
       "crawler/13-project-streamlining-strategy",
+      "crawler/14-http-protocol",
+      "crawler/15-html-parsing",
+      "crawler/16-browser-render",
+      "crawler/17-anti-crawl-principles",
+      "crawler/18-price-monitoring",
+      "crawler/19-credential-management",
       "crawler/_index"
     ],
     "data-analysis": [
@@ -224,6 +230,72 @@
         "代码质量"
       ],
       "created": "2026-07-25"
+    },
+    {
+      "id": "crawler/14-http-protocol",
+      "title": "B1 Web 基础（HTTP 协议）— 知识手册",
+      "domain": "crawler",
+      "path": "crawler/14-http-protocol.md",
+      "tags": [
+        "爬虫",
+        "HTTP"
+      ],
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler/15-html-parsing",
+      "title": "B2 解析知识手册（HTML/浏览器渲染管线）",
+      "domain": "crawler",
+      "path": "crawler/15-html-parsing.md",
+      "tags": [
+        "爬虫",
+        "解析"
+      ],
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler/16-browser-render",
+      "title": "B3 浏览器与渲染 知识手册",
+      "domain": "crawler",
+      "path": "crawler/16-browser-render.md",
+      "tags": [
+        "爬虫",
+        "渲染"
+      ],
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler/17-anti-crawl-principles",
+      "title": "B4 反爬对抗 知识手册",
+      "domain": "crawler",
+      "path": "crawler/17-anti-crawl-principles.md",
+      "tags": [
+        "爬虫",
+        "反爬"
+      ],
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler/18-price-monitoring",
+      "title": "S1 价格监控（monitor）— 知识手册",
+      "domain": "crawler",
+      "path": "crawler/18-price-monitoring.md",
+      "tags": [
+        "爬虫",
+        "监控"
+      ],
+      "created": "2026-09-03"
+    },
+    {
+      "id": "crawler/19-credential-management",
+      "title": "S2 凭证管理（D6 · 产品侧）",
+      "domain": "crawler",
+      "path": "crawler/19-credential-management.md",
+      "tags": [
+        "爬虫",
+        "凭证"
+      ],
+      "created": "2026-09-03"
     },
     {
       "id": "crawler/_index",

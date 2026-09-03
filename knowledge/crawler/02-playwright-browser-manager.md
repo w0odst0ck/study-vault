@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-17",
-  "updated": "2026-07-25",
+  "updated": "2026-09-03",
   "tags": [
     "爬虫",
     "Playwright",
@@ -119,6 +119,8 @@ def switch_platform(self, platform: str):
 - 需手动保存登录态 + 批量操作
 
 ## 回顾
+<!-- cards: crawler-Playwright浏-009, crawler-StealthJS注-010, crawler-跨平台Context-011 -->
+<!-- cards: crawler-Playwright浏-009, crawler-StealthJS注-010, crawler-跨平台Context-011 -->
 <!-- cards: crawler-Playwright浏-009, crawler-StealthJS注-010, crawler-跨平台Context-011 -->
 <!-- cards: crawler-Playwright浏-009, crawler-StealthJS注-010, crawler-跨平台Context-011 -->
 <!-- cards: crawler-Playwright浏-009, crawler-StealthJS注-010, crawler-跨平台Context-011 -->

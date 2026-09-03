@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-17",
-  "updated": "2026-07-25",
+  "updated": "2026-09-03",
   "tags": [
     "爬虫",
     "PDF",
@@ -177,6 +177,8 @@ class HybridDetector:
 - 全量 108 个 PDF 批量验证
 
 ## 回顾
+<!-- cards: crawler-PDF参数页定位器的核-005, crawler-文字层检测和OCR路-006, crawler-编码异常的PDF如何-008, crawler-规则分级的P0P1-007 -->
+<!-- cards: crawler-PDF参数页定位器的核-005, crawler-文字层检测和OCR路-006, crawler-编码异常的PDF如何-008, crawler-规则分级的P0P1-007 -->
 <!-- cards: crawler-PDF参数页定位器的核-005, crawler-文字层检测和OCR路-006, crawler-编码异常的PDF如何-008, crawler-规则分级的P0P1-007 -->
 <!-- cards: crawler-PDF参数页定位器的核-005, crawler-文字层检测和OCR路-006, crawler-编码异常的PDF如何-008, crawler-规则分级的P0P1-007 -->
 <!-- cards: crawler-PDF参数页定位器的核-005, crawler-文字层检测和OCR路-006, crawler-编码异常的PDF如何-008, crawler-规则分级的P0P1-007 -->

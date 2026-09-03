@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-25",
-  "updated": "2026-07-25",
+  "updated": "2026-09-03",
   "tags": [
     "爬虫",
     "采集管理",
@@ -138,6 +138,8 @@ python3 generate_index.py
 | 素材索引 | 20 份 | 每场景 1 份 _素材索引.md |
 
 ## 回顾
+<!-- cards: crawler-503篇素材跨19-044, crawler-clean_text全-042, crawler-generate_ind-043, crawler-大规模图片标注manu-045, crawler-索引驱动素材组织的核心原-041 -->
+<!-- cards: crawler-503篇素材跨19-044, crawler-clean_text全-042, crawler-generate_ind-043, crawler-大规模图片标注manu-045, crawler-索引驱动素材组织的核心原-041 -->
 <!-- cards: crawler-503篇素材跨19-044, crawler-clean_text全-042, crawler-generate_ind-043, crawler-大规模图片标注manu-045, crawler-索引驱动素材组织的核心原-041 -->
 <!-- cards: crawler-503篇素材跨19-044, crawler-clean_text全-042, crawler-generate_ind-043, crawler-大规模图片标注manu-045, crawler-索引驱动素材组织的核心原-041 -->
 <!-- cards: crawler-索引驱动素材组织的核心原则是-041, crawler-clean_text全量清洗的流程是-042, crawler-generate_index产出_素材索引md的格式-043, crawler-503篇素材跨19场景的目录-044, crawler-大规模图片标注manual的处理策略是-045 -->

@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-25",
-  "updated": "2026-07-25",
+  "updated": "2026-09-03",
   "tags": [
     "爬虫",
     "项目重构",
@@ -138,6 +138,8 @@ browser_manager = BrowserManager(proxy=config.PROXY_URL)
 document.querySelectorAll('.ant-modal-close').forEach(el => el.click());
 ```
 ## 回顾
+<!-- cards: crawler-BrowserManag-057, crawler-PROXY_URL配置-058, crawler-Python爬虫中p-059, crawler-WAF移除脚本执行后为-060, crawler-价格监控项目瘦身的核心策-056 -->
+<!-- cards: crawler-BrowserManag-057, crawler-PROXY_URL配置-058, crawler-Python爬虫中p-059, crawler-WAF移除脚本执行后为-060, crawler-价格监控项目瘦身的核心策-056 -->
 <!-- cards: crawler-BrowserManag-057, crawler-PROXY_URL配置-058, crawler-Python爬虫中p-059, crawler-WAF移除脚本执行后为-060, crawler-价格监控项目瘦身的核心策-056 -->
 <!-- cards: crawler-价格监控项目瘦身策略移除无-056, crawler-BrowserManager取代setup_ses-057, crawler-PROXY_URL配置模式环境变量-058, crawler-Python爬虫中pagekeyboard-059, crawler-WAF移除脚本需额外关闭Ant-060 -->
 - Q: 价格监控项目瘦身的核心策略是什么？

@@ -2,7 +2,7 @@
 {
   "status": "active",
   "created": "2026-07-25",
-  "updated": "2026-07-25",
+  "updated": "2026-09-03",
   "tags": [
     "爬虫",
     "采集策略",
@@ -165,6 +165,8 @@ URL 模式：solution/{1-50} + application/{1-50}
 | fsl | 脚本批量 URL 探测 | 34 | ~85K | 845 | 较快 |
 
 ## 回顾
+<!-- cards: crawler-三大厂商采集实战的数据对-050, crawler-动态JS网站评估不通-048, crawler-厂商采集评估的四个维度是-046, crawler-发现隐藏在集合页col-047, crawler-大规模批量采集时如何处理-049 -->
+<!-- cards: crawler-三大厂商采集实战的数据对-050, crawler-动态JS网站评估不通-048, crawler-厂商采集评估的四个维度是-046, crawler-发现隐藏在集合页col-047, crawler-大规模批量采集时如何处理-049 -->
 <!-- cards: crawler-三大厂商采集实战的数据对-050, crawler-动态JS网站评估不通-048, crawler-厂商采集评估的四个维度是-046, crawler-发现隐藏在集合页col-047, crawler-大规模批量采集时如何处理-049 -->
 <!-- cards: crawler-三大厂商采集实战的数据对-050, crawler-动态JS网站评估不通-048, crawler-厂商采集评估的四个维度是-046, crawler-发现隐藏在集合页col-047, crawler-大规模批量采集时如何处理-049 -->
 <!-- cards: crawler-厂商采集评估四维框架是-046, crawler-发现隐藏在翻页背后的独立详-047, crawler-动态JS网站降级为catalog-048, crawler-大规模批量采集使用交互式脚-049, crawler-三大厂商采集实战对比-050 -->
