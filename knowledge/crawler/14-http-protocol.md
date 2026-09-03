@@ -129,7 +129,7 @@ Accept: text/html                    ETag: "v1"
 
 > 场景：S1 monitor 轮询 500 商品，内容没变但每次全量下载——白烧流量还招 429。
 
-**一句话**：比"内容是不是同一个"不比"什么时候改的"——ETag=内容指纹，内容变指纹必变，**没法撒谎**。
+**一句话**：比“内容是不是同一个”不比“什么时候改的”——ETag[ⓘ]=内容指纹，内容变指纹必变，**没法撒谎**。
 
 **四步闭环**（= S1 增量抓取原型）：
 ```
@@ -160,7 +160,7 @@ Accept: text/html                    ETag: "v1"
 
 > 场景：S1 fetcher 500 次请求，每次都三次握手 = 1500 包纯开销。
 
-**一句话**：keep-alive = 一个 TCP 连接串多个请求（握手只做一次）；chunked = 长度未知时每块挂 hex 长度牌，0 收尾。
+**一句话**：keep-alive[ⓘ] = 一个 TCP 连接串多个请求（握手只做一次）；chunked[ⓘ] = 长度未知时每块挂 hex 长度牌，0 收尾。
 
 **keep-alive 关闭 4 场景**（记忆锚：**旧/说/晾/挤**）：
 
@@ -199,7 +199,7 @@ Accept: text/html                    ETag: "v1"
 3. **生命周期**：Max-Age（相对秒，优先）/ Expires（绝对时间）；都不带 = 会话 cookie（session 销毁即没）→ 持久化 = 存盘 JSON 下次加载
 4. **Secure**：只在 HTTPS 回传（防窃听）；URL 写 http:// 则不发 → 登录态神秘失效先查 URL
 5. **HttpOnly**：JS 读不到（防 XSS）；Playwright `context.cookies(url)` 能拿到（不走 JS）
-6. **SameSite**（RFC 6265bis，默认 Lax）：管"什么场景带"；同站≠同域（同站=scheme+可注册域名）；Lax = 跨站**顶级导航**放行，跨站子资源（iframe/img/script）**不放行**
+6. **SameSite**[ⓘ]（RFC 6265bis，默认 Lax）：管“什么场景带”；同站≠同域（同站=scheme+可注册域名）；Lax = 跨站**顶级导航**放行，跨站子资源（iframe/img/script）**不放行**
 7. **SameSite 对爬虫**：requests 无"跨站发起"概念 → **基本无感**；真坑在 ① 重定向链 cookie 作用域丢失（凶手是 Domain 不是 Lax）② Playwright 页面内跨站子资源才受 Lax 约束
 8. **实战流程**：建 Session → 登录 POST（先 GET 抓 CSRF token）→ 持久化 → 重启加载 + **探测"先试后用"** → 失效重登覆盖
 

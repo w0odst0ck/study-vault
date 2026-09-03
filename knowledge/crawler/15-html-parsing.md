@@ -60,7 +60,7 @@
 
 > 场景：PH 拖进一个 1688 搜索页 HTML，parser.js 第一件事是 `new DOMParser().parseFromString(html, 'text/html')` 把字符串变成 document 再 querySelector；但 JD 新版 React 页面的参数表、无引号类名，JDParser 又直接靠正则抠。同样是"从 HTML 里取数据"，为什么两套手段并存？
 
-**一句话**：HTML 是树，正则是一维扫描——"用正则解析 HTML"理论上不完备；浏览器自带容错解析器（DOMParser）能把任意 HTML 变成标准 DOM 树，但数据若嵌在特定字符串模式里（JSON、类名、script），正则反而更快更稳。
+**一句话**：HTML 是树，正则是一维扫描——"用正则解析 HTML"理论上不完备；浏览器自带容错解析器（DOMParser[ⓘ]）能把任意 HTML 变成标准 DOM 树[ⓘ]，但数据若嵌在特定字符串模式里（JSON、类名、script），正则反而更快更稳。
 
 **第 0 步：HTML 是什么**（2026-08-10 批次 1 起收录：从零版，不假设 Web 基础）
 - 网页本质是一个**文本文件**，用"标签"标注内容：`<p>你好</p>` = 一个段落；`<a href="https://a.com">点我</a>` = 一个链接（href 属性存地址）
